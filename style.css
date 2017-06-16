@@ -1,0 +1,26 @@
+@import url(http://fonts.googleapis.com/css?family=Cantarell);
+body {
+    max-width: 1250px;
+    margin: 0 auto !important;
+    float: none !important;
+    font-family: 'Cantarell', sans-serif;
+    background: #1c4719;
+}
+#canvas {
+    margin: 30px;
+    padding: 10px;
+    border: 1px solid gray;
+    float: center;
+}
+
+#controls {
+    width:141px;
+    height:60px;
+    background:#1c4719;
+    margin-right: auto;
+    margin-left: auto;
+}
+p{
+    font-size: 20px;
+    color: #000;
+}
