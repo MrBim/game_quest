@@ -1,7 +1,3 @@
-
-// keyboard
-var keys = [];
-
 // canvas variables
 var width = 1000;
 var height = 700; 
@@ -9,6 +5,8 @@ var height = 700;
 // canvas
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
+
+
 
 // event listeners
 document.body.addEventListener("keydown", function(e) {
@@ -18,15 +16,25 @@ document.body.addEventListener("keydown", function(e) {
 document.body.addEventListener("keyup", function(e) {
 	keys[e.keyCode] = false;
 });
+// keyboard array (stores key value)
+var keys = [];
+
+
 
 // game elements
-var hasRun = false;
+var hasRun = false; // used to set init values on first itteration of game loop
 
 
+
+
+// draw canvas clears the canvas before each new frame. 
+//i was going to put the code that draws the map features in here too 
+//but not totally sure this would be best course of action 
 function drawCanvas() {
 	ctx.clearRect(0,0,width,height);
 }
-
+// this is mostly still here because 
+//i wanted to keep the example of how i was moving the main dude and regestering that keys had been pressed 
 function thor_movement(){
 	// up (w)
 	if (keys[87]) {
@@ -65,8 +73,8 @@ function thor_movement(){
 		walkAnimFrame += 1;
 	}
 }
+
 function drawPlayer() { // draw player as a square
-	drawCanvas();
 	ctx.fillStyle = "#000000";
 	ctx.fillRect(xPos, yPos,dispSize,dispSize);
 	ctx.fill();	
