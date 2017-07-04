@@ -26,9 +26,34 @@ thor = {
 	xPos : this.startXPos,
 	yPos : this.startYPos,
 	isPointing : 1,
-	moveSize : 3
+	moveSize : 3,
+	walkAnimFrame : 11,
+	
+	thorPicOneN : new Image(),
+	thorPicTwoN : new Image(),
+
+	thorPicOneE : new Image(),
+	thorPicTwoE : new Image(),
+
+	thorPicOneS : new Image(),
+	thorPicTwoS : new Image(),
+
+	thorPicOneW : new Image(),
+	thorPicTwoW : new Image(),
+
 }
 
+thor.thorPicOneN.src = 'assets/thor/thor_one_n.png';
+thor.thorPicTwoN.src = 'assets/thor/thor_two_n.png';
+
+thor.thorPicOneE.src = 'assets/thor/thor_one_e.png';
+thor.thorPicTwoE.src = 'assets/thor/thor_two_e.png';
+
+thor.thorPicOneS.src = 'assets/thor/thor_one_s.png';
+thor.thorPicTwoS.src = 'assets/thor/thor_two_s.png';
+
+thor.thorPicOneW.src = 'assets/thor/thor_one_w.png';
+thor.thorPicTwoW.src = 'assets/thor/thor_two_w.png';
 
 // ----------------------    Land of Functs ---------------------------------------------
 // clearCanvas() clears the canvas before each new frame. 
@@ -38,7 +63,7 @@ function clearCanvas() {
 	ctx.clearRect(0,0,width,height);
 }
 function drawBackground() {
-	ctx.fillStyle = "#e2b109";
+	ctx.fillStyle = "#02b109";
 	ctx.fillRect(0,0,width,height);
 	ctx.fill;
 }
@@ -83,10 +108,46 @@ function thor_movement(){
 	}
 }
 
-function drawPlayer() { // draw player as a square
-	ctx.fillStyle = "#000000";
-	ctx.fillRect(thor.xPos, thor.yPos,thor.dispSize,thor.dispSize);
-	ctx.fill();	
+// function drawPlayer() { // draw player as a square
+// 	ctx.fillStyle = "#000000";
+// 	ctx.fillRect(thor.xPos, thor.yPos,thor.dispSize,thor.dispSize);
+// 	ctx.fill();	
+// }
+
+function drawPlayer() {
+	var thorPicOne
+	var thorPicTwo
+	if(thor.isPointing == 1){
+		thorPicOne = thor.thorPicOneN; 
+		thorPicTwo = thor.thorPicTwoN;
+	}
+	if(thor.isPointing == 4){// dirtections are labeled backwards somewhere
+		thorPicOne = thor.thorPicOneE;
+		thorPicTwo = thor.thorPicTwoE;
+	}
+	if(thor.isPointing == 3){
+		thorPicOne = thor.thorPicOneS;
+		thorPicTwo = thor.thorPicTwoS;
+	}
+	if(thor.isPointing == 2){// dirtections are labeled backwards somewhere
+		thorPicOne = thor.thorPicOneW;
+		thorPicTwo = thor.thorPicTwoW;
+	}
+
+	if (thor.walkAnimFrame < 10) {
+		ctx.beginPath();
+		ctx.drawImage(thorPicOne, thor.xPos, thor.yPos, thor.dispSize, thor.dispSize);
+		ctx.closePath();
+	}
+	else if (thor.walkAnimFrame > 9) {
+		ctx.beginPath();
+		ctx.drawImage(thorPicTwo, thor.xPos, thor.yPos, thor.dispSize, thor.dispSize);
+		ctx.closePath();
+		
+		if(thor.walkAnimFrame > 19){
+			thor.walkAnimFrame = 0;
+		}
+	}// draw player from a .png (40px,40px)
 }
 
 function quit() {
