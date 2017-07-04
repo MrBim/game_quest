@@ -1,5 +1,5 @@
-oh my god its a read me - SAVE ME!
+this is a game using the html canvas.
 
-I'm ahead of the Bimsters branch!
+its a collaborative experiment in using the canvas and vanilla javascript.
 
-just a boiler plate here so far. i have left a few bits in there mostly just to remind myself how i did some things. :)
+it uses the WSAD keys to move the sprite around the map.
