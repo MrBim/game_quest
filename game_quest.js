@@ -37,7 +37,7 @@ thor = {
 
 	thorPicOneS : new Image(),
 	thorPicTwoS : new Image(),
-	
+
 	thorPicOneW : new Image(),
 	thorPicTwoW : new Image(),
 
@@ -63,7 +63,7 @@ function clearCanvas() {
 	ctx.clearRect(0,0,width,height);
 }
 function drawBackground() {
-	ctx.fillStyle = "#e2b109";
+	ctx.fillStyle = "#02b109";
 	ctx.fillRect(0,0,width,height);
 	ctx.fill;
 }
