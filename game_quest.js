@@ -1,10 +1,12 @@
 // canvas variables
 var width = 1000;
 var height = 700; 
+var heightTwo = 200;
 // canvas
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
-
+var lowerCanvas = document.getElementById("lowerCanvas");
+var ctz = lowerCanvas.getContext("2d");
 
 // event listeners
 document.body.addEventListener("keydown", function(e) {
@@ -61,11 +63,18 @@ thor.thorPicTwoW.src = 'assets/thor/thor_two_w.png';
 //but not totally sure this would be best course of action 
 function clearCanvas() {
 	ctx.clearRect(0,0,width,height);
+	ctz.clearRect(0,0,width,heightTwo);
 }
 function drawBackground() {
 	ctx.fillStyle = "#02b109";
 	ctx.fillRect(0,0,width,height);
 	ctx.fill;
+}
+
+function drawunderparts(){
+	ctz.fillStyle = "#8f7219";
+	ctz.fillRect(0,0,width,heightTwo);
+	ctz.fill;
 }
 // this is mostly still here because 
 //i wanted to keep the example of how i was moving the main dude and regestering that keys had been pressed 
@@ -150,6 +159,13 @@ function drawPlayer() {
 	}// draw player from a .png (40px,40px)
 }
 
+function words(){
+	ctz.font = "30px Arial";
+	ctz.fillStyle = "#000";
+	ctz.fillText("This is where there will be words and maybe pictures",10,50);
+	ctz.fill;
+}
+
 function quit() {
 	hasRun = false;
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -182,6 +198,8 @@ function gameLoop(){
  	thor_movement();
  	drawBackground();
  	drawPlayer();
+ 	drawunderparts();
+ 	words();
 
  	requestAnimationFrame(gameLoop);
 
