@@ -7,10 +7,21 @@ body {
     background: #1c4719;
 }
 #canvas {
+
     margin: 30px;
-    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 0px;
     border: 1px solid gray;
-    float: center;
+
+}
+#lowerCanvas {
+    margin: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 0px;
+    border: 1px solid gray;
+
 }
 
 #controls {
@@ -20,6 +31,15 @@ body {
     margin-right: auto;
     margin-left: auto;
 }
+
+.boxone{
+    height:720px; 
+}
+.boxtwo{
+    height:370px; 
+}
+
+
 p{
     font-size: 20px;
     color: #000;
