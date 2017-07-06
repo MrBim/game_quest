@@ -56,6 +56,7 @@ function Door (doorId, xPos1, yPos1, xPos2, yPos2, colour, pointer) {
         ctx.moveTo(this.xPos1, this.yPos1);
         ctx.lineTo(this.xPos2, this.yPos2);
         ctx.lineWidth = 10;
+        ctx.strokeStyle = this.colour;
         ctx.stroke();
     }
 }
@@ -69,13 +70,13 @@ var NWDoorE = new Door("NWDoorE", width, height/2 - 30, width, height/2 + 30, "b
 var NWTile = new MapTile("NW", [NWDoorE], [], [], "#02b109"); // honouring Bim's original choice of colour!
 
 // NE tile will have doors to the West and South
-var NEDoorW = new Door("NEDoorW", 0, height/2 - 30, 0, height/2 + 30, "brown", ["NW", "NWDoorE"]);
-var NEDoorS = new Door ("NEDoorS", width/2 - 30, height, width/2 + 30, height, "brown", ["SE", "SEDoorN"]);
+var NEDoorW = new Door("NEDoorW", 0, height/2 - 30, 0, height/2 + 30, "yellow", ["NW", "NWDoorE"]);
+var NEDoorS = new Door ("NEDoorS", width/2 - 30, height, width/2 + 30, height, "green", ["SE", "SEDoorN"]);
 var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [], [], "red"); //my own colour choices are more boring ;)
 
 // similary SE tile will have doors to North and West
-var SEDoorN = new Door("SEDoorN", width/2 - 30, 0, width/2 + 30, 0, "brown", ["NE", "NEDoorS"]);
-var SEDoorW = new Door("SEDoorW", 0, height/2 - 30, 0, height/2 + 30, "brown", ["SW", "SWDoorE"]);
+var SEDoorN = new Door("SEDoorN", width/2 - 30, 0, width/2 + 30, 0, "white", ["NE", "NEDoorS"]);
+var SEDoorW = new Door("SEDoorW", 0, height/2 - 30, 0, height/2 + 30, "orange", ["SW", "SWDoorE"]);
 var SETile = new MapTile("SE", [SEDoorN, SEDoorW], [], [], "blue");
 
 // finally a SW tile with only a door to the East (the whole map is a bent path of 4 rooms, not a circuit)
