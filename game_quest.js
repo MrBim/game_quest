@@ -1,10 +1,3 @@
-// canvas variables
-var width = 1000;
-var height = 700; 
-var heightTwo = 200;
-// canvas
-var canvas = document.getElementById("canvas");
-var ctx = canvas.getContext("2d");
 var lowerCanvas = document.getElementById("lowerCanvas");
 var ctz = lowerCanvas.getContext("2d");
 
@@ -15,6 +8,15 @@ document.body.addEventListener("keydown", function(e) {
 document.body.addEventListener("keyup", function(e) {
 	keys[e.keyCode] = false;
 });
+/* new event listener just for "o", because to go through doors it should respond to a single keydown,
+not to a continous press (otherwise you xontinously flip between the 2 maps and it's pot luck where you end up)*/
+var movingThroughDoor = false;
+document.body.addEventListener("keydown", function(e) {
+	if (e.keyCode == 79) {
+		movingThroughDoor = true;
+	}
+});
+
 // keyboard array (stores key value)
 var keys = [];
 
@@ -43,6 +45,9 @@ thor = {
 	thorPicOneW : new Image(),
 	thorPicTwoW : new Image(),
 
+	// need to know starting location
+	currentTile: NWTile
+
 }
 
 thor.thorPicOneN.src = 'assets/thor/thor_one_n.png';
@@ -65,10 +70,22 @@ function clearCanvas() {
 	ctx.clearRect(0,0,width,height);
 	ctz.clearRect(0,0,width,heightTwo);
 }
-function drawBackground() {
+/* function drawBackground() {
 	ctx.fillStyle = "#02b109";
 	ctx.fillRect(0,0,width,height);
 	ctx.fill;
+} */
+
+// altered the above to draw the correct background for the current map tile
+function drawBackground() {
+	var tile = thor.currentTile;
+	ctx.fillStyle = tile.colour;
+	ctx.fillRect(0, 0, width, height);
+	ctx.fill;
+	// now draw the doors:
+	for (var i=0; i<tile.doors.length; i++) {
+		tile.doors[i].draw();
+	}
 }
 
 function drawunderparts(){
@@ -117,6 +134,56 @@ function thor_movement(){
 	}
 }
 
+/* put door detection code here, for better modularity (and making it much easier for me (RZ) to code it!)
+This function takes the player's current x and y positions, and a door object, and checks whether the player
+is "close enough" to be able to go through. Note that it checks on "both sides" of the door, even though the
+door will usually be at the edge. This both avoids special cases, and enables there to possible be "doors"
+which are not on the edge (eg. to go into a house)
+
+Expect the behaviour to need plenty of tweaking later! */
+function canIGoThroughDoor(x, y, door) {
+	if (x<door.middleX+30 && x>door.middleX-70
+	&& y<door.middleY+30 && y>door.middleY-70) {
+		return true;
+	}
+	return false;
+}
+
+function thor_walkThroughDoor() {
+	// check that o is pressed
+	var tile = thor.currentTile;
+	if (movingThroughDoor) {
+		//  check that a door is within range
+		for (var i=0; i<tile.doors.length; i++) {
+			if (canIGoThroughDoor(thor.xPos, thor.yPos, tile.doors[i])) {
+				console.log("I CAN go through this door!");
+				// code to update thor.currentTile and set an appropriate x and y pos for the player
+				for (var j=0; j<worldMap.length; j++) {
+					if (worldMap[j].id == tile.doors[i].pointer[0]) {
+						var newTile = worldMap[j];
+						thor.currentTile = newTile;
+						// find door where Thor will "arrive" at
+						for (var k=0; k<newTile.doors.length; k++) {
+							var door = newTile.doors[k];
+							if (tile.doors[i].pointer[1] == door.doorId) {
+								thor.xPos = door.middleX;
+								thor.yPos = door.middleY;
+								break;
+							}
+						}
+						break;
+					}
+				}
+				break;
+			}
+			else {
+				console.log("what door? where?");
+			}
+		}
+		movingThroughDoor = false;
+	}
+}
+
 // function drawPlayer() { // draw player as a square
 // 	ctx.fillStyle = "#000000";
 // 	ctx.fillRect(thor.xPos, thor.yPos,thor.dispSize,thor.dispSize);
@@ -162,7 +229,8 @@ function drawPlayer() {
 function words(){
 	ctz.font = "30px Arial";
 	ctz.fillStyle = "#000";
-	ctz.fillText("This is where there will be words and maybe pictures",10,50);
+	// ctz.fillText("This is where there will be words and maybe pictures",10,50);
+	ctz.fillText("this is the map tile called " + thor.currentTile.id, 10, 50);
 	ctz.fill;
 }
 
@@ -196,6 +264,7 @@ function gameLoop(){
 
 	clearCanvas();
  	thor_movement();
+	thor_walkThroughDoor();
  	drawBackground();
  	drawPlayer();
  	drawunderparts();
