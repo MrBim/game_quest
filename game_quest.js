@@ -142,8 +142,8 @@ which are not on the edge (eg. to go into a house)
 
 Expect the behaviour to need plenty of tweaking later! */
 function canIGoThroughDoor(x, y, door) {
-	if (x<door.middleX+30 && x>door.middleX-70
-	&& y<door.middleY+30 && y>door.middleY-70) {
+	if (x<door.middleX+30 && x>door.middleX-30-thor.dispSize
+	&& y<door.middleY+30 && y>door.middleY-30-thor.dispSize) {
 		return true;
 	}
 	return false;
@@ -166,8 +166,8 @@ function thor_walkThroughDoor() {
 						for (var k=0; k<newTile.doors.length; k++) {
 							var door = newTile.doors[k];
 							if (tile.doors[i].pointer[1] == door.doorId) {
-								thor.xPos = door.middleX;
-								thor.yPos = door.middleY;
+								thor.xPos = Math.min(door.middleX, width-thor.dispSize);
+								thor.yPos = Math.min(door.middleY, height-thor.dispSize);
 								break;
 							}
 						}
