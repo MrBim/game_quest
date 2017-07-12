@@ -64,10 +64,20 @@ function Door (doorId, xPos1, yPos1, xPos2, yPos2, colour, pointer) {
 
 
 //Obsticles drawn as rectangles, first two numbers are start x and y, third is length, last height (drawn down)
-var tree1 = new Obsticle(0,0,40,40, "red");
-var tree2 = new Obsticle(90,90,60,60, "red");
-var rock = new Obsticle(250,250,80, 80, "blue");
+var tree1_1 = new Obsticle(0,0,40,40, "red");
+var tree1_2 = new Obsticle(90,90,60,60, "red");
+var rock1_1 = new Obsticle(250,250,80, 80, "blue");
 
+var rock1_2 = new Obsticle(450,450,25, 25, "blue");
+var rock1_3 = new Obsticle(450,475,25, 25, "blue");
+var rock1_4 = new Obsticle(475,475,25, 25, "blue");
+var rock1_5 = new Obsticle(475,500,25, 25, "blue");
+var rock1_6 = new Obsticle(500,500,200, 25, "blue");
+
+
+var tree2_1 = new Obsticle(100,50,40,40, "green");
+var tree2_2 = new Obsticle(300,300,50,50, "black");
+var rock2_1 = new Obsticle(500,500,70, 70, "blue");
 
 // try to construct basic map. Will be square, but without doors in all the obvious places!
 // note that there are no items or characters for now!
@@ -76,12 +86,12 @@ var rock = new Obsticle(250,250,80, 80, "blue");
 It will just have a door to the East, connecting to room "NE" */
 
 var NWDoorE = new Door("NWDoorE", width, height/2 - 30, width, height/2 + 30, "brown", ["NE", "NEDoorW"]);
-var NWTile = new MapTile("NW", [NWDoorE], [], [], [tree1, tree2, rock],"#02b109"); // honouring Bim's original choice of colour!
+var NWTile = new MapTile("NW", [NWDoorE], [], [], [tree1_1, tree1_2, rock1_1, rock1_2, rock1_3, rock1_4, rock1_5, rock1_6],"#02b109"); // honouring Bim's original choice of colour!
 
 // NE tile will have doors to the West and South
 var NEDoorW = new Door("NEDoorW", 0, height/2 - 30, 0, height/2 + 30, "yellow", ["NW", "NWDoorE"]);
 var NEDoorS = new Door ("NEDoorS", width/2 - 30, height, width/2 + 30, height, "green", ["SE", "SEDoorN"]);
-var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [], [], [],"red"); //my own colour choices are more boring ;)
+var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [], [], [tree2_1, tree2_2, rock2_1],"red"); //my own colour choices are more boring ;)
 
 // similary SE tile will have doors to North and West
 var SEDoorN = new Door("SEDoorN", width/2 - 30, 0, width/2 + 30, 0, "white", ["NE", "NEDoorS"]);

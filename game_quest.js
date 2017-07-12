@@ -87,7 +87,7 @@ function drawBackground() {
 	for (var i=0; i<tile.doors.length; i++) {
 		tile.doors[i].draw();
 	}
-	//nor draw the obsticles
+	//now draw the obsticles
 	for (var i=0; i<tile.obsticles.length; i++) {
 		tile.obsticles[i].draw();
 	}
@@ -100,29 +100,6 @@ function drawunderparts(){
 }
 
 
-
-function thorObsticleCollide(){
-	var tile = thor.currentTile;
-	for (var i=0; i<tile.obsticles.length; i++) {		
-			//console.log("Thor xPos" +thor.xPos);
-			//console.log("xPos1: " + tile.obsticles[2].xPos1);
-			//console.log("xPos2: " + tile.obsticles[2].xPos2);	
-
-			//if thor is past left hand side of obsticle
-			//but thor.xPos is middle of thor so need half-display-size offset
-			//if thro is past right-hand side of obsticle, should need offset again
-
-			//This is the lefthand sides									//This is the right hand side
-		if ((thor.xPos >= (tile.obsticles[i].xPos1 -thor.dispSize) && (thor.xPos <= (tile.obsticles[i].xPos1 + tile.obsticles[i].xPos2))) &&
-		
-		(thor.yPos <= ((tile.obsticles[i].yPos1 + tile.obsticles[i].yPos2)) && (thor.yPos >= (tile.obsticles[i].yPos1 - thor.dispSize)))){
-			console.log("collision alert");
-			return true;
-		}
-
-   	}
-}
-   		
 
 
 // this is mostly still here because 
@@ -138,6 +115,7 @@ function thor_movement(){
 			thor.yPos = 0;
 		}
 
+		//Feeding in the current tiles obsticles array
 		if (thorObsticleCollide()){
 			//if thor is hitting an object, set position to previous
 			thor.yPos += thor.moveSize;
