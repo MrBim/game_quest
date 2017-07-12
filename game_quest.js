@@ -87,9 +87,9 @@ function drawBackground() {
 	for (var i=0; i<tile.doors.length; i++) {
 		tile.doors[i].draw();
 	}
-	//now draw the obsticles
-	for (var i=0; i<tile.obsticles.length; i++) {
-		tile.obsticles[i].draw();
+	//now draw the obstacles
+	for (var i=0; i<tile.obstacles.length; i++) {
+		tile.obstacles[i].draw();
 	}
 }
 
@@ -115,8 +115,8 @@ function thor_movement(){
 			thor.yPos = 0;
 		}
 
-		//Feeding in the current tiles obsticles array
-		if (thorObsticleCollide()){
+		//Feeding in the current tiles Obstacles array
+		if (thorObstacleCollide()){
 			//if thor is hitting an object, set position to previous
 			thor.yPos += thor.moveSize;
 		}
@@ -130,7 +130,7 @@ function thor_movement(){
 		if( thor.yPos >= height - thor.dispSize){
 			thor.yPos = height - thor.dispSize;
 		}
-		if (thorObsticleCollide()){
+		if (thorObstacleCollide()){
 			//if thor is hitting an object, set position to previous
 			thor.yPos -= thor.moveSize;
 		}
@@ -144,7 +144,7 @@ function thor_movement(){
 		if( thor.xPos <= 0){
 			thor.xPos = 0;
 		}
-		if (thorObsticleCollide()){
+		if (thorObstacleCollide()){
 			//if thor is hitting an object, set position to previous
 			thor.xPos += thor.moveSize;
 		}
@@ -157,7 +157,7 @@ function thor_movement(){
 		if( thor.xPos >= width - thor.dispSize){
 			thor.xPos = width - thor.dispSize;
 		}
-		if (thorObsticleCollide()){
+		if (thorObstacleCollide()){
 			//if thor is hitting an object, set position to previous
 			thor.xPos -= thor.moveSize;
 		}		

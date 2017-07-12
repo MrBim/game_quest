@@ -23,11 +23,11 @@ to interact with it (eg doors leading to that room).
 
 I am also adding a colour property, mainly to allow easy identification of rooms at this early stage. I imagine
 that in the final code it will be replaced by an image, or something */
-function MapTile (id, doors, items, characters, obsticles, colour) {
+function MapTile (id, doors, items, characters, obstacles, colour) {
     this.id = id;
     this.doors = doors;
     this.items = items;
-	this.obsticles = obsticles;
+	this.obstacles = obstacles;
     this.characters = characters;
     this.colour = colour;
     worldMap.push(this);
@@ -63,21 +63,21 @@ function Door (doorId, xPos1, yPos1, xPos2, yPos2, colour, pointer) {
 }
 
 
-//Obsticles drawn as rectangles, first two numbers are start x and y, third is length, last height (drawn down)
-var tree1_1 = new Obsticle(0,0,40,40, "red");
-var tree1_2 = new Obsticle(90,90,60,60, "red");
-var rock1_1 = new Obsticle(250,250,80, 80, "blue");
+//Obstacles drawn as rectangles, first two numbers are start x and y, third is length, last height (drawn down)
+var tree1_1 = new Obstacle(0,0,40,40, "red");
+var tree1_2 = new Obstacle(90,90,60,60, "red");
+var rock1_1 = new Obstacle(250,250,80, 80, "blue");
 
-var rock1_2 = new Obsticle(450,450,25, 25, "blue");
-var rock1_3 = new Obsticle(450,475,25, 25, "blue");
-var rock1_4 = new Obsticle(475,475,25, 25, "blue");
-var rock1_5 = new Obsticle(475,500,25, 25, "blue");
-var rock1_6 = new Obsticle(500,500,200, 25, "blue");
+var rock1_2 = new Obstacle(450,450,25, 25, "blue");
+var rock1_3 = new Obstacle(450,475,25, 25, "blue");
+var rock1_4 = new Obstacle(475,475,25, 25, "blue");
+var rock1_5 = new Obstacle(475,500,25, 25, "blue");
+var rock1_6 = new Obstacle(500,500,200, 25, "blue");
 
 
-var tree2_1 = new Obsticle(100,50,40,40, "green");
-var tree2_2 = new Obsticle(300,300,50,50, "black");
-var rock2_1 = new Obsticle(500,500,70, 70, "blue");
+var tree2_1 = new Obstacle(100,50,40,40, "green");
+var tree2_2 = new Obstacle(300,300,50,50, "black");
+var rock2_1 = new Obstacle(500,500,70, 70, "blue");
 
 // try to construct basic map. Will be square, but without doors in all the obvious places!
 // note that there are no items or characters for now!
