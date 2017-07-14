@@ -43,23 +43,79 @@ Only the doorId and pointer properties are really part of the logic here - the r
 these things out and should be easily able to be changed in accordance with what we want the roos/doors to look like*/
 function Door (doorId, xPos1, yPos1, xPos2, yPos2, colour, pointer) {
     this.doorId = doorId;
+    // this.xPos1 = xPos1;
+    // this.yPos1 = yPos1;
+    // this.xPos2 = xPos2;
+    // this.yPos2 = yPos2;
+    // this.middleX = (xPos1 + xPos2)/2;
+    // this.middleY = (yPos1 + yPos2)/2;
+    this.colour = colour;
+    this.pointer = pointer;
+}
+
+/* define different types of doors, each inheriting from the base Door class. We will have a separate subclass for
+doors on each of the 4 walls, plus one more for doors which do not lie on a wall */
+
+function NWallDoor(startPos, width) {
+    this.startPos = startPos;
+    this.width = width;
+}
+
+NWallDoor.prototype = Object.create(Door.prototype);
+NWallDoor.prototype.constructor = NWallDoor;
+
+
+function EWallDoor(startPos, height) {
+    this.startPos = startPos;
+    this.height = height;
+}
+
+EWallDoor.prototype = Object.create(Door.prototype);
+EWallDoor.prototype.constructor = EWallDoor;
+
+
+function SWallDoor(startPos, width) {
+    this.startPos = startPos;
+    this.width = width;
+}
+
+SWallDoor.prototype = Object.create(Door.prototype);
+SWallDoor.prototype.constructor = SWallDoor;
+
+
+function WWallDoor(startPos, height) {
+    this.startPos = startPos;
+    this.height = height;
+}
+
+WWallDoor.prototype = Object.create(Door.prototype);
+WWallDoor.prototype.constructor = WWallDoor;
+
+
+function CentreDoor(xPos1, yPos1, xPos2, yPos2) {
     this.xPos1 = xPos1;
     this.yPos1 = yPos1;
     this.xPos2 = xPos2;
     this.yPos2 = yPos2;
     this.middleX = (xPos1 + xPos2)/2;
     this.middleY = (yPos1 + yPos2)/2;
-    this.colour = colour;
-    this.pointer = pointer;
-    this.draw = function() {
-        ctx.beginPath();
-        ctx.moveTo(this.xPos1, this.yPos1);
-        ctx.lineTo(this.xPos2, this.yPos2);
-        ctx.lineWidth = 10;
-        ctx.strokeStyle = this.colour;
-        ctx.stroke();
-    }
 }
+
+CentreDoor.prototype = Object.create(Door.prototype);
+CentreDoor.prototype.constructor = CentreDoor;
+
+CentreDoor.prototype.draw = function() {
+    ctx.beginPath();
+    ctx.moveTo(this.xPos1, this.yPos1);
+    ctx.lineTo(this.xPos2, this.yPos2);
+    ctx.lineWidth = 10;
+    ctx.strokeStyle = this.colour;
+    ctx.stroke();
+}
+
+// current train of thought: add "drawWalls()" method to *mapTile* object, which takes note of positions of any
+// doors in the walls, and leaves the appropriate gaps. Will implement with basic (brown?) rectangles atm.
+
 
 // try to construct basic map. Will be square, but without doors in all the obvious places!
 // note that there are no items or characters for now!
