@@ -203,8 +203,9 @@ function thor_walkThroughDoor() {
 						for (var k=0; k<newTile.doors.length; k++) {
 							var door = newTile.doors[k];
 							if (tile.doors[i].pointer[1] == door.doorID) {
-								thor.xPos = Math.min(door.middleX, width-thor.dispSize);
-								thor.yPos = Math.min(door.middleY, height-thor.dispSize);
+								thor.xPos = Math.min(door.middleX-thor.dispSize/2, width-thor.dispSize);
+								thor.yPos = Math.min(door.middleY-thor.dispSize/2, height-thor.dispSize);
+								// "move" Thor in case of obstacle collision on exit from door:
 								break;
 							}
 						}
