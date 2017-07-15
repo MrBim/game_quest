@@ -76,6 +76,7 @@ function clearCanvas() {
 	ctx.fill;
 } */
 
+
 // altered the above to draw the correct background for the current map tile
 function drawBackground() {
 	var tile = thor.currentTile;
@@ -83,8 +84,18 @@ function drawBackground() {
 	ctx.fillRect(0, 0, width, height);
 	ctx.fill;
 	// now draw the doors:
-	for (var i=0; i<tile.doors.length; i++) {
+	/* for (var i=0; i<tile.doors.length; i++) {
 		tile.doors[i].draw();
+	} */
+	// draw walls (while leaving gaps for any outer doors)
+	tile.drawWalls();
+	// draw any "centre doors" - those which are not just gaps in walls:
+	for (var i=0; i<tile.centreDoors.length; i++) {
+		tile.centreDoors[i].draw();
+	}
+	//now draw the obstacles
+	for (var i=0; i<tile.obstacles.length; i++) {
+		tile.obstacles[i].draw();
 	}
 }
 
@@ -93,16 +104,29 @@ function drawunderparts(){
 	ctz.fillRect(0,0,width,heightTwo);
 	ctz.fill;
 }
+
+
+
+
 // this is mostly still here because 
 //i wanted to keep the example of how i was moving the main dude and regestering that keys had been pressed 
 function thor_movement(){
 	// up (w)
 	if (keys[87]) {
 		thor.isPointing = 1;
+
 		thor.yPos -= thor.moveSize;
+   		
 		if( thor.yPos <= 0){
 			thor.yPos = 0;
 		}
+
+		//Feeding in the current tiles Obstacles array
+		if (thorObstacleCollide()){
+			//if thor is hitting an object, set position to previous
+			thor.yPos += thor.moveSize;
+		}
+
 		thor.walkAnimFrame += 1;
 	}
 	// down (s)
@@ -112,6 +136,11 @@ function thor_movement(){
 		if( thor.yPos >= height - thor.dispSize){
 			thor.yPos = height - thor.dispSize;
 		}
+		if (thorObstacleCollide()){
+			//if thor is hitting an object, set position to previous
+			thor.yPos -= thor.moveSize;
+		}
+
 		thor.walkAnimFrame += 1;
 	}    
 	// left (a)
@@ -120,6 +149,10 @@ function thor_movement(){
 		thor.xPos -= thor.moveSize;
 		if( thor.xPos <= 0){
 			thor.xPos = 0;
+		}
+		if (thorObstacleCollide()){
+			//if thor is hitting an object, set position to previous
+			thor.xPos += thor.moveSize;
 		}
 		thor.walkAnimFrame += 1;
 	}
@@ -130,6 +163,10 @@ function thor_movement(){
 		if( thor.xPos >= width - thor.dispSize){
 			thor.xPos = width - thor.dispSize;
 		}
+		if (thorObstacleCollide()){
+			//if thor is hitting an object, set position to previous
+			thor.xPos -= thor.moveSize;
+		}		
 		thor.walkAnimFrame += 1;
 	}
 }
@@ -165,7 +202,7 @@ function thor_walkThroughDoor() {
 						// find door where Thor will "arrive" at
 						for (var k=0; k<newTile.doors.length; k++) {
 							var door = newTile.doors[k];
-							if (tile.doors[i].pointer[1] == door.doorId) {
+							if (tile.doors[i].pointer[1] == door.doorID) {
 								thor.xPos = Math.min(door.middleX, width-thor.dispSize);
 								thor.yPos = Math.min(door.middleY, height-thor.dispSize);
 								break;

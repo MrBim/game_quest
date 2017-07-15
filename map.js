@@ -10,6 +10,9 @@ var heightTwo = 200;
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 
+// new globalvar for wall thickness:
+var wallThickness = 30;
+
 
 // worldMap is an array which will contain all the individual mapTile objects
 var worldMap = [];
@@ -23,12 +26,25 @@ to interact with it (eg doors leading to that room).
 
 I am also adding a colour property, mainly to allow easy identification of rooms at this early stage. I imagine
 that in the final code it will be replaced by an image, or something */
-function MapTile (id, doors, items, characters, colour) {
+function MapTile (id, doors, items, characters, obstacles, colour, wallColour) {
     this.id = id;
     this.doors = doors;
+    this.northDoors = this.doors.filter(function(door) {return door instanceof NWallDoor;});
+    this.eastDoors = this.doors.filter(function(door) {return door instanceof EWallDoor;});
+    this.southDoors = this.doors.filter(function(door) {return door instanceof SWallDoor;});
+    this.westDoors = this.doors.filter(function(door) {return door instanceof WWallDoor;});
+    this.centreDoors = this.doors.filter(function(door) {return door instanceof CentreDoor;});
     this.items = items;
+	this.obstacles = obstacles;
+    this.wallSegments = this.getWallSegments();
+    // add wall segments to obstacles array:
+    for (var i=0; i<this.wallSegments.length; i++) {
+        var indices = this.wallSegments[i];
+        this.obstacles.push(new Obstacle(indices[0], indices[1], indices[2], indices[3], this.wallColour));
+    }
     this.characters = characters;
     this.colour = colour;
+    this.wallColour = wallColour;
     worldMap.push(this);
 }
 
@@ -39,10 +55,10 @@ through it. I imagine at this stage that pointer will be a 2-element array conta
 
 It also has a "draw" method to display it on the screen.
 
-Only the doorId and pointer properties are really part of the logic here - the rest is a convenience for me to test
+Only the doorID and pointer properties are really part of the logic here - the rest is a convenience for me to test
 these things out and should be easily able to be changed in accordance with what we want the roos/doors to look like*/
-function Door (doorId, xPos1, yPos1, xPos2, yPos2, colour, pointer) {
-    this.doorId = doorId;
+function Door (doorID, colour, pointer) {
+    this.doorID = doorID;
     // this.xPos1 = xPos1;
     // this.yPos1 = yPos1;
     // this.xPos2 = xPos2;
@@ -59,6 +75,8 @@ doors on each of the 4 walls, plus one more for doors which do not lie on a wall
 function NWallDoor(startPos, width) {
     this.startPos = startPos;
     this.width = width;
+    this.middleX = startPos + width/2;
+    this.middleY = 0;
 }
 
 NWallDoor.prototype = Object.create(Door.prototype);
@@ -68,6 +86,8 @@ NWallDoor.prototype.constructor = NWallDoor;
 function EWallDoor(startPos, height) {
     this.startPos = startPos;
     this.height = height;
+    this.middleX = width;
+    this.middleY = startPos + height/2;
 }
 
 EWallDoor.prototype = Object.create(Door.prototype);
@@ -77,6 +97,8 @@ EWallDoor.prototype.constructor = EWallDoor;
 function SWallDoor(startPos, width) {
     this.startPos = startPos;
     this.width = width;
+    this.middleX = startPos + width/2;
+    this.middleY = height;
 }
 
 SWallDoor.prototype = Object.create(Door.prototype);
@@ -86,19 +108,22 @@ SWallDoor.prototype.constructor = SWallDoor;
 function WWallDoor(startPos, height) {
     this.startPos = startPos;
     this.height = height;
+    this.middleX = 0;
+    this.middleY = startPos + height/2;
 }
 
 WWallDoor.prototype = Object.create(Door.prototype);
 WWallDoor.prototype.constructor = WWallDoor;
 
 
-function CentreDoor(xPos1, yPos1, xPos2, yPos2) {
+function CentreDoor(xPos1, yPos1, xPos2, yPos2, colour) {
     this.xPos1 = xPos1;
     this.yPos1 = yPos1;
     this.xPos2 = xPos2;
     this.yPos2 = yPos2;
     this.middleX = (xPos1 + xPos2)/2;
     this.middleY = (yPos1 + yPos2)/2;
+    this.colour = colour;
 }
 
 CentreDoor.prototype = Object.create(Door.prototype);
@@ -113,28 +138,139 @@ CentreDoor.prototype.draw = function() {
     ctx.stroke();
 }
 
-// current train of thought: add "drawWalls()" method to *mapTile* object, which takes note of positions of any
-// doors in the walls, and leaves the appropriate gaps. Will implement with basic (brown?) rectangles atm.
+// Add "drawWalls()" method to mapTile object, which takes note of positions of any
+// doors in the walls, and leaves the appropriate gaps. Will implement with basic rectangles atm.
 
+// first an important "helper" method to do the work of finding all the wall segments which should be drawn.
+// it does nothing with that information itself!
+MapTile.prototype.getWallSegments = function() {
+    var result = [];
+
+    // North wall:
+    var NWallGaps = [];
+    for (var i=0; i<this.northDoors.length; i++) {
+        var door = this.northDoors[i];
+        NWallGaps.push([door.startPos, door.width]);
+    }
+    /* sort the array by startPos, so that the following will work
+    no matter what order the array of doors is in */
+    NWallGaps.sort(function(gap) {return gap.startPos;});
+    var NWallProgress = 0;
+    for (var i=0; i<NWallGaps.length; i++) {
+        result.push([NWallProgress, 0, NWallGaps[i][0], wallThickness]);
+        NWallProgress += NWallGaps[i][0]+NWallGaps[i][1];
+    }
+    result.push([NWallProgress, 0, width, wallThickness]);
+
+    // East Wall:
+    var EWallGaps = [];
+    for (var i=0; i<this.eastDoors.length; i++) {
+        var door = this.eastDoors[i];
+        EWallGaps.push([door.startPos, door.height]);
+    }
+    EWallGaps.sort(function(gap) {return gap.startPos;});
+    var EWallProgress = 0;
+    for (var i=0; i<EWallGaps.length; i++) {
+        result.push([width-wallThickness, EWallProgress, width, EWallGaps[i][0]]);
+        EWallProgress += EWallGaps[i][0]+EWallGaps[i][1];
+    }
+    result.push([width-wallThickness, EWallProgress, width, height]);
+
+    // South Wall:
+    var SWallGaps = [];
+    for (var i=0; i<this.southDoors.length; i++) {
+        var door = this.southDoors[i];
+        SWallGaps.push([door.startPos, door.width]);
+    }
+    SWallGaps.sort(function(gap) {return gap.startPos;});
+    var SWallProgress = 0;
+    for (var i=0; i<SWallGaps.length; i++) {
+        result.push([SWallProgress, height-wallThickness, SWallGaps[i][0], height]);
+        SWallProgress += SWallGaps[i][0]+SWallGaps[i][1];
+    }
+    result.push([SWallProgress, height-wallThickness, width, height]);
+
+    // West Wall:
+    var WWallGaps = [];
+    for (var i=0; i<this.westDoors.length; i++) {
+        var door = this.westDoors[i];
+        WWallGaps.push([door.startPos, door.height]);
+    }
+    WWallGaps.sort(function(gap) {return gap.startPos;});
+    var WWallProgress = 0;
+    for (var i=0; i<WWallGaps.length; i++) {
+        result.push([0, WWallProgress, wallThickness, WWallGaps[i][0]]);
+        WWallProgress += WWallGaps[i][0]+WWallGaps[i][1];
+    }
+    result.push([0, WWallProgress, wallThickness, height]);
+
+    return result;
+}
+
+MapTile.prototype.drawWalls = function(doors) {
+    ctx.beginPath();
+    ctx.fillStyle=this.wallColour;
+    for (var i=0; i<this.wallSegments.length; i++) {
+        var indices = this.wallSegments[i];
+        ctx.rect(indices[0], indices[1], indices[2], indices[3]);
+    }
+    ctx.fill();
+}
+
+
+
+//Obstacles drawn as rectangles, first two numbers are start x and y, third is length, last height (drawn down)
+var tree1_1 = new Obstacle(50,180,40,40, "red"); // I (Robin) changed the position so it's not now over a wall!
+var tree1_2 = new Obstacle(90,90,60,60, "red");
+var rock1_1 = new Obstacle(250,250,80, 80, "blue");
+
+var rock1_2 = new Obstacle(450,450,25, 25, "blue");
+var rock1_3 = new Obstacle(450,475,25, 25, "blue");
+var rock1_4 = new Obstacle(475,475,25, 25, "blue");
+var rock1_5 = new Obstacle(475,500,25, 25, "blue");
+var rock1_6 = new Obstacle(500,500,200, 25, "blue");
+
+
+var tree2_1 = new Obstacle(100,50,40,40, "green");
+var tree2_2 = new Obstacle(300,300,50,50, "black");
+var rock2_1 = new Obstacle(500,500,70, 70, "blue");
 
 // try to construct basic map. Will be square, but without doors in all the obvious places!
 // note that there are no items or characters for now!
 
 /* This first room is the top-left of the square - so it has an ID of "NW".
 It will just have a door to the East, connecting to room "NE" */
-var NWDoorE = new Door("NWDoorE", width, height/2 - 30, width, height/2 + 30, "brown", ["NE", "NEDoorW"]);
-var NWTile = new MapTile("NW", [NWDoorE], [], [], "#02b109"); // honouring Bim's original choice of colour!
+
+var NWDoorE = new EWallDoor(30, 70);
+NWDoorE.doorID = "NWDoorE";
+NWDoorE.pointer = ["NE", "NEDoorW"];
+var NWTile = new MapTile("NW", [NWDoorE], [], [], [tree1_1, tree1_2, rock1_1, rock1_2, rock1_3, rock1_4, rock1_5, rock1_6],"#02b109", "black"); // honouring Bim's original choice of colour!
 
 // NE tile will have doors to the West and South
-var NEDoorW = new Door("NEDoorW", 0, height/2 - 30, 0, height/2 + 30, "yellow", ["NW", "NWDoorE"]);
-var NEDoorS = new Door ("NEDoorS", width/2 - 30, height, width/2 + 30, height, "green", ["SE", "SEDoorN"]);
-var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [], [], "red"); //my own colour choices are more boring ;)
+var NEDoorW = new WWallDoor(30, 70);
+NEDoorW.doorID = "NEDoorW";
+NEDoorW.pointer = ["NW", "NWDoorE"]
+var NEDoorS = new SWallDoor (width-120, 100);
+NEDoorS.doorID = "NEDoorS";
+NEDoorS.pointer = ["SE", "SEDoorN"];
+var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [], [], [tree2_1, tree2_2, rock2_1], "red", "green"); //my own colour choices are more boring ;)
 
 // similary SE tile will have doors to North and West
-var SEDoorN = new Door("SEDoorN", width/2 - 30, 0, width/2 + 30, 0, "white", ["NE", "NEDoorS"]);
-var SEDoorW = new Door("SEDoorW", 0, height/2 - 30, 0, height/2 + 30, "orange", ["SW", "SWDoorE"]);
-var SETile = new MapTile("SE", [SEDoorN, SEDoorW], [], [], "blue");
+var SEDoorN = new NWallDoor(width-120, 100);
+SEDoorN.doorID = "SEDoorN";
+SEDoorN.pointer = ["NE", "NEDoorS"];
+var SEDoorW = new WWallDoor(height/2 - 100, 200);
+SEDoorW.doorID = "SEDoorW";
+SEDoorW.pointer = ["SW", "SWDoorE"];
+var SETile = new MapTile("SE", [SEDoorN, SEDoorW], [], [], [], "blue", "yellow");
 
 // finally a SW tile with only a door to the East (the whole map is a bent path of 4 rooms, not a circuit)
-var SWDoorE = new Door("SWDoorE", width, height/2 - 30, width, height/2 + 30, "brown", ["SE", "SEDoorW"]);
-var SWTile = new MapTile("SW", [SWDoorE], [], [], "yellow");
+var SWDoorE = new EWallDoor(height/2 - 100, 200);
+SWDoorE.doorID = "SWDoorE";
+SWDoorE.pointer = ["SE", "SEDoorW"];
+// let's add a centre door to this tile, for some fun and to see if it works. It will take the player back to the
+// first (NW) tile,
+var SWCentreDoor = new CentreDoor(width/2 - 20, 2*height/3, width/2 + 20, 3*height/4, "red");
+SWCentreDoor.doorID = "SWCentreDoor";
+SWCentreDoor.pointer = ["NW", "NWDoorE"];
+var SWTile = new MapTile("SW", [SWDoorE, SWCentreDoor], [], [], [], "yellow", "hotpink");
