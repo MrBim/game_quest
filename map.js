@@ -75,8 +75,12 @@ doors on each of the 4 walls, plus one more for doors which do not lie on a wall
 function NWallDoor(startPos, width) {
     this.startPos = startPos;
     this.width = width;
-    this.middleX = startPos + width/2;
-    this.middleY = 0;
+    // this.middleX = startPos + width/2;
+    // this.middleY = 0;
+    this.left = this.startPos;
+    this.right = this.startPos + this.width;
+    this.top = 0;
+    this.bottom = wallThickness;
 }
 
 NWallDoor.prototype = Object.create(Door.prototype);
@@ -88,6 +92,10 @@ function EWallDoor(startPos, height) {
     this.height = height;
     this.middleX = width;
     this.middleY = startPos + height/2;
+    this.left = width - wallThickness;
+    this.right = width;
+    this.top = this.startPos;
+    this.bottom = this.startPos + this.height;
 }
 
 EWallDoor.prototype = Object.create(Door.prototype);
@@ -99,6 +107,10 @@ function SWallDoor(startPos, width) {
     this.width = width;
     this.middleX = startPos + width/2;
     this.middleY = height;
+    this.left = this.startPos;
+    this.right = this.startPos + this.width;
+    this.top = height - wallThickness;
+    this.bottom = height;
 }
 
 SWallDoor.prototype = Object.create(Door.prototype);
@@ -110,6 +122,10 @@ function WWallDoor(startPos, height) {
     this.height = height;
     this.middleX = 0;
     this.middleY = startPos + height/2;
+    this.left = 0;
+    this.right = wallThickness;
+    this.top = this.startPos;
+    this.bottom = this.startPos + this.height;
 }
 
 WWallDoor.prototype = Object.create(Door.prototype);
@@ -121,9 +137,13 @@ function CentreDoor(xPos1, yPos1, xPos2, yPos2, colour) {
     this.yPos1 = yPos1;
     this.xPos2 = xPos2;
     this.yPos2 = yPos2;
-    this.middleX = (xPos1 + xPos2)/2;
-    this.middleY = (yPos1 + yPos2)/2;
+    // this.middleX = (xPos1 + xPos2)/2;
+    // this.middleY = (yPos1 + yPos2)/2;
     this.colour = colour;
+    this.left = Math.min(this.xPos1, this.xPos2);
+    this.right = Math.max(this.xPos1, this.xPos2);
+    this.top = Math.min(this.yPos1, this.yPos2);
+    this.bottom = Math.max(this.yPos1, this.yPos2);
 }
 
 CentreDoor.prototype = Object.create(Door.prototype);
