@@ -62,22 +62,32 @@ function Door (doorId, xPos1, yPos1, xPos2, yPos2, colour, pointer) {
     }
 }
 
+/*
+Obstacles drawn as rectangles, first two numbers are start x and y, third is length, last height (drawn down)
 
-//Obstacles drawn as rectangles, first two numbers are start x and y, third is length, last height (drawn down)
-var tree1_1 = new Obstacle(0,0,40,40, "red");
-var tree1_2 = new Obstacle(90,90,60,60, "red");
-var rock1_1 = new Obstacle(250,250,80, 80, "blue");
+For testing:
+    Obstacles are Blue
+        Items are Yellow
+   Characters are Black        
+*/
+var obstacle1_1 = new Obstacle("ob1_1", 0,0,40,40, "blue");
+var obstacle1_2 = new Obstacle("ob1_2", 90,90,60,60, "blue");
+var obstacle1_3 = new Obstacle("ob1_3", 250,250,80, 80, "blue");
+var item1_1 = new Item("item1_1", 350,350,40, 40, "Yellow");
+var character1_1 = new Character("char1_1", 450,450,40, 40, "black");
 
-var rock1_2 = new Obstacle(450,450,25, 25, "blue");
-var rock1_3 = new Obstacle(450,475,25, 25, "blue");
-var rock1_4 = new Obstacle(475,475,25, 25, "blue");
-var rock1_5 = new Obstacle(475,500,25, 25, "blue");
-var rock1_6 = new Obstacle(500,500,200, 25, "blue");
+
+var obstacle2_1 = new Obstacle("ob2_1", 500,500,140,140, "blue");
+var obstacle2_2 = new Obstacle("ob2_2", 500,100,30,60, "blue");
+var item2_1 = new Item("item2_1", 250,250,40, 40, "Yellow");
+var item2_2 = new Item("item2_2", 150,300,40, 40, "Yellow");
+var character2_1 = new Character("char2_1", 50,50,40, 40, "black");
 
 
-var tree2_1 = new Obstacle(100,50,40,40, "green");
-var tree2_2 = new Obstacle(300,300,50,50, "black");
-var rock2_1 = new Obstacle(500,500,70, 70, "blue");
+var obstacle3_1 = new Obstacle("ob3_1", 0,0,40,40, "blue");
+var item3_1 = new Item("item3_1", 350,350,40, 40, "Yellow");
+var character3_1 = new Character("char3_1", 450,450,40, 40, "black");
+var character3_2 = new Character("char3_2", 250,500,40, 40, "black");
 
 // try to construct basic map. Will be square, but without doors in all the obvious places!
 // note that there are no items or characters for now!
@@ -86,17 +96,17 @@ var rock2_1 = new Obstacle(500,500,70, 70, "blue");
 It will just have a door to the East, connecting to room "NE" */
 
 var NWDoorE = new Door("NWDoorE", width, height/2 - 30, width, height/2 + 30, "brown", ["NE", "NEDoorW"]);
-var NWTile = new MapTile("NW", [NWDoorE], [], [], [tree1_1, tree1_2, rock1_1, rock1_2, rock1_3, rock1_4, rock1_5, rock1_6],"#02b109"); // honouring Bim's original choice of colour!
+var NWTile = new MapTile("NW", [NWDoorE], [item1_1], [character1_1], [obstacle1_1, obstacle1_2, obstacle1_3],"#02b109"); // honouring Bim's original choice of colour!
 
 // NE tile will have doors to the West and South
 var NEDoorW = new Door("NEDoorW", 0, height/2 - 30, 0, height/2 + 30, "yellow", ["NW", "NWDoorE"]);
 var NEDoorS = new Door ("NEDoorS", width/2 - 30, height, width/2 + 30, height, "green", ["SE", "SEDoorN"]);
-var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [], [], [tree2_1, tree2_2, rock2_1],"red"); //my own colour choices are more boring ;)
+var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [character2_1], [item2_1, item2_2], [obstacle2_1, obstacle2_2],"red"); //my own colour choices are more boring ;)
 
 // similary SE tile will have doors to North and West
 var SEDoorN = new Door("SEDoorN", width/2 - 30, 0, width/2 + 30, 0, "white", ["NE", "NEDoorS"]);
 var SEDoorW = new Door("SEDoorW", 0, height/2 - 30, 0, height/2 + 30, "orange", ["SW", "SWDoorE"]);
-var SETile = new MapTile("SE", [SEDoorN, SEDoorW], [], [], [],"blue");
+var SETile = new MapTile("SE", [SEDoorN, SEDoorW], [character3_1, character3_2], [item3_1], [obstacle3_1],"blue");
 
 // finally a SW tile with only a door to the East (the whole map is a bent path of 4 rooms, not a circuit)
 var SWDoorE = new Door("SWDoorE", width, height/2 - 30, width, height/2 + 30, "brown", ["SE", "SEDoorW"]);
