@@ -90,8 +90,8 @@ NWallDoor.prototype.constructor = NWallDoor;
 function EWallDoor(startPos, height) {
     this.startPos = startPos;
     this.height = height;
-    this.middleX = width;
-    this.middleY = startPos + height/2;
+    // this.middleX = width;
+    // this.middleY = startPos + height/2;
     this.left = width - wallThickness;
     this.right = width;
     this.top = this.startPos;
@@ -105,8 +105,8 @@ EWallDoor.prototype.constructor = EWallDoor;
 function SWallDoor(startPos, width) {
     this.startPos = startPos;
     this.width = width;
-    this.middleX = startPos + width/2;
-    this.middleY = height;
+    // this.middleX = startPos + width/2;
+    // this.middleY = height;
     this.left = this.startPos;
     this.right = this.startPos + this.width;
     this.top = height - wallThickness;
@@ -120,8 +120,8 @@ SWallDoor.prototype.constructor = SWallDoor;
 function WWallDoor(startPos, height) {
     this.startPos = startPos;
     this.height = height;
-    this.middleX = 0;
-    this.middleY = startPos + height/2;
+    // this.middleX = 0;
+    // this.middleY = startPos + height/2;
     this.left = 0;
     this.right = wallThickness;
     this.top = this.startPos;
