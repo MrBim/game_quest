@@ -37,15 +37,14 @@ function MapTile (id, doors, items, characters, obstacles, colour, wallColour) {
     this.items = items;
 	this.obstacles = obstacles;
     this.wallSegments = this.getWallSegments();
+    this.wallColour = wallColour;
     // add wall segments to obstacles array:
     for (var i=0; i<this.wallSegments.length; i++) {
         var indices = this.wallSegments[i];
-        var col = this.wallColour
-        this.obstacles.push(new Obstacle(indices[0], indices[1], indices[2], indices[3], col));
+        this.obstacles.push(new Obstacle(indices[0], indices[1], indices[2], indices[3], this.wallColour));
     }
     this.characters = characters;
     this.colour = colour;
-    this.wallColour = wallColour;
     worldMap.push(this);
 }
 
@@ -207,17 +206,6 @@ MapTile.prototype.getWallSegments = function() {
 
     return result;
 }
-
-MapTile.prototype.drawWalls = function(doors) {
-    ctx.beginPath();
-    ctx.fillStyle=this.wallColour;
-    for (var i=0; i<this.wallSegments.length; i++) {
-        var indices = this.wallSegments[i];
-        ctx.rect(indices[0], indices[1], indices[2], indices[3]);
-    }
-    ctx.fill();
-}
-
 
 
 //Obstacles drawn as rectangles, first two numbers are start x and y, third is length, last height (drawn down)

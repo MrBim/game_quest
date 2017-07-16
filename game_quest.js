@@ -87,8 +87,6 @@ function drawBackground() {
 	/* for (var i=0; i<tile.doors.length; i++) {
 		tile.doors[i].draw();
 	} */
-	// draw walls (while leaving gaps for any outer doors)
-	tile.drawWalls();
 	// draw any "centre doors" - those which are not just gaps in walls:
 	for (var i=0; i<tile.centreDoors.length; i++) {
 		tile.centreDoors[i].draw();
