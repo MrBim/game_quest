@@ -40,7 +40,8 @@ function MapTile (id, doors, items, characters, obstacles, colour, wallColour) {
     // add wall segments to obstacles array:
     for (var i=0; i<this.wallSegments.length; i++) {
         var indices = this.wallSegments[i];
-        this.obstacles.push(new Obstacle(indices[0], indices[1], indices[2], indices[3], this.wallColour));
+        var col = this.wallColour
+        this.obstacles.push(new Obstacle(indices[0], indices[1], indices[2], indices[3], col));
     }
     this.characters = characters;
     this.colour = colour;
@@ -160,7 +161,7 @@ MapTile.prototype.getWallSegments = function() {
         result.push([NWallProgress, 0, NWallGaps[i][0]-NWallProgress, wallThickness]);
         NWallProgress += NWallGaps[i][0]+NWallGaps[i][1];
     }
-    result.push([NWallProgress, 0, width, wallThickness]);
+    result.push([NWallProgress, 0, width-NWallProgress, wallThickness]);
 
     // East Wall:
     var EWallGaps = [];
@@ -171,10 +172,10 @@ MapTile.prototype.getWallSegments = function() {
     EWallGaps.sort(function(gap) {return gap.startPos;});
     var EWallProgress = 0;
     for (var i=0; i<EWallGaps.length; i++) {
-        result.push([width-wallThickness, EWallProgress, width, EWallGaps[i][0]-EWallProgress]);
+        result.push([width-wallThickness, EWallProgress, wallThickness, EWallGaps[i][0]-EWallProgress]);
         EWallProgress += EWallGaps[i][0]+EWallGaps[i][1];
     }
-    result.push([width-wallThickness, EWallProgress, width, height]);
+    result.push([width-wallThickness, EWallProgress, wallThickness, height-EWallProgress]);
 
     // South Wall:
     var SWallGaps = [];
@@ -185,10 +186,10 @@ MapTile.prototype.getWallSegments = function() {
     SWallGaps.sort(function(gap) {return gap.startPos;});
     var SWallProgress = 0;
     for (var i=0; i<SWallGaps.length; i++) {
-        result.push([SWallProgress, height-wallThickness, SWallGaps[i][0]-SWallProgress, height]);
+        result.push([SWallProgress, height-wallThickness, SWallGaps[i][0]-SWallProgress, wallThickness]);
         SWallProgress += SWallGaps[i][0]+SWallGaps[i][1];
     }
-    result.push([SWallProgress, height-wallThickness, width, height]);
+    result.push([SWallProgress, height-wallThickness, width-SWallProgress, wallThickness]);
 
     // West Wall:
     var WWallGaps = [];
@@ -202,7 +203,7 @@ MapTile.prototype.getWallSegments = function() {
         result.push([0, WWallProgress, wallThickness, WWallGaps[i][0]-WWallProgress]);
         WWallProgress += WWallGaps[i][0]+WWallGaps[i][1];
     }
-    result.push([0, WWallProgress, wallThickness, height]);
+    result.push([0, WWallProgress, wallThickness, height-WWallProgress]);
 
     return result;
 }
