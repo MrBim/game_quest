@@ -46,7 +46,7 @@ function Item (id, xPos1, yPos1, xPos2, yPos2, colour) {
         };
 }
 
-/*
+
 function Character (id, xPos1, yPos1, xPos2, yPos2, colour) {
     this.type = "Character";
     this.id = id;    
@@ -62,7 +62,7 @@ function Character (id, xPos1, yPos1, xPos2, yPos2, colour) {
         ctx.fill();
         };
 }
-*/
+
 
 function NPC (id, xPos1, yPos1, xPos2, yPos2, colour, chatInit, chat) {
     this.type = "NPC";
