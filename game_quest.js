@@ -95,6 +95,16 @@ function drawBackground() {
 	for (var i=0; i<tile.obstacles.length; i++) {
 		tile.obstacles[i].draw();
 	}
+	//now draw the items
+	for (var i=0; i<tile.items.length; i++) {
+		tile.items[i].draw();
+	}
+	//now draw the characters
+	for (var i=0; i<tile.characters.length; i++) {
+		tile.characters[i].draw();
+	}
+
+
 }
 
 function drawunderparts(){
@@ -119,8 +129,10 @@ function thor_movement(){
 			thor.yPos = 0;
 		}
 
-		//Feeding in the current tiles Obstacles array
-		if (thorObstacleCollide()){
+		//Feeding in the current tiles Obstacles, Items, Characters array
+		if (thorHitDetection(thor.currentTile.obstacles) 	||
+			thorHitDetection(thor.currentTile.items)		||
+			thorHitDetection(thor.currentTile.characters)){
 			//if thor is hitting an object, set position to previous
 			thor.yPos += thor.moveSize;
 		}
@@ -134,7 +146,10 @@ function thor_movement(){
 		if( thor.yPos >= height - thor.dispSize){
 			thor.yPos = height - thor.dispSize;
 		}
-		if (thorObstacleCollide()){
+		//Feeding in the current tiles Obstacles, Items, Characters array
+		if (thorHitDetection(thor.currentTile.obstacles) 	||
+			thorHitDetection(thor.currentTile.items)		||
+			thorHitDetection(thor.currentTile.characters)){
 			//if thor is hitting an object, set position to previous
 			thor.yPos -= thor.moveSize;
 		}
@@ -148,7 +163,10 @@ function thor_movement(){
 		if( thor.xPos <= 0){
 			thor.xPos = 0;
 		}
-		if (thorObstacleCollide()){
+		//Feeding in the current tiles Obstacles, Items, Characters array
+		if (thorHitDetection(thor.currentTile.obstacles) 	||
+			thorHitDetection(thor.currentTile.items)		||
+			thorHitDetection(thor.currentTile.characters)){
 			//if thor is hitting an object, set position to previous
 			thor.xPos += thor.moveSize;
 		}
@@ -161,7 +179,10 @@ function thor_movement(){
 		if( thor.xPos >= width - thor.dispSize){
 			thor.xPos = width - thor.dispSize;
 		}
-		if (thorObstacleCollide()){
+		//Feeding in the current tiles Obstacles, Items, Characters array
+		if (thorHitDetection(thor.currentTile.obstacles) 	||
+			thorHitDetection(thor.currentTile.items)		||
+			thorHitDetection(thor.currentTile.characters)){
 			//if thor is hitting an object, set position to previous
 			thor.xPos -= thor.moveSize;
 		}		
