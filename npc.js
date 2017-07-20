@@ -1,4 +1,7 @@
 
+
+var npcChatOK;
+
 /* Comments */
 
 
@@ -11,7 +14,7 @@ function NPC (id, xPos1, yPos1, xPos2, yPos2, colour, greeting, dialogue) {
     this.yPos2 = yPos2;
     this.colour = colour;
     this.greeting = greeting;   //Greeting is auto chat, triggered on contact (rather than button press). Set to "none" if no greeting required.
-    this.dialogue = dialogue;           //Array passed in 
+    this.dialogue = dialogue;   //Array passed in 
     this.chatPosition = 0;      //Track where conversation is
 
     this.greet = function(){
@@ -43,13 +46,23 @@ function NPC (id, xPos1, yPos1, xPos2, yPos2, colour, greeting, dialogue) {
 
 
 
-function npcButtonChat(){
-    //console.log(thor_next_to);
+document.body.addEventListener("keydown", function(e) {
     //Using the C 'chat' key
     //T is 84 if people prefer 'talk'
-    if (keys[67]) {
+	if (e.keyCode == 67) {
+		npcChatOK = true;
+	}
+});
+
+
+
+
+function npcButtonChat(){
+    //console.log(thor_next_to);
+
+    if (npcChatOK) {
         //Needed to check how this would work with one recorded key press per button press
-        console.log("Pressed Once - This shows how it'd work if one key press equalled one cycle of function, but currently one press runs logic multiple times");
+        //console.log("Pressed Once - This shows how it'd work if one key press equalled one cycle of function, but currently one press runs logic multiple times");
         
         for (var i=0; i<thor.currentTile.npcs.length; i++) {
           
@@ -81,6 +94,7 @@ function npcButtonChat(){
             }
         }
     }
+    npcChatOK = false;
 }
 
 
