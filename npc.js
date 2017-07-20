@@ -2,8 +2,6 @@
 /* Comments */
 
 
-var npc1_1 = new NPC("npc1_1", 450,450,40, 40, "black", "Hi", ["chat1", "chat2", "chat3"]);
-
 function NPC (id, xPos1, yPos1, xPos2, yPos2, colour, greeting, dialogue) {
     this.type = "NPC";
     this.id = id;    
@@ -49,21 +47,20 @@ function npcButtonChat(){
     //console.log(thor_next_to);
     //Using the C 'chat' key
     //T is 84 if people prefer 'talk'
-
     if (keys[67]) {
-        console.log("Pressed Once");
+        //Needed to check how this would work with one recorded key press per button press
+        console.log("Pressed Once - This shows how it'd work if one key press equalled one cycle of function, but currently one press runs logic multiple times");
         
         for (var i=0; i<thor.currentTile.npcs.length; i++) {
-            //console.log("Next to: " +thor_next_to);
-            //console.log(thor.currentTile.npcs[i].id);
-            
+          
             //Use dialogue associated with the NPC Thor is next to
             if (thor.currentTile.npcs[i].id == thor_next_to){
 
                 //check to see if dialogue has been used up for this exchange
                 if (thor.currentTile.npcs[i].dialogue.length == thor.currentTile.npcs[i].chatPosition) {
 
-                    console.log("We've chatted quite enough for now sonny jim, now on your way!");
+                    //Could have a general NPC "thats it for chat" msg, or one per char (property in NPC object)
+                    console.log("We've chatted quite enough for now sonny jim, be off with you!");
                     break;
 
                 }
@@ -73,6 +70,8 @@ function npcButtonChat(){
             
                     //Move to next peice of dialogue
                     //Chat position stored in NPC object so not lost at function completion
+                    //Note: This gets reset in the function thorHitDetection, when an NPC object is detected as being not next 
+                    //to Thor, the chatPosition is set back to 0
                     thor.currentTile.npcs[i].chatPosition += 1;
 
                     break;

@@ -121,36 +121,25 @@ function thorObstacleCollide(){
 function thorHitDetection(currentTileThingsArrays){    
     for (var i=0; i<currentTileThingsArrays.length; i++) {      
 
-       //create seperate functions if using below
-
         if ((thor.xPos >= (currentTileThingsArrays[i].xPos1 -thor.dispSize) && (thor.xPos <= (currentTileThingsArrays[i].xPos1 + currentTileThingsArrays[i].xPos2))) &&
             (thor.yPos <= ((currentTileThingsArrays[i].yPos1 + currentTileThingsArrays[i].yPos2)) && (thor.yPos >= (currentTileThingsArrays[i].yPos1 - thor.dispSize)))){
 
             if (currentTileThingsArrays[i].type == "Obstacle"){
-                console.log("Oi, stopping hitting me against OBSTACLE named '" + currentTileThingsArrays[i].id + "'");
-                //recorded for use with button press activities
-                thor_next_to = currentTileThingsArrays[i].id;
+                //console.log("Oi, stopping hitting me against OBSTACLE named '" + currentTileThingsArrays[i].id + "'");
             }
             else if (currentTileThingsArrays[i].type == "Item"){
                 console.log("Oooooh! Whats this ITEM? I see its item '" + currentTileThingsArrays[i].id + "' though");
-                //recorded for use with button press activities
+                //recorded for use with button press activities (so knows what item is being picked up)
                 thor_next_to = currentTileThingsArrays[i].id;                
             }
-            /*
-            else if (currentTileThingsArrays[i].type == "Character"){
-                console.log("Hmmm, who's this CHARACTER?? I notice I can track him by his secret name '" + currentTileThingsArrays[i].id + "'");
-                //recorded for use with button press activities
-                thor_next_to = currentTileThingsArrays[i].id;                
-            }
-            */
-
+        
             else if (currentTileThingsArrays[i].type == "NPC"){
-                console.log("Hmmm, who's this NPC?? I notice I can track him by his secret name '" + currentTileThingsArrays[i].id + "'");
-                                
+                //console.log("Hmmm, who's this NPC?? I notice I can track him by his secret name '" + currentTileThingsArrays[i].id + "'");
+                    
                 //Greet right away, no button press required
                 //Use 'none' in NPC constructor to have no greeting
                 currentTileThingsArrays[i].greet();
-
+                
                 //Recorded for use with button press activities
                 thor_next_to = currentTileThingsArrays[i].id; 
                 //console.log(thor_next_to);
@@ -162,7 +151,6 @@ function thorHitDetection(currentTileThingsArrays){
         else{
             //console.log("Not hitting anything");
             thor_next_to = "nothing";
-            //console.log(thor_next_to);            
             
             //if you've moved away from an NPC, reset the dialogue poition to zero for that NPC
             currentTileThingsArrays[i].chatPosition = 0;

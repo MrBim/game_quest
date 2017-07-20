@@ -246,15 +246,14 @@ var obstacle1_1 = new Obstacle("ob1_1", 50,180,40,40, "blue");
 var obstacle1_2 = new Obstacle("ob1_2", 90,90,60,60, "blue");
 var obstacle1_3 = new Obstacle("ob1_3", 250,250,80, 80, "blue");
 var item1_1 = new Item("item1_1", 350,350,40, 40, "Yellow");
-var npc1_1 = new NPC("npc1_1", 450,450,40, 40, "black", "Yo, Yo, Yo, Homie!", ["chat1", "chat2", "chat3"]);
-
+var npc1_1 = new NPC("npc1_1", 550,550,40, 40, "black", "Yo, Yo, Yo, Homie!", ["I da evil wizard!", "Ya get me!", "You best be off or I get me boyz"]);
+var npc1_2 = new NPC("npc1_2", 450,450,40, 40, "black", "Good Evening, How do you do?", ["I am the nice wizard", "I will magic you a cup of tea for your quest", "Ta-da! There you go, nice to meet you."]);
 
 var obstacle2_1 = new Obstacle("ob2_1", 500,500,140,140, "blue");
 var obstacle2_2 = new Obstacle("ob2_2", 500,100,30,60, "blue");
 var item2_1 = new Item("item2_1", 250,250,40, 40, "Yellow");
 var item2_2 = new Item("item2_2", 150,300,40, 40, "Yellow");
-var npc2_1 = new Character("char2_1", 150,50,40, 40, "black");
-
+var npc2_1 = new NPC("npc2_1", 450,450,40, 40, "black", "none", ["I am another nice wizard but need you to chat to me first", "I will magic you a cup of coffee for your quest", "Ta-da! There you go, nice to meet you."]);
 
 var obstacle3_1 = new Obstacle("ob3_1", 0,0,40,40, "blue");
 var item3_1 = new Item("item3_1", 350,350,40, 40, "Yellow");
@@ -270,7 +269,7 @@ It will just have a door to the East, connecting to room "NE" */
 var NWDoorE = new EWallDoor(30, 70);
 NWDoorE.doorID = "NWDoorE";
 NWDoorE.pointer = ["NE", "NEDoorW"];
-var NWTile = new MapTile("NW", [NWDoorE], [item1_1], [npc1_1], [obstacle1_1, obstacle1_2, obstacle1_3],"#02b109", "black"); // honouring Bim's original choice of colour!
+var NWTile = new MapTile("NW", [NWDoorE], [item1_1], [npc1_1, npc1_2], [obstacle1_1, obstacle1_2, obstacle1_3],"#02b109", "black"); // honouring Bim's original choice of colour!
 
 // NE tile will have doors to the West and South
 var NEDoorW = new WWallDoor(30, 70);
