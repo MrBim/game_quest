@@ -99,12 +99,16 @@ function drawBackground() {
 	for (var i=0; i<tile.items.length; i++) {
 		tile.items[i].draw();
 	}
-	//now draw the characters
-	for (var i=0; i<tile.characters.length; i++) {
-		tile.characters[i].draw();
+	//now draw the npcs
+	for (var i=0; i<tile.npcs.length; i++) {
+		tile.npcs[i].draw();
 	}
-
-
+	//now draw the enemies
+	/*
+	for (var i=0; i<tile.enemies.length; i++) {
+		tile.enemies[i].draw();
+	}
+	*/
 }
 
 function drawunderparts(){
@@ -132,7 +136,7 @@ function thor_movement(){
 		//Feeding in the current tiles Obstacles, Items, Characters array
 		if (thorHitDetection(thor.currentTile.obstacles) 	||
 			thorHitDetection(thor.currentTile.items)		||
-			thorHitDetection(thor.currentTile.characters)){
+			thorHitDetection(thor.currentTile.npcs)) {
 			//if thor is hitting an object, set position to previous
 			thor.yPos += thor.moveSize;
 		}
@@ -149,7 +153,7 @@ function thor_movement(){
 		//Feeding in the current tiles Obstacles, Items, Characters array
 		if (thorHitDetection(thor.currentTile.obstacles) 	||
 			thorHitDetection(thor.currentTile.items)		||
-			thorHitDetection(thor.currentTile.characters)){
+			thorHitDetection(thor.currentTile.npcs)) {
 			//if thor is hitting an object, set position to previous
 			thor.yPos -= thor.moveSize;
 		}
@@ -166,7 +170,7 @@ function thor_movement(){
 		//Feeding in the current tiles Obstacles, Items, Characters array
 		if (thorHitDetection(thor.currentTile.obstacles) 	||
 			thorHitDetection(thor.currentTile.items)		||
-			thorHitDetection(thor.currentTile.characters)){
+			thorHitDetection(thor.currentTile.npcs)) {
 			//if thor is hitting an object, set position to previous
 			thor.xPos += thor.moveSize;
 		}
@@ -182,7 +186,7 @@ function thor_movement(){
 		//Feeding in the current tiles Obstacles, Items, Characters array
 		if (thorHitDetection(thor.currentTile.obstacles) 	||
 			thorHitDetection(thor.currentTile.items)		||
-			thorHitDetection(thor.currentTile.characters)){
+			thorHitDetection(thor.currentTile.npcs)) {
 			//if thor is hitting an object, set position to previous
 			thor.xPos -= thor.moveSize;
 		}		
@@ -324,6 +328,9 @@ function gameLoop(){
  	drawPlayer();
  	drawunderparts();
  	words();
+
+ 	//To enable diaglogue with NPC's on key press (C)
+	npcButtonChat();
 
  	requestAnimationFrame(gameLoop);
 
