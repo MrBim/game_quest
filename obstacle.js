@@ -46,7 +46,7 @@ function Item (id, xPos1, yPos1, xPos2, yPos2, colour) {
         };
 }
 
-
+/*
 function Character (id, xPos1, yPos1, xPos2, yPos2, colour) {
     this.type = "Character";
     this.id = id;    
@@ -62,6 +62,7 @@ function Character (id, xPos1, yPos1, xPos2, yPos2, colour) {
         ctx.fill();
         };
 }
+*/
 
 function NPC (id, xPos1, yPos1, xPos2, yPos2, colour, chatInit, chat) {
     this.type = "NPC";
@@ -137,7 +138,7 @@ function thorHitDetection(currentTileThingsArrays){
                 //console.log("Hmmm, who's this NPC?? I notice I can track him by his secret name '" + currentTileThingsArrays[i].id + "'");
                     
                 //Greet right away, no button press required
-                //Use 'none' in NPC constructor to have no greeting
+                //Use 'None' in NPC constructor to have no greeting
                 currentTileThingsArrays[i].greet();
                 
                 //Recorded for use with button press activities
