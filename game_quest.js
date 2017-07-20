@@ -84,8 +84,12 @@ function drawBackground() {
 	ctx.fillRect(0, 0, width, height);
 	ctx.fill;
 	// now draw the doors:
-	for (var i=0; i<tile.doors.length; i++) {
+	/* for (var i=0; i<tile.doors.length; i++) {
 		tile.doors[i].draw();
+	} */
+	// draw any "centre doors" - those which are not just gaps in walls:
+	for (var i=0; i<tile.centreDoors.length; i++) {
+		tile.centreDoors[i].draw();
 	}
 	//now draw the obstacles
 	for (var i=0; i<tile.obstacles.length; i++) {
@@ -193,9 +197,8 @@ door will usually be at the edge. This both avoids special cases, and enables th
 which are not on the edge (eg. to go into a house)
 
 Expect the behaviour to need plenty of tweaking later! */
-function canIGoThroughDoor(x, y, door) {
-	if (x<door.middleX+30 && x>door.middleX-30-thor.dispSize
-	&& y<door.middleY+30 && y>door.middleY-30-thor.dispSize) {
+function canIGoThroughDoor(x, y, size, door) {
+	if (x<door.right-size+30 && x>door.left-30 && y<door.bottom-size+30 && y>door.top-30) {
 		return true;
 	}
 	return false;
@@ -207,7 +210,7 @@ function thor_walkThroughDoor() {
 	if (movingThroughDoor) {
 		//  check that a door is within range
 		for (var i=0; i<tile.doors.length; i++) {
-			if (canIGoThroughDoor(thor.xPos, thor.yPos, tile.doors[i])) {
+			if (canIGoThroughDoor(thor.xPos, thor.yPos, thor.dispSize, tile.doors[i])) {
 				console.log("I CAN go through this door!");
 				// code to update thor.currentTile and set an appropriate x and y pos for the player
 				for (var j=0; j<worldMap.length; j++) {
@@ -217,9 +220,9 @@ function thor_walkThroughDoor() {
 						// find door where Thor will "arrive" at
 						for (var k=0; k<newTile.doors.length; k++) {
 							var door = newTile.doors[k];
-							if (tile.doors[i].pointer[1] == door.doorId) {
-								thor.xPos = Math.min(door.middleX, width-thor.dispSize);
-								thor.yPos = Math.min(door.middleY, height-thor.dispSize);
+							if (tile.doors[i].pointer[1] == door.doorID) {
+								thor.xPos = (door.left + door.right - thor.dispSize)/2;
+								thor.yPos = (door.top + door.bottom - thor.dispSize)/2;
 								break;
 							}
 						}

@@ -41,7 +41,7 @@ function MapTile (id, doors, items, characters, obstacles, colour, wallColour) {
     // add wall segments to obstacles array:
     for (var i=0; i<this.wallSegments.length; i++) {
         var indices = this.wallSegments[i];
-        this.obstacles.push(new Obstacle("wall", indices[0], indices[1], indices[2], indices[3], this.wallColour));
+        this.obstacles.push(new Obstacle(indices[0], indices[1], indices[2], indices[3], this.wallColour));
     }
     this.characters = characters;
     this.colour = colour;
@@ -230,23 +230,30 @@ MapTile.prototype.getWallSegments = function() {
 /*
 Obstacles drawn as rectangles, first two numbers are start x and y, third is length, last height (drawn down)
 
+<<<<<<< HEAD
 For testing:
     Obstacles are Blue
         Items are Yellow
    Characters are Black        
 */
-var obstacle1_1 = new Obstacle("ob1_1", 50,180,40,40, "blue");
+var obstacle1_1 = new Obstacle("ob1_1", 0,0,40,40, "blue");
 var obstacle1_2 = new Obstacle("ob1_2", 90,90,60,60, "blue");
 var obstacle1_3 = new Obstacle("ob1_3", 250,250,80, 80, "blue");
 var item1_1 = new Item("item1_1", 350,350,40, 40, "Yellow");
 var character1_1 = new Character("char1_1", 450,450,40, 40, "black");
+=======
+//Obstacles drawn as rectangles, first two numbers are start x and y, third is length, last height (drawn down)
+var tree1_1 = new Obstacle(50,180,40,40, "red"); // I (Robin) changed the position so it's not now over a wall!
+var tree1_2 = new Obstacle(90,90,60,60, "red");
+var rock1_1 = new Obstacle(250,250,80, 80, "blue");
+>>>>>>> robin
 
 
 var obstacle2_1 = new Obstacle("ob2_1", 500,500,140,140, "blue");
 var obstacle2_2 = new Obstacle("ob2_2", 500,100,30,60, "blue");
 var item2_1 = new Item("item2_1", 250,250,40, 40, "Yellow");
 var item2_2 = new Item("item2_2", 150,300,40, 40, "Yellow");
-var character2_1 = new Character("char2_1", 150,50,40, 40, "black");
+var character2_1 = new Character("char2_1", 50,50,40, 40, "black");
 
 
 var obstacle3_1 = new Obstacle("ob3_1", 0,0,40,40, "blue");
@@ -260,10 +267,24 @@ var character3_2 = new Character("char3_2", 250,500,40, 40, "black");
 /* This first room is the top-left of the square - so it has an ID of "NW".
 It will just have a door to the East, connecting to room "NE" */
 
+<<<<<<< HEAD
+var NWDoorE = new Door("NWDoorE", width, height/2 - 30, width, height/2 + 30, "brown", ["NE", "NEDoorW"]);
+var NWTile = new MapTile("NW", [NWDoorE], [item1_1], [character1_1], [obstacle1_1, obstacle1_2, obstacle1_3],"#02b109"); // honouring Bim's original choice of colour!
+
+// NE tile will have doors to the West and South
+var NEDoorW = new Door("NEDoorW", 0, height/2 - 30, 0, height/2 + 30, "yellow", ["NW", "NWDoorE"]);
+var NEDoorS = new Door ("NEDoorS", width/2 - 30, height, width/2 + 30, height, "green", ["SE", "SEDoorN"]);
+var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [character2_1], [item2_1, item2_2], [obstacle2_1, obstacle2_2],"red"); //my own colour choices are more boring ;)
+
+// similary SE tile will have doors to North and West
+var SEDoorN = new Door("SEDoorN", width/2 - 30, 0, width/2 + 30, 0, "white", ["NE", "NEDoorS"]);
+var SEDoorW = new Door("SEDoorW", 0, height/2 - 30, 0, height/2 + 30, "orange", ["SW", "SWDoorE"]);
+var SETile = new MapTile("SE", [SEDoorN, SEDoorW], [character3_1, character3_2], [item3_1], [obstacle3_1],"blue");
+=======
 var NWDoorE = new EWallDoor(30, 70);
 NWDoorE.doorID = "NWDoorE";
 NWDoorE.pointer = ["NE", "NEDoorW"];
-var NWTile = new MapTile("NW", [NWDoorE], [item1_1], [character1_1], [obstacle1_1, obstacle1_2, obstacle1_3],"#02b109", "black"); // honouring Bim's original choice of colour!
+var NWTile = new MapTile("NW", [NWDoorE], [], [], [tree1_1, tree1_2, rock1_1, rock1_2, rock1_3, rock1_4, rock1_5, rock1_6],"#02b109", "black"); // honouring Bim's original choice of colour!
 
 // NE tile will have doors to the West and South
 var NEDoorW = new WWallDoor(30, 70);
@@ -272,7 +293,7 @@ NEDoorW.pointer = ["NW", "NWDoorE"]
 var NEDoorS = new SWallDoor (width-120, 100);
 NEDoorS.doorID = "NEDoorS";
 NEDoorS.pointer = ["SE", "SEDoorN"];
-var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [item2_1, item2_2], [character2_1], [obstacle2_1, obstacle2_2], "red", "green"); //my own colour choices are more boring ;)
+var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [], [], [tree2_1, tree2_2, rock2_1], "red", "green"); //my own colour choices are more boring ;)
 
 // similary SE tile will have doors to North and West
 var SEDoorN = new NWallDoor(width-120, 100);
@@ -281,7 +302,8 @@ SEDoorN.pointer = ["NE", "NEDoorS"];
 var SEDoorW = new WWallDoor(height/2 - 100, 200);
 SEDoorW.doorID = "SEDoorW";
 SEDoorW.pointer = ["SW", "SWDoorE"];
-var SETile = new MapTile("SE", [SEDoorN, SEDoorW], [item3_1], [character3_1, character3_2], [obstacle3_1], "blue", "yellow");
+var SETile = new MapTile("SE", [SEDoorN, SEDoorW], [], [], [], "blue", "yellow");
+>>>>>>> robin
 
 // finally a SW tile with only a door to the East (the whole map is a bent path of 4 rooms, not a circuit)
 var SWDoorE = new EWallDoor(height/2 - 100, 200);
