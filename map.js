@@ -1,28 +1,5 @@
 // map definition code (first attempt!)
 
-// note that the below global vars have to be moved here to get things to run!
-
-//As this seems to be the place for globals...
-//This holds what thor is next to, based on the last directional button push
-//So if he is next to two things, one above and one to side, and up was last 
-//button pressed, it'll hold the id of the 'thing' above
-var thor_next_to = "nothing";
-
-
-// canvas variables
-var width = 1000;
-var height = 700; 
-var heightTwo = 200;
-// canvas
-var canvas = document.getElementById("canvas");
-var ctx = canvas.getContext("2d");
-
-// new globalvar for wall thickness:
-var wallThickness = 30;
-
-
-// worldMap is an array which will contain all the individual mapTile objects
-var worldMap = [];
 
 /* going to create a simple square map for now, but hopefully easily extensible,
 without tying us into using a grid system for everything */
@@ -33,7 +10,7 @@ to interact with it (eg doors leading to that room).
 
 I am also adding a colour property, mainly to allow easy identification of rooms at this early stage. I imagine
 that in the final code it will be replaced by an image, or something */
-function MapTile (id, doors, items, npcs, obstacles, colour, wallColour) {
+function MapTile (id, doors, items, npcs, obstacles, enemies, colour, wallColour) {
     this.id = id;
     this.doors = doors;
     this.northDoors = this.doors.filter(function(door) {return door instanceof NWallDoor;});
@@ -42,7 +19,8 @@ function MapTile (id, doors, items, npcs, obstacles, colour, wallColour) {
     this.westDoors = this.doors.filter(function(door) {return door instanceof WWallDoor;});
     this.centreDoors = this.doors.filter(function(door) {return door instanceof CentreDoor;});
     this.items = items;
-	this.obstacles = obstacles;
+    this.obstacles = obstacles;
+    this.enemies = enemies;
     this.wallSegments = this.getWallSegments();
     this.wallColour = wallColour;
     // add wall segments to obstacles array:
@@ -270,7 +248,7 @@ It will just have a door to the East, connecting to room "NE" */
 var NWDoorE = new EWallDoor(30, 70);
 NWDoorE.doorID = "NWDoorE";
 NWDoorE.pointer = ["NE", "NEDoorW"];
-var NWTile = new MapTile("NW", [NWDoorE], [item1_1], [npc1_1, npc1_2], [obstacle1_1, obstacle1_2, obstacle1_3],"#02b109", "black"); // honouring Bim's original choice of colour!
+var NWTile = new MapTile("NW", [NWDoorE], [item1_1], [npc1_1, npc1_2], [obstacle1_1, obstacle1_2, obstacle1_3], [xOscillator], "#02b109", "black"); // honouring Bim's original choice of colour!
 
 // NE tile will have doors to the West and South
 var NEDoorW = new WWallDoor(30, 70);
@@ -279,7 +257,7 @@ NEDoorW.pointer = ["NW", "NWDoorE"]
 var NEDoorS = new SWallDoor (width-120, 100);
 NEDoorS.doorID = "NEDoorS";
 NEDoorS.pointer = ["SE", "SEDoorN"];
-var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [item2_1, item2_2], [npc2_1], [obstacle2_1, obstacle2_2], "red", "green"); //my own colour choices are more boring ;)
+var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [item2_1, item2_2], [npc2_1], [obstacle2_1, obstacle2_2], [], "red", "green"); //my own colour choices are more boring ;)
 
 // similary SE tile will have doors to North and West
 var SEDoorN = new NWallDoor(width-120, 100);
@@ -288,7 +266,7 @@ SEDoorN.pointer = ["NE", "NEDoorS"];
 var SEDoorW = new WWallDoor(height/2 - 100, 200);
 SEDoorW.doorID = "SEDoorW";
 SEDoorW.pointer = ["SW", "SWDoorE"];
-var SETile = new MapTile("SE", [SEDoorN, SEDoorW], [item3_1], [], [obstacle3_1], "blue", "yellow");
+var SETile = new MapTile("SE", [SEDoorN, SEDoorW], [item3_1], [], [obstacle3_1], [], "blue", "yellow");
 
 // finally a SW tile with only a door to the East (the whole map is a bent path of 4 rooms, not a circuit)
 var SWDoorE = new EWallDoor(height/2 - 100, 200);
@@ -299,4 +277,4 @@ SWDoorE.pointer = ["SE", "SEDoorW"];
 var SWCentreDoor = new CentreDoor(width/2 - 20, 2*height/3, width/2 + 20, 3*height/4, "red");
 SWCentreDoor.doorID = "SWCentreDoor";
 SWCentreDoor.pointer = ["NW", "NWDoorE"];
-var SWTile = new MapTile("SW", [SWDoorE, SWCentreDoor], [], [], [], "yellow", "hotpink");
+var SWTile = new MapTile("SW", [SWDoorE, SWCentreDoor], [], [], [], [], "yellow", "hotpink");

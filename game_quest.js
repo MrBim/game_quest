@@ -104,11 +104,11 @@ function drawBackground() {
 		tile.npcs[i].draw();
 	}
 	//now draw the enemies
-	/*
+	
 	for (var i=0; i<tile.enemies.length; i++) {
 		tile.enemies[i].draw();
 	}
-	*/
+	
 }
 
 function drawunderparts(){
@@ -293,6 +293,13 @@ function words(){
 	ctz.fill;
 }
 
+function enemyMovement() {
+	for (var i=0; i<thor.currentTile.enemies.length; i++) {
+		var enemy = thor.currentTile.enemies[i];
+		enemy.move();
+	}
+}
+
 function quit() {
 	hasRun = false;
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -317,6 +324,8 @@ function gameLoop(){
 		hasRun = true;	
 	}
 	
+
+	
 	// if (lives === 0) {
 	// 	quit();
 	// }
@@ -324,6 +333,7 @@ function gameLoop(){
 	clearCanvas();
  	thor_movement();
 	thor_walkThroughDoor();
+	enemyMovement();
  	drawBackground();
  	drawPlayer();
  	drawunderparts();
