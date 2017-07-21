@@ -1,9 +1,19 @@
 
-
+//Variable to limit key press to one function execution per key press
+//Can have multiple executions for one button press otherwise (keyboard quirk)
 var npcChatOK;
 
-/* Comments */
 
+/* 
+	None Playable CHaracter (NPC) Constructor
+
+	Noteworthy elements:
+			greeting: A message output by NPC when Thor is next to them.
+					- If an NPC which needs conversation invoked is desired, use the keyword 'None' in the constructor to omit a greeting.
+			dialogue: Should be an array of JS objects in the form {speaker: "xyz", speech: "abc"}.
+					- if speaker npc then use npc in constructor and the npc ID property will be used, anything else assumes Thor is speaking.
+		chatPosition: Tracks the current position in the dialogue array, is reset when a Thor moves away from an NPC.
+*/
 
 function NPC (id, xPos1, yPos1, xPos2, yPos2, colour, greeting, dialogue) {
     this.type = "NPC";
@@ -13,35 +23,22 @@ function NPC (id, xPos1, yPos1, xPos2, yPos2, colour, greeting, dialogue) {
     this.xPos2 = xPos2;
     this.yPos2 = yPos2;
     this.colour = colour;
-    this.greeting = greeting;   //Greeting is auto chat, triggered on contact (rather than button press). Set to "none" if no greeting required.
-    this.dialogue = dialogue;   //Array passed in 
-    this.chatPosition = 0;      //Track where conversation is
+    this.greeting = greeting;
+    this.dialogue = dialogue;
+    this.chatPosition = 0;
 
     this.greet = function(){
         if (this.greeting.toUpperCase() != "NONE"){
-            console.log(this.greeting);
+            console.log(this.greeting + " I am " + this.id.toUpperCase());
         }
     };
 
-
-    //Button press fires, checks thor_next_to, if next to type NPC, find out which NPC, 
-    //then search current tiles NPC's for active one, then shift one on array counter
-
-
-    /*
-    //Find from til
-    this.chat = function(){
-        console.log(this.dialogues[0]);
-    };
-    */
-    
     this.draw = function() {
         ctx.beginPath();
         ctx.fillStyle=this.colour;
         ctx.rect(this.xPos1,this.yPos1,this.xPos2,this.yPos2); 
         ctx.fill();
     };
-
 }
 
 
@@ -56,50 +53,60 @@ document.body.addEventListener("keydown", function(e) {
 
 
 
+/* 
+	npcButtonChat Function
 
+	When the C button is pressed and Thor is next to a NPC then the chat of the NPC he is next to is invoked, the chat resets when 
+	Thor moves away from the NPC.
+
+*/
 function npcButtonChat(){
     //console.log(thor_next_to);
 
     if (npcChatOK) {
-        //Needed to check how this would work with one recorded key press per button press
-        //console.log("Pressed Once - This shows how it'd work if one key press equalled one cycle of function, but currently one press runs logic multiple times");
-        
+
+		//Looping through each NPC listed in the current tile 
         for (var i=0; i<thor.currentTile.npcs.length; i++) {
           
-            //Use dialogue associated with the NPC Thor is next to
+            //If Thor next to any of them, if so refer to that NPC's dialogue
             if (thor.currentTile.npcs[i].id == thor_next_to){
 
-                //check to see if dialogue has been used up for this exchange
+                //check to see NPC's dialogue has been used up for this exchange
                 if (thor.currentTile.npcs[i].dialogue.length == thor.currentTile.npcs[i].chatPosition) {
 
-                    //Could have a general NPC "thats it for chat" msg, or one per char (property in NPC object)
-                    console.log("We've chatted quite enough for now sonny jim, be off with you!");
-                    break;
+                    //Not sure if this is required but could have a general game msg which tells user that is end of convo, can be binned easily if not required
+                    //Console.log to be replaced once output destination is confirmed
+                    console.log("End of chat, is this bit of detection code needed as everything could be loaded into original speech array??");
 
+                    //Stop executing for loop as any additional loops 
+                    //are a waste after finding required NPC
+                    break;
                 }
                 else {
-                    //Cycle through dialogue on button press
-                    console.log(thor.currentTile.npcs[i].dialogue[thor.currentTile.npcs[i].chatPosition]);
-            
-                    //Move to next peice of dialogue
-                    //Chat position stored in NPC object so not lost at function completion
-                    //Note: This gets reset in the function thorHitDetection, when an NPC object is detected as being not next 
-                    //to Thor, the chatPosition is set back to 0
+	
+    				//Cycle through the current NPC chat using the chatPosition variable
+                    if (thor.currentTile.npcs[i].dialogue[thor.currentTile.npcs[i].chatPosition].speaker.toUpperCase() == "NPC"){
+                    
+                    	//Console.log to be replaced once output destination is confirmed
+                    	console.log(thor.currentTile.npcs[i].id.toUpperCase() + ": " +                    
+                   		thor.currentTile.npcs[i].dialogue[thor.currentTile.npcs[i].chatPosition].speech);
+                    }
+                    else{
+                    	//Console.log to be replaced once output destination is confirmed
+                    	console.log("THOR: " + thor.currentTile.npcs[i].dialogue[thor.currentTile.npcs[i].chatPosition].speech);
+                	}
+                	//shift chat pointer +1 ready for next button press
                     thor.currentTile.npcs[i].chatPosition += 1;
 
+                    //Stop executing for loop as any additional loops 
+                    //are a waste after finding required NPC
                     break;
-
                 }
-
             }
         }
     }
     npcChatOK = false;
 }
-
-
-
-
 
 
 

@@ -235,30 +235,31 @@ MapTile.prototype.getWallSegments = function() {
 }
 
 /*
-Obstacles drawn as rectangles, first two numbers are start x and y, third is length, last height (drawn down)
+	Game Objects
+	------------
 
-For testing:
-    Obstacles are Blue
+	For testing:
+    	Obstacles are Blue
         Items are Yellow
-   Characters are Black        
+   		Characters are Black        
 */
+
+
 var obstacle1_1 = new Obstacle("ob1_1", 50,180,40,40, "blue");
 var obstacle1_2 = new Obstacle("ob1_2", 90,90,60,60, "blue");
 var obstacle1_3 = new Obstacle("ob1_3", 250,250,80, 80, "blue");
 var item1_1 = new Item("item1_1", 350,350,40, 40, "Yellow");
-var npc1_1 = new NPC("npc1_1", 550,550,40, 40, "black", "Yo, Yo, Yo, Homie!", ["I da evil wizard!", "Ya get me!", "You best be off or I get me boyz"]);
-var npc1_2 = new NPC("npc1_2", 450,450,40, 40, "black", "Good Evening, How do you do?", ["I am the nice wizard", "I will magic you a cup of tea for your quest", "Ta-da! There you go, nice to meet you."]);
+var npc1_1 = new NPC("Wizard Dave", 550,550,40, 40, "black", "Yo, Yo, Yo, Homie!", [{speaker:"Thor", speech:"Word Up"}, {speaker:"npc", speech:"I da evil wizard!"}, {speaker: "Thor", speech:"O'crumbs!"}, {speaker: "NPC", speech:"Ya get me!"}, {speaker:"NPC", speech:"You best be off or I get me boyz on da broomsticks to beat yo ass"}, {speaker: "Thor", speech:"I'll be off then!"}]);
+var npc1_2 = new NPC("Grand Wizard Malcom", 450,450,40, 40, "black", "Good Evening, How do you do?", [{speaker:"Thor", speech:"Warm Salutations to you"}, {speaker:"Npc", speech:"I am a nice wizard"}, {speaker: "Thor", speech:"Hmmm, how do I know?"}, {speaker:"npc", speech: "I will magic you a cup of tea for your quest"}, {speaker: "Thor", speech:"Very kind of you old bean"}, {speaker:"npc", speech:"Ta-da! There you go, nice to meet you."}, {speaker: "Thor", speech:"Slurrrrrp, thats lovely jubbly, thanks!"}]);
 
 var obstacle2_1 = new Obstacle("ob2_1", 500,500,140,140, "blue");
 var obstacle2_2 = new Obstacle("ob2_2", 500,100,30,60, "blue");
 var item2_1 = new Item("item2_1", 250,250,40, 40, "Yellow");
 var item2_2 = new Item("item2_2", 150,300,40, 40, "Yellow");
-var npc2_1 = new NPC("npc2_1", 450,450,40, 40, "black", "none", ["I am another nice wizard but need you to chat to me first", "I will magic you a cup of coffee for your quest", "Ta-da! There you go, nice to meet you."]);
+var npc2_1 = new NPC("Junior Wizard Colin", 450,450,40, 40, "black", "none", [{speaker: "npc", speech:"I am another nice wizard but need you to invoke chat with me"}, {speaker: "Thor", speech:"Oh, well at least your nice"}, {speaker: "npc", speech:"I will magic you a cup of coffee for your quest"}, {speaker: "Thor", speech:"Triffic, love a coffee, me"}, {speaker: "Thor", speech:"Could you do me a bacon roll too?"}, {speaker: "npc", speech:"Ta-da! A coffee, but no bacon roll, your putting on a bit of timber."}, {speaker: "Thor", speech:"HOW DARE YOU! I'm outta here"}]);
 
 var obstacle3_1 = new Obstacle("ob3_1", 0,0,40,40, "blue");
 var item3_1 = new Item("item3_1", 350,350,40, 40, "Yellow");
-var npc3_1 = new Character("char3_1", 450,450,40, 40, "black");
-var npc3_2 = new Character("char3_2", 250,500,40, 40, "black");
 
 // try to construct basic map. Will be square, but without doors in all the obvious places!
 // note that there are no items or characters for now!
@@ -287,7 +288,7 @@ SEDoorN.pointer = ["NE", "NEDoorS"];
 var SEDoorW = new WWallDoor(height/2 - 100, 200);
 SEDoorW.doorID = "SEDoorW";
 SEDoorW.pointer = ["SW", "SWDoorE"];
-var SETile = new MapTile("SE", [SEDoorN, SEDoorW], [item3_1], [npc3_1, npc3_2], [obstacle3_1], "blue", "yellow");
+var SETile = new MapTile("SE", [SEDoorN, SEDoorW], [item3_1], [], [obstacle3_1], "blue", "yellow");
 
 // finally a SW tile with only a door to the East (the whole map is a bent path of 4 rooms, not a circuit)
 var SWDoorE = new EWallDoor(height/2 - 100, 200);
