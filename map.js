@@ -2,6 +2,13 @@
 
 // note that the below global vars have to be moved here to get things to run!
 
+//As this seems to be the place for globals...
+//This holds what thor is next to, based on the last directional button push
+//So if he is next to two things, one above and one to side, and up was last 
+//button pressed, it'll hold the id of the 'thing' above
+var thor_next_to = "nothing";
+
+
 // canvas variables
 var width = 1000;
 var height = 700; 
@@ -26,7 +33,7 @@ to interact with it (eg doors leading to that room).
 
 I am also adding a colour property, mainly to allow easy identification of rooms at this early stage. I imagine
 that in the final code it will be replaced by an image, or something */
-function MapTile (id, doors, items, characters, obstacles, colour, wallColour) {
+function MapTile (id, doors, items, npcs, obstacles, colour, wallColour) {
     this.id = id;
     this.doors = doors;
     this.northDoors = this.doors.filter(function(door) {return door instanceof NWallDoor;});
@@ -43,7 +50,7 @@ function MapTile (id, doors, items, characters, obstacles, colour, wallColour) {
         var indices = this.wallSegments[i];
         this.obstacles.push(new Obstacle("wall", indices[0], indices[1], indices[2], indices[3], this.wallColour));
     }
-    this.characters = characters;
+    this.npcs = npcs;
     this.colour = colour;
     worldMap.push(this);
 }
@@ -228,31 +235,31 @@ MapTile.prototype.getWallSegments = function() {
 }
 
 /*
-Obstacles drawn as rectangles, first two numbers are start x and y, third is length, last height (drawn down)
+	Game Objects
+	------------
 
-For testing:
-    Obstacles are Blue
+	For testing:
+    	Obstacles are Blue
         Items are Yellow
-   Characters are Black        
+   		Characters are Black        
 */
+
+
 var obstacle1_1 = new Obstacle("ob1_1", 50,180,40,40, "blue");
 var obstacle1_2 = new Obstacle("ob1_2", 90,90,60,60, "blue");
 var obstacle1_3 = new Obstacle("ob1_3", 250,250,80, 80, "blue");
 var item1_1 = new Item("item1_1", 350,350,40, 40, "Yellow");
-var character1_1 = new Character("char1_1", 450,450,40, 40, "black");
-
+var npc1_1 = new NPC("Wizard Dave", 550,550,40, 40, "black", "Yo, Yo, Yo, Homie!", [{speaker:"Thor", speech:"Word Up"}, {speaker:"npc", speech:"I da evil wizard!"}, {speaker: "Thor", speech:"O'crumbs!"}, {speaker: "NPC", speech:"Ya get me!"}, {speaker:"NPC", speech:"You best be off or I get me boyz on da broomsticks to beat yo ass"}, {speaker: "Thor", speech:"I'll be off then!"}]);
+var npc1_2 = new NPC("Grand Wizard Malcom", 450,450,40, 40, "black", "Good Evening, How do you do?", [{speaker:"Thor", speech:"Warm Salutations to you"}, {speaker:"Npc", speech:"I am a nice wizard"}, {speaker: "Thor", speech:"Hmmm, how do I know?"}, {speaker:"npc", speech: "I will magic you a cup of tea for your quest"}, {speaker: "Thor", speech:"Very kind of you old bean"}, {speaker:"npc", speech:"Ta-da! There you go, nice to meet you."}, {speaker: "Thor", speech:"Slurrrrrp, thats lovely jubbly, thanks!"}]);
 
 var obstacle2_1 = new Obstacle("ob2_1", 500,500,140,140, "blue");
 var obstacle2_2 = new Obstacle("ob2_2", 500,100,30,60, "blue");
 var item2_1 = new Item("item2_1", 250,250,40, 40, "Yellow");
 var item2_2 = new Item("item2_2", 150,300,40, 40, "Yellow");
-var character2_1 = new Character("char2_1", 150,50,40, 40, "black");
-
+var npc2_1 = new NPC("Junior Wizard Colin", 450,450,40, 40, "black", "none", [{speaker: "npc", speech:"I am another nice wizard but need you to invoke chat with me"}, {speaker: "Thor", speech:"Oh, well at least your nice"}, {speaker: "npc", speech:"I will magic you a cup of coffee for your quest"}, {speaker: "Thor", speech:"Triffic, love a coffee, me"}, {speaker: "Thor", speech:"Could you do me a bacon roll too?"}, {speaker: "npc", speech:"Ta-da! A coffee, but no bacon roll, your putting on a bit of timber."}, {speaker: "Thor", speech:"HOW DARE YOU! I'm outta here"}]);
 
 var obstacle3_1 = new Obstacle("ob3_1", 0,0,40,40, "blue");
 var item3_1 = new Item("item3_1", 350,350,40, 40, "Yellow");
-var character3_1 = new Character("char3_1", 450,450,40, 40, "black");
-var character3_2 = new Character("char3_2", 250,500,40, 40, "black");
 
 // try to construct basic map. Will be square, but without doors in all the obvious places!
 // note that there are no items or characters for now!
@@ -263,7 +270,7 @@ It will just have a door to the East, connecting to room "NE" */
 var NWDoorE = new EWallDoor(30, 70);
 NWDoorE.doorID = "NWDoorE";
 NWDoorE.pointer = ["NE", "NEDoorW"];
-var NWTile = new MapTile("NW", [NWDoorE], [item1_1], [character1_1], [obstacle1_1, obstacle1_2, obstacle1_3],"#02b109", "black"); // honouring Bim's original choice of colour!
+var NWTile = new MapTile("NW", [NWDoorE], [item1_1], [npc1_1, npc1_2], [obstacle1_1, obstacle1_2, obstacle1_3],"#02b109", "black"); // honouring Bim's original choice of colour!
 
 // NE tile will have doors to the West and South
 var NEDoorW = new WWallDoor(30, 70);
@@ -272,7 +279,7 @@ NEDoorW.pointer = ["NW", "NWDoorE"]
 var NEDoorS = new SWallDoor (width-120, 100);
 NEDoorS.doorID = "NEDoorS";
 NEDoorS.pointer = ["SE", "SEDoorN"];
-var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [item2_1, item2_2], [character2_1], [obstacle2_1, obstacle2_2], "red", "green"); //my own colour choices are more boring ;)
+var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [item2_1, item2_2], [npc2_1], [obstacle2_1, obstacle2_2], "red", "green"); //my own colour choices are more boring ;)
 
 // similary SE tile will have doors to North and West
 var SEDoorN = new NWallDoor(width-120, 100);
@@ -281,7 +288,7 @@ SEDoorN.pointer = ["NE", "NEDoorS"];
 var SEDoorW = new WWallDoor(height/2 - 100, 200);
 SEDoorW.doorID = "SEDoorW";
 SEDoorW.pointer = ["SW", "SWDoorE"];
-var SETile = new MapTile("SE", [SEDoorN, SEDoorW], [item3_1], [character3_1, character3_2], [obstacle3_1], "blue", "yellow");
+var SETile = new MapTile("SE", [SEDoorN, SEDoorW], [item3_1], [], [obstacle3_1], "blue", "yellow");
 
 // finally a SW tile with only a door to the East (the whole map is a bent path of 4 rooms, not a circuit)
 var SWDoorE = new EWallDoor(height/2 - 100, 200);

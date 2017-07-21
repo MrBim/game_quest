@@ -29,66 +29,6 @@ function Obstacle (id, xPos1, yPos1, xPos2, yPos2, colour) {
 }
 
 
-
-function Item (id, xPos1, yPos1, xPos2, yPos2, colour) {
-    this.type = "Item";
-    this.id = id;    
-    this.xPos1 = xPos1;
-    this.yPos1 = yPos1;
-    this.xPos2 = xPos2;
-    this.yPos2 = yPos2;
-    this.colour = colour;
-    this.draw = function() {
-        ctx.beginPath();
-        ctx.fillStyle=this.colour;
-        ctx.rect(this.xPos1,this.yPos1,this.xPos2,this.yPos2); 
-        ctx.fill();
-        };
-}
-
-
-function Character (id, xPos1, yPos1, xPos2, yPos2, colour) {
-    this.type = "Character";
-    this.id = id;    
-    this.xPos1 = xPos1;
-    this.yPos1 = yPos1;
-    this.xPos2 = xPos2;
-    this.yPos2 = yPos2;
-    this.colour = colour;
-    this.draw = function() {
-        ctx.beginPath();
-        ctx.fillStyle=this.colour;
-        ctx.rect(this.xPos1,this.yPos1,this.xPos2,this.yPos2); 
-        ctx.fill();
-        };
-}
-
-
-
-/*
-    This function obtains the obstacles on the current tile, and then iterates through them, working out the area of each object in 
-    turn on the tile and then checks to see if Thor is within it. If Thor is within an obstacle it will return true, and the return 
-    value is used within the thor_movement() function.
-*/
-
-/*
-function thorObstacleCollide(){
-    var tile = thor.currentTile;
-    for (var i=0; i<tile.obstacles.length; i++) {       
-            //console.log("Thor xPos" +thor.xPos);
-            //console.log("xPos1: " + tile.obstacles[i].xPos1);
-            //console.log("xPos2: " + tile.obstacles[i].xPos2); 
-        if ((thor.xPos >= (tile.obstacles[i].xPos1 -thor.dispSize) && (thor.xPos <= (tile.obstacles[i].xPos1 + tile.obstacles[i].xPos2))) &&
-        
-        (thor.yPos <= ((tile.obstacles[i].yPos1 + tile.obstacles[i].yPos2)) && (thor.yPos >= (tile.obstacles[i].yPos1 - thor.dispSize)))){
-            //console.log("collision alert");
-            return true;
-        }
-
-    }
-}
-*/
-
 /*
     Note: Object is used here to determine an obstacle, item or character.
 
@@ -103,22 +43,35 @@ function thorObstacleCollide(){
 function thorHitDetection(currentTileThingsArrays){    
     for (var i=0; i<currentTileThingsArrays.length; i++) {      
 
-       //create seperate functions if using below
-
         if ((thor.xPos >= (currentTileThingsArrays[i].xPos1 -thor.dispSize) && (thor.xPos <= (currentTileThingsArrays[i].xPos1 + currentTileThingsArrays[i].xPos2))) &&
-        
-        (thor.yPos <= ((currentTileThingsArrays[i].yPos1 + currentTileThingsArrays[i].yPos2)) && (thor.yPos >= (currentTileThingsArrays[i].yPos1 - thor.dispSize)))){
+            (thor.yPos <= ((currentTileThingsArrays[i].yPos1 + currentTileThingsArrays[i].yPos2)) && (thor.yPos >= (currentTileThingsArrays[i].yPos1 - thor.dispSize)))){
+
             if (currentTileThingsArrays[i].type == "Obstacle"){
-                console.log("Oi, stopping hitting me against OBSTACLE named '" + currentTileThingsArrays[i].id + "'");
             }
             else if (currentTileThingsArrays[i].type == "Item"){
-                console.log("Oooooh! Whats this ITEM? I see its item '" + currentTileThingsArrays[i].id + "' though");
+                console.log("Item '" + currentTileThingsArrays[i].id + "' detected");
+                //recorded for use with button press activities (so Thor knows what item is being picked up)
+                thor_next_to = currentTileThingsArrays[i].id;                
             }
-            else if (currentTileThingsArrays[i].type == "Character"){
-                console.log("Hmmm, who's this CHARACTER?? I notice I can track him by his secret name '" + currentTileThingsArrays[i].id + "'");
+        
+            else if (currentTileThingsArrays[i].type == "NPC"){
+                //Greet right away, no button press required
+                //Use 'None' in NPC constructor to have no greeting
+                currentTileThingsArrays[i].greet();
+                
+                //Recorded for use with button press activities (so the right NPC chat is invoked)
+                thor_next_to = currentTileThingsArrays[i].id; 
             }
+        //This return is required by the thor_movement() function to determin if Thor can move or not
         return true;
         
+        }
+        else{
+            //Resetting when not near anything to ensure correct detection
+            thor_next_to = "nothing";
+            
+            //if you've moved away from an NPC, reset the dialogue position to zero for that NPC
+            currentTileThingsArrays[i].chatPosition = 0;
         }
     }
 }
