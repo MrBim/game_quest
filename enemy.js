@@ -47,8 +47,14 @@ function Enemy (id, xPos1, yPos1, xPos2, yPos2, colour, speed, move) {
 function moveTowardsThor() {
     var xDiff = thor.xPos - this.xPos1;
     var yDiff = thor.yPos - this.yPos1;
-    this.xPos1 += xDiff*this.speed;
-    this.yPos1 += yDiff*this.speed;
+    var maxDiff  = Math.max(Math.abs(xDiff), Math.abs(yDiff));
+    // ternary expressions below to ensure we still get sensible values when
+    // the enemy is already on top of thor. In this case we obviously don't
+    // want it to move, so set both speeds to zero
+    var xSpeed = maxDiff ? this.speed*Math.abs(xDiff)/maxDiff : 0;
+    var ySpeed = maxDiff ? this.speed*Math.abs(yDiff)/maxDiff : 0;
+    this.xPos1 += Math.sign(xDiff)*xSpeed;
+    this.yPos1 += Math.sign(yDiff)*ySpeed;
 }
 
 // the fixedPath funciton for enemy movement takes as an argument an array of points on the map
@@ -65,21 +71,28 @@ function fixedPath(points) {
 
         var xDiff = points[this.targetIndex][0] - this.xPos1;
         var yDiff = points[this.targetIndex][1] - this.yPos1;
-        if (xDiff == 0 && yDiff == 0) {
+        if (Math.abs(xDiff)<this.speed && Math.abs(yDiff)<this.speed) {
             // if we're already at the target, move towards the next one. We need to go back to the
             // beginning if we're already at the end!
+            // Note that we only check that the differences are less than the speed - otherwise
+            // the enemy can get stuck in an oscillation about one point of the path,
+            // because it keeps moving "either side" of the target and is never considered
+            // close enough to move on to the next one
             this.targetIndex = (this.targetIndex == points.length-1 ? 0 : this.targetIndex+1);
             var xDiff = points[this.targetIndex][0] - this.xPos1;
             var yDiff = points[this.targetIndex][1] - this.yPos1;
         }
-        this.xPos1 += xDiff*this.speed;
-        this.yPos1 += yDiff*this.speed;
+        var maxDiff  = Math.max(Math.abs(xDiff), Math.abs(yDiff));
+        var xSpeed = maxDiff ? this.speed*Math.abs(xDiff)/maxDiff : 0;
+        var ySpeed = maxDiff ? this.speed*Math.abs(yDiff)/maxDiff : 0;
+        this.xPos1 += Math.sign(xDiff)*xSpeed;
+        this.yPos1 += Math.sign(yDiff)*ySpeed;
     }
 }
 
-var itsFollowingMe = new Enemy("follower", 10, height-50, 30, 30, "hotpink", 0.01, moveTowardsThor);
-var xOscillator = new Enemy("x-oscillator", 0, 0, 50, 50, "magenta", 0.5, fixedPath([[0,0], [width-this.xPos2, height-this.yPos2]]));
-
-
-
-
+var itsFollowingMe = new Enemy("follower", 10, height-50, 30, 30, "hotpink", 2, moveTowardsThor);
+var xOscillator = new Enemy("x-oscillator", 0, 0, 50, 50, "magenta", 1, fixedPath([[0,0], [width-50, 0]]));
+var triangulator = new Enemy("triangulator", 50, 80, 20, 20, "lightsteelblue", 2, fixedPath([[50,80], [360,500], [650,330]]));
+var funnyPath = new Enemy("funnyShape", wallThickness, wallThickness, 80, 80, "#21abd2", 5,
+                            fixedPath([[wallThickness,wallThickness], [width-wallThickness-80,wallThickness],
+                            [width-wallThickness-80,height*2/3], [width/2, 20], [width/4, 400]]));

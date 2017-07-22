@@ -257,7 +257,7 @@ NEDoorW.pointer = ["NW", "NWDoorE"]
 var NEDoorS = new SWallDoor (width-120, 100);
 NEDoorS.doorID = "NEDoorS";
 NEDoorS.pointer = ["SE", "SEDoorN"];
-var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [item2_1, item2_2], [npc2_1], [obstacle2_1, obstacle2_2], [], "red", "green"); //my own colour choices are more boring ;)
+var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [item2_1, item2_2], [npc2_1], [obstacle2_1, obstacle2_2], [triangulator], "red", "green"); //my own colour choices are more boring ;)
 
 // similary SE tile will have doors to North and West
 var SEDoorN = new NWallDoor(width-120, 100);
@@ -266,7 +266,7 @@ SEDoorN.pointer = ["NE", "NEDoorS"];
 var SEDoorW = new WWallDoor(height/2 - 100, 200);
 SEDoorW.doorID = "SEDoorW";
 SEDoorW.pointer = ["SW", "SWDoorE"];
-var SETile = new MapTile("SE", [SEDoorN, SEDoorW], [item3_1], [], [obstacle3_1], [], "blue", "yellow");
+var SETile = new MapTile("SE", [SEDoorN, SEDoorW], [item3_1], [], [obstacle3_1], [itsFollowingMe], "blue", "yellow");
 
 // finally a SW tile with only a door to the East (the whole map is a bent path of 4 rooms, not a circuit)
 var SWDoorE = new EWallDoor(height/2 - 100, 200);
@@ -277,4 +277,4 @@ SWDoorE.pointer = ["SE", "SEDoorW"];
 var SWCentreDoor = new CentreDoor(width/2 - 20, 2*height/3, width/2 + 20, 3*height/4, "red");
 SWCentreDoor.doorID = "SWCentreDoor";
 SWCentreDoor.pointer = ["NW", "NWDoorE"];
-var SWTile = new MapTile("SW", [SWDoorE, SWCentreDoor], [], [], [], [], "yellow", "hotpink");
+var SWTile = new MapTile("SW", [SWDoorE, SWCentreDoor], [], [], [], [funnyPath], "yellow", "hotpink");
