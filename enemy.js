@@ -63,6 +63,10 @@ function moveTowardsThor() {
 // Note that, since we specify a startPos separately, this movement pattern can actually start outside
 // its path before joining it
 function fixedPath(points) {
+    // because I'm (RZ) a bit of a geek for these things, I feel I should point out that the
+    // following function is what's called a "closure". It allows the "points" parameter to be
+    // retained for use by the movement function despite the fact that this outer fixedPath function
+    // is only called once, when the enemy objects are initialised on page load
     return function() {
         if (this.targetIndex === undefined) {
             this.targetIndex = 0; //setting a new property on the enemy object. This will be OK provided
@@ -90,9 +94,35 @@ function fixedPath(points) {
     }
 }
 
+function randomMovement() {
+    // array of "directions", in order, going clockwise from North
+    var dirs = [[0,-1], [1,-1], [1,0], [1,1], [0,1], [-1,1], [-1,0], [-1,-1]];
+    // generate a random direction of initial movement, otherwise only go the
+    // same way or "one direction apart":
+    if (this.currentDirIndex === undefined) {
+        this.currentDirIndex = Math.floor(dirs.length*Math.random());
+    }
+    else {
+        var randomSign = Math.floor(3*Math.random())-1; // randomly choose -1, 0 or 1
+        this.currentDirIndex = this.currentDirIndex + randomSign;
+        if (this.currentDirIndex == -1) {
+            this.currentDirIndex = dirs.length-1;
+        }
+        else if (this.currentDirIndex == dirs.length) {
+            this.currentDirIndex = 0;
+        }
+
+    }
+    var currentDir = dirs[this.currentDirIndex];
+    // move by the given speed in that direction:
+    this.xPos1 += currentDir[0]*this.speed;
+    this.yPos1 += currentDir[1]*this.speed;
+}
+
 var itsFollowingMe = new Enemy("follower", 10, height-50, 30, 30, "hotpink", 2, moveTowardsThor);
 var xOscillator = new Enemy("x-oscillator", 0, 0, 50, 50, "magenta", 1, fixedPath([[0,0], [width-50, 0]]));
 var triangulator = new Enemy("triangulator", 50, 80, 20, 20, "lightsteelblue", 2, fixedPath([[50,80], [360,500], [650,330]]));
 var funnyPath = new Enemy("funnyShape", wallThickness, wallThickness, 80, 80, "#21abd2", 5,
                             fixedPath([[wallThickness,wallThickness], [width-wallThickness-80,wallThickness],
                             [width-wallThickness-80,height*2/3], [width/2, 20], [width/4, 400]]));
+var randomMover = new Enemy("random", (width+20)/2, (height+20)/2, 20, 20, "white", 3, randomMovement);

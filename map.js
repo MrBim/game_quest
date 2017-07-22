@@ -248,7 +248,7 @@ It will just have a door to the East, connecting to room "NE" */
 var NWDoorE = new EWallDoor(30, 70);
 NWDoorE.doorID = "NWDoorE";
 NWDoorE.pointer = ["NE", "NEDoorW"];
-var NWTile = new MapTile("NW", [NWDoorE], [item1_1], [npc1_1, npc1_2], [obstacle1_1, obstacle1_2, obstacle1_3], [xOscillator], "#02b109", "black"); // honouring Bim's original choice of colour!
+var NWTile = new MapTile("NW", [NWDoorE], [item1_1], [npc1_1, npc1_2], [obstacle1_1, obstacle1_2, obstacle1_3], [xOscillator, randomMover], "#02b109", "black"); // honouring Bim's original choice of colour!
 
 // NE tile will have doors to the West and South
 var NEDoorW = new WWallDoor(30, 70);
