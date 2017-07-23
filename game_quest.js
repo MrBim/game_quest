@@ -230,6 +230,11 @@ function thor_walkThroughDoor() {
 					if (worldMap[j].id == tile.doors[i].pointer[0]) {
 						var newTile = worldMap[j];
 						thor.currentTile = newTile;
+						// set all enemies to be in their initial positions on new tile:
+						for (var k=0; k<newTile.enemies.length; k++) {
+							newTile.enemies[k].xPos = newTile.enemies[k].startXPos;
+							newTile.enemies[k].yPos = newTile.enemies[k].startYPos;
+						}
 						// find door where Thor will "arrive" at
 						for (var k=0; k<newTile.doors.length; k++) {
 							var door = newTile.doors[k];

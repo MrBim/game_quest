@@ -26,11 +26,13 @@ var worldMap = [];
        Enemy constructor:
 */
 
-function Enemy (id, xPos, yPos, width, height, colour, speed, move) {
+function Enemy (id, startXPos, startYPos, width, height, colour, speed, move) {
     this.type = "enemy";
-    this.id = id;    
-    this.xPos = xPos;
-    this.yPos = yPos;
+    this.id = id; 
+    this.startXPos = startXPos;
+    this.startYPos = startYPos;   
+    this.xPos = startXPos;
+    this.yPos = startYPos;
     this.width = width;
     this.height = height;
     this.colour = colour;
