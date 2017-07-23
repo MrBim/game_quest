@@ -117,7 +117,12 @@ function drawunderparts(){
 	ctz.fill;
 }
 
-
+// "new" functions to simplify hit-detection code:
+function thorCantGoThere() {
+	return (thorHitDetection(thor.currentTile.obstacles) 	||
+			thorHitDetection(thor.currentTile.items)		||
+			thorHitDetection(thor.currentTile.npcs));
+}
 
 
 // this is mostly still here because 
@@ -134,9 +139,7 @@ function thor_movement(){
 		}
 
 		//Feeding in the current tiles Obstacles, Items, Characters array
-		if (thorHitDetection(thor.currentTile.obstacles) 	||
-			thorHitDetection(thor.currentTile.items)		||
-			thorHitDetection(thor.currentTile.npcs)) {
+		if (thorCantGoThere()) {
 			//if thor is hitting an object, set position to previous
 			thor.yPos += thor.moveSize;
 		}
@@ -151,9 +154,7 @@ function thor_movement(){
 			thor.yPos = height - thor.dispSize;
 		}
 		//Feeding in the current tiles Obstacles, Items, Characters array
-		if (thorHitDetection(thor.currentTile.obstacles) 	||
-			thorHitDetection(thor.currentTile.items)		||
-			thorHitDetection(thor.currentTile.npcs)) {
+		if (thorCantGoThere()) {
 			//if thor is hitting an object, set position to previous
 			thor.yPos -= thor.moveSize;
 		}
@@ -168,9 +169,7 @@ function thor_movement(){
 			thor.xPos = 0;
 		}
 		//Feeding in the current tiles Obstacles, Items, Characters array
-		if (thorHitDetection(thor.currentTile.obstacles) 	||
-			thorHitDetection(thor.currentTile.items)		||
-			thorHitDetection(thor.currentTile.npcs)) {
+		if (thorCantGoThere()) {
 			//if thor is hitting an object, set position to previous
 			thor.xPos += thor.moveSize;
 		}
@@ -184,9 +183,7 @@ function thor_movement(){
 			thor.xPos = width - thor.dispSize;
 		}
 		//Feeding in the current tiles Obstacles, Items, Characters array
-		if (thorHitDetection(thor.currentTile.obstacles) 	||
-			thorHitDetection(thor.currentTile.items)		||
-			thorHitDetection(thor.currentTile.npcs)) {
+		if (thorCantGoThere()) {
 			//if thor is hitting an object, set position to previous
 			thor.xPos -= thor.moveSize;
 		}		

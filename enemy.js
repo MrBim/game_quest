@@ -26,18 +26,18 @@ var worldMap = [];
        Enemy constructor:
 */
 
-function Enemy (id, xPos1, yPos1, xPos2, yPos2, colour, speed, move) {
+function Enemy (id, xPos, yPos, width, height, colour, speed, move) {
     this.type = "Item";
     this.id = id;    
-    this.xPos1 = xPos1;
-    this.yPos1 = yPos1;
-    this.xPos2 = xPos2;
-    this.yPos2 = yPos2;
+    this.xPos = xPos;
+    this.yPos = yPos;
+    this.width = width;
+    this.height = height;
     this.colour = colour;
     this.draw = function() {
         ctx.beginPath();
         ctx.fillStyle=this.colour;
-        ctx.rect(this.xPos1,this.yPos1,this.xPos2,this.yPos2); 
+        ctx.rect(this.xPos,this.yPos,this.width,this.height); 
         ctx.fill();
     };
     this.speed = speed;
@@ -45,16 +45,16 @@ function Enemy (id, xPos1, yPos1, xPos2, yPos2, colour, speed, move) {
 }
 
 function moveTowardsThor() {
-    var xDiff = thor.xPos - this.xPos1;
-    var yDiff = thor.yPos - this.yPos1;
+    var xDiff = thor.xPos - this.xPos;
+    var yDiff = thor.yPos - this.yPos;
     var maxDiff  = Math.max(Math.abs(xDiff), Math.abs(yDiff));
     // ternary expressions below to ensure we still get sensible values when
     // the enemy is already on top of thor. In this case we obviously don't
     // want it to move, so set both speeds to zero
     var xSpeed = maxDiff ? this.speed*Math.abs(xDiff)/maxDiff : 0;
     var ySpeed = maxDiff ? this.speed*Math.abs(yDiff)/maxDiff : 0;
-    this.xPos1 += Math.sign(xDiff)*xSpeed;
-    this.yPos1 += Math.sign(yDiff)*ySpeed;
+    this.xPos += Math.sign(xDiff)*xSpeed;
+    this.yPos += Math.sign(yDiff)*ySpeed;
 }
 
 // the fixedPath funciton for enemy movement takes as an argument an array of points on the map
@@ -73,8 +73,8 @@ function fixedPath(points) {
         // the function is always called from within the object (eg. enemy.move()).
         }
 
-        var xDiff = points[this.targetIndex][0] - this.xPos1;
-        var yDiff = points[this.targetIndex][1] - this.yPos1;
+        var xDiff = points[this.targetIndex][0] - this.xPos;
+        var yDiff = points[this.targetIndex][1] - this.yPos;
         if (Math.abs(xDiff)<this.speed && Math.abs(yDiff)<this.speed) {
             // if we're already at the target, move towards the next one. We need to go back to the
             // beginning if we're already at the end!
@@ -83,40 +83,58 @@ function fixedPath(points) {
             // because it keeps moving "either side" of the target and is never considered
             // close enough to move on to the next one
             this.targetIndex = (this.targetIndex == points.length-1 ? 0 : this.targetIndex+1);
-            var xDiff = points[this.targetIndex][0] - this.xPos1;
-            var yDiff = points[this.targetIndex][1] - this.yPos1;
+            var xDiff = points[this.targetIndex][0] - this.xPos;
+            var yDiff = points[this.targetIndex][1] - this.yPos;
         }
         var maxDiff  = Math.max(Math.abs(xDiff), Math.abs(yDiff));
         var xSpeed = maxDiff ? this.speed*Math.abs(xDiff)/maxDiff : 0;
         var ySpeed = maxDiff ? this.speed*Math.abs(yDiff)/maxDiff : 0;
-        this.xPos1 += Math.sign(xDiff)*xSpeed;
-        this.yPos1 += Math.sign(yDiff)*ySpeed;
+        this.xPos += Math.sign(xDiff)*xSpeed;
+        this.yPos += Math.sign(yDiff)*ySpeed;
     }
 }
 
-function randomMovement() {
-    // array of "directions", in order, going clockwise from North
-    var dirs = [[0,-1], [1,-1], [1,0], [1,1], [0,1], [-1,1], [-1,0], [-1,-1]];
-    // generate a random direction of initial movement, otherwise only go the
-    // same way or "one direction apart":
-    if (this.currentDirIndex === undefined) {
-        this.currentDirIndex = Math.floor(dirs.length*Math.random());
-    }
-    else {
-        var randomSign = Math.floor(3*Math.random())-1; // randomly choose -1, 0 or 1
-        this.currentDirIndex = this.currentDirIndex + randomSign;
-        if (this.currentDirIndex == -1) {
-            this.currentDirIndex = dirs.length-1;
+function randomMovement(stability) {
+    // "stability" is a parameter which defines how many times the enemy needs to
+    // keep moving in the same direction before changing
+    return function() {
+        if (this.timeInSameDir === undefined) {
+            this.timeInSameDir = 0;
         }
-        else if (this.currentDirIndex == dirs.length) {
-            this.currentDirIndex = 0;
+        // array of "directions", in order, going clockwise from North
+        var dirs = [[0,-1], [1,-1], [1,0], [1,1], [0,1], [-1,1], [-1,0], [-1,-1]];
+        // generate a random direction of initial movement, otherwise only go the
+        // same way or "one direction apart":
+        if (this.currentDirIndex === undefined) {
+            this.currentDirIndex = Math.floor(dirs.length*Math.random());
         }
+        else {
+            if (this.timeInSameDir < stability) {
+                var directionChange = 0;
+            }
+            else {
+                var directionChange = Math.floor(3*Math.random())-1; // randomly choose -1, 0 or 1
+                if (directionChange != 0) {
+                    this.timeInSameDir = 0;
+                }
+            }
+            if (directionChange == 0) {
+                this.timeInSameDir++;
+            }
+            this.currentDirIndex = this.currentDirIndex + directionChange;
+            if (this.currentDirIndex == -1) {
+                this.currentDirIndex = dirs.length-1;
+            }
+            else if (this.currentDirIndex == dirs.length) {
+                this.currentDirIndex = 0;
 
+        }        }
+
+        var currentDir = dirs[this.currentDirIndex];
+        // move by the given speed in that direction:
+        this.xPos += currentDir[0]*this.speed;
+        this.yPos += currentDir[1]*this.speed;
     }
-    var currentDir = dirs[this.currentDirIndex];
-    // move by the given speed in that direction:
-    this.xPos1 += currentDir[0]*this.speed;
-    this.yPos1 += currentDir[1]*this.speed;
 }
 
 var itsFollowingMe = new Enemy("follower", 10, height-50, 30, 30, "hotpink", 2, moveTowardsThor);
@@ -125,4 +143,4 @@ var triangulator = new Enemy("triangulator", 50, 80, 20, 20, "lightsteelblue", 2
 var funnyPath = new Enemy("funnyShape", wallThickness, wallThickness, 80, 80, "#21abd2", 5,
                             fixedPath([[wallThickness,wallThickness], [width-wallThickness-80,wallThickness],
                             [width-wallThickness-80,height*2/3], [width/2, 20], [width/4, 400]]));
-var randomMover = new Enemy("random", (width+20)/2, (height+20)/2, 20, 20, "white", 3, randomMovement);
+var randomMover = new Enemy("random", (width+20)/2, (height+20)/2, 20, 20, "white", 3, randomMovement(10));
