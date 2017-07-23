@@ -54,7 +54,7 @@ function hitDetection(mover, thingsToAvoid){
             mover.yPos < (thingsToAvoid[i].yPos + thingsToAvoid[i].height) && 
             mover.yPos > (thingsToAvoid[i].yPos - mover.height)) {
 
-            if (thingsToAvoid[i].type == "enemy" || thingsToAvoid[i] == thor){
+            if ((thingsToAvoid[i].type == "enemy" && mover == thor) || thingsToAvoid[i] == thor){
                 // space left for code to remove health from Thor, or whatever
                 // the following is just an example:
                 thor.health--;
