@@ -15,13 +15,13 @@ var npcChatOK;
 		chatPosition: Tracks the current position in the dialogue array, is reset when a Thor moves away from an NPC.
 */
 
-function NPC (id, xPos1, yPos1, xPos2, yPos2, colour, greeting, dialogue) {
+function NPC (id, xPos, yPos, width, height, colour, greeting, dialogue) {
     this.type = "NPC";
     this.id = id;    
-    this.xPos1 = xPos1;
-    this.yPos1 = yPos1;
-    this.xPos2 = xPos2;
-    this.yPos2 = yPos2;
+    this.xPos = xPos;
+    this.yPos = yPos;
+    this.width = width;
+    this.height = height;
     this.colour = colour;
     this.greeting = greeting;
     this.dialogue = dialogue;
@@ -36,7 +36,7 @@ function NPC (id, xPos1, yPos1, xPos2, yPos2, colour, greeting, dialogue) {
     this.draw = function() {
         ctx.beginPath();
         ctx.fillStyle=this.colour;
-        ctx.rect(this.xPos1,this.yPos1,this.xPos2,this.yPos2); 
+        ctx.rect(this.xPos,this.yPos,this.width,this.height); 
         ctx.fill();
     };
 }
