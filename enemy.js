@@ -130,6 +130,7 @@ function randomMovement(stability) {
             else if (this.currentDirIndex == dirs.length) {
                 this.currentDirIndex = 0;
             }
+            console.log(this.currentDirIndex);
         }
 
         var currentDir = dirs[this.currentDirIndex];

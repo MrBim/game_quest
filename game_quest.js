@@ -237,6 +237,8 @@ function thor_walkThroughDoor() {
 						for (var k=0; k<newTile.enemies.length; k++) {
 							newTile.enemies[k].xPos = newTile.enemies[k].startXPos;
 							newTile.enemies[k].yPos = newTile.enemies[k].startYPos;
+							// also make sure fixed-path enemies resume their path from the start:
+							newTile.enemies[k].targetIndex = undefined;
 						}
 						// find door where Thor will "arrive" at
 						for (var k=0; k<newTile.doors.length; k++) {
@@ -328,6 +330,13 @@ function enemyMovement() {
 		if (itCantGoThere(enemy)) {
 			enemy.xPos = currentXPos;
 			enemy.yPos = currentYPos;
+			// hacky way to try to allow randomly-moving enemies to instantly "try again"
+			// when they've hit an obstacle.
+			if (enemy.timeInSameDir) {
+				enemy.timeInSameDir = Infinity;
+				// make sure it is greater than the stability variable, whatever that happens to be
+				// (I said it was hacky ;) 
+			}
 		}
 		stayOnScreen(enemy);
 	}
