@@ -13,18 +13,20 @@ var npcChatOK;
 			dialogue: Should be an array of JS objects in the form {speaker: "xyz", speech: "abc"}.
 					- if speaker npc then use npc in constructor and the npc ID property will be used, anything else assumes Thor is speaking.
 		chatPosition: Tracks the current position in the dialogue array, is reset when a Thor moves away from an NPC.
+           questItem: An item *object* the NPC is holding for thor to aid him on his quest - so items need creating *BEFORE* NPC's so they can be passed in
 */
 
-function NPC (id, xPos1, yPos1, xPos2, yPos2, colour, greeting, dialogue) {
+function NPC (id, xPos, yPos, width, height, colour, greeting, dialogue, questItem) {
     this.type = "NPC";
     this.id = id;    
-    this.xPos1 = xPos1;
-    this.yPos1 = yPos1;
-    this.xPos2 = xPos2;
-    this.yPos2 = yPos2;
+    this.xPos = xPos;
+    this.yPos = yPos;
+    this.width = width;
+    this.height = height;
     this.colour = colour;
     this.greeting = greeting;
     this.dialogue = dialogue;
+    this.questItem = questItem;
     this.chatPosition = 0;
 
     this.greet = function(){
@@ -36,7 +38,7 @@ function NPC (id, xPos1, yPos1, xPos2, yPos2, colour, greeting, dialogue) {
     this.draw = function() {
         ctx.beginPath();
         ctx.fillStyle=this.colour;
-        ctx.rect(this.xPos1,this.yPos1,this.xPos2,this.yPos2); 
+        ctx.rect(this.xPos,this.yPos,this.width,this.height); 
         ctx.fill();
     };
 }
@@ -61,7 +63,7 @@ document.body.addEventListener("keydown", function(e) {
 
 */
 function npcButtonChat(){
-    //console.log(thor_next_to);
+    //console.log(thor.nextToID);
 
     if (npcChatOK) {
 
@@ -69,7 +71,7 @@ function npcButtonChat(){
         for (var i=0; i<thor.currentTile.npcs.length; i++) {
           
             //If Thor next to any of them, if so refer to that NPC's dialogue
-            if (thor.currentTile.npcs[i].id == thor_next_to){
+            if (thor.currentTile.npcs[i].id == thor.nextToID){
 
                 //check to see NPC's dialogue has been used up for this exchange
                 if (thor.currentTile.npcs[i].dialogue.length == thor.currentTile.npcs[i].chatPosition) {
