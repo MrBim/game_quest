@@ -1,16 +1,13 @@
 /*
-        Obstacle constructor:
-            Takes in a start x, y co-ordinate to start rectangle, then a second x position to draw out to the left and a second y to draw DOWN
-            Takes in a colour argument for the fill colour
+    Obstacle constructor:
+    ---------------------
+    Takes in a start x, y co-ordinate to start rectangle, then a second x position to draw out to the left and a second y to draw DOWN
+    Takes in a colour argument for the fill colour
 
-            It also contains a draw function to draw the rectangle invoked via the drawBackground() function.
-
-        Lists of possible checks:
-         - obstacle needs to be on side of walls
-         - obstacle cannot be placed on top of another
-         - obstacle cannot be placed infront of a door (need a threshold distance)
+    It also contains a draw function to draw the rectangle invoked via the drawBackground() function.
 */
 
+<<<<<<< HEAD
 
 function Sword (xPos1, yPos1, pic) {
     this.pic = pic;
@@ -28,12 +25,22 @@ function Obstacle (xPos1, yPos1, xPos2, yPos2, colour) {
     this.yPos1 = yPos1;
     this.xPos2 = xPos2;
     this.yPos2 = yPos2;
+=======
+function Obstacle (id, xPos, yPos, width, height, colour) {
+    this.type = "Obstacle";
+    this.id = id; 
+    this.xPos = xPos;
+    this.yPos = yPos;
+    this.width = width;
+    this.height = height;
+>>>>>>> b893d36981b4b369ff879223888ab281c0979a74
     this.colour = colour;
     this.draw = function() {
         ctx.beginPath();
         ctx.fillStyle=this.colour;
-        ctx.rect(this.xPos1,this.yPos1,this.xPos2,this.yPos2); 
+        ctx.rect(this.xPos,this.yPos,this.width,this.height); 
         ctx.fill();
+<<<<<<< HEAD
         };
 }
 /*
@@ -55,43 +62,79 @@ function thorObstacleCollide(){
         }
 
     }
+=======
+    };
+>>>>>>> b893d36981b4b369ff879223888ab281c0979a74
 }
 
 
 /*
-    This is development phase function which can be passed in an array objects with xPos1, yPos1, xPos2, yPos2 co-ordinates and will iterate through
-    them and decide if Thor is going to hit them or not. This means that potentially Obstacles, NPC's or Items can use this function, the array just
-    needs to be passed in as per the obstacles array.
+    Note: Object is used here to determine an obstacle, item or character.
 
-    The array passed in can be tested to see what object type (Obstacles, NPC or Items) are being assessed
+    This is function is passed an array objects with xPos1, yPos1, xPos2, yPos2 co-ordinates and will iterate through
+    them and decide if Thor is going to hit them or not. 
 
-    IF each object had a type (NPC, item etc) could it be found out WHAT Thor has bumped into?? How can this be done?? 
-    I guess the location of the found object, as it loops though it will make a match on one item within the different arrays it
-    cycles through (obstacles, NPC, items) etc, if each item had a property or type, that coul dbe picked out, then based on that a subsequent action
-    function could be kicked off, such as a speech function for NPC or pick up and bag/inventory for item.
+    Once it has hit an object it can determine (though the objects 'type' property) the type of object, also an ID element has been added to enable
+    tracking of individual objects, this may or may not be useful going forwards.
 
-function thorHitDetection(currentTileInfo){
-    //var tile = thor.currentTile;
-    for (var i=0; i<currentTileInfo.length; i++) {      
-            //console.log("Thor xPos" +thor.xPos);
-            //console.log("xPos1: " + tile.obstacles[2].xPos1);
-            //console.log("xPos2: " + tile.obstacles[2].xPos2); 
+    Couldn't think of a better word than 'things' to encapsulate obstacles, items and characters, lol - if you do, please update below!
+*/
+function hitDetection(mover, thingsToAvoid){    
+    for (var i=0; i<thingsToAvoid.length; i++) {      
 
-        if ((thor.xPos >= (currentTileInfo[i].xPos1 -thor.dispSize) && (thor.xPos <= (currentTileInfo[i].xPos1 + currentTileInfo[i].xPos2))) &&
+        // need to skip detection of an enemy against itself, or it will never move!
+        // same for Thor hitting himself!
+        if (thingsToAvoid[i] == mover) {
+            continue;
+        }
         
-        (thor.yPos <= ((currentTileInfo[i].yPos1 + currentTileInfo[i].yPos2)) && (thor.yPos >= (currentTileInfo[i].yPos1 - thor.dispSize)))){
-        
-            if (currentTileInfo === thor.currentTile.obstacles){
-                console.log("obstacles hit alert");
+        if (mover.xPos > (thingsToAvoid[i].xPos -mover.width) && 
+            mover.xPos < (thingsToAvoid[i].xPos + thingsToAvoid[i].width) &&
+            mover.yPos < (thingsToAvoid[i].yPos + thingsToAvoid[i].height) && 
+            mover.yPos > (thingsToAvoid[i].yPos - mover.height)) {
 
+            if ((thingsToAvoid[i].type == "enemy" && mover == thor) || thingsToAvoid[i] == thor){
+                // space left for code to remove health from Thor, or whatever
+                // the following is just an example:
+                thor.health--;
+            }
+            
+            if (thingsToAvoid[i].type == "Obstacle"){
+            }
+            else if (thingsToAvoid[i].type == "Item" && mover == thor){
+                //console.log("Item '" + thingsToAvoid[i].id + "' detected");
+                //recorded for use with button press activities (so Thor knows what item is being picked up)
+                thor.nextToID = thingsToAvoid[i].id;                
+                thor.nextToType = thingsToAvoid[i].type;                
             }
         
-        return true;
+            else if (thingsToAvoid[i].type == "NPC" && mover == thor){
+                //Greet right away, no button press required
+                //Use 'None' in NPC constructor to have no greeting
+                thingsToAvoid[i].greet();
+                
+                //Recorded for use with button press activities (so the right NPC chat is invoked)
+                thor.nextToID = thingsToAvoid[i].id; 
+                thor.nextToType = thingsToAvoid[i].type;                                
+            }
+            //This return is required by the thor_movement() function to determin if Thor can move or not
+            return true;
         
+        }
+        else if (mover == thor){
+            //Resetting when not near anything to ensure correct detection
+            thor.nextToID = "nothing";
+            thor.nextToType = "nothing";
+            //if you've moved away from an NPC, reset the dialogue position to zero for that NPC
+            thingsToAvoid[i].chatPosition = 0;
         }
     }
 }
-*/
+
+
+
+
+
 
 
 

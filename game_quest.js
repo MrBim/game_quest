@@ -24,7 +24,11 @@ var keys = [];
 var hasRun = false; // used to set init values on first itteration of game loop
 
 thor = {
+	health: 100,
 	dispSize : 40,
+	// defining width and height separately, because needed for hit detection code now:
+	height: 40,
+	width: 40,
 	startXPos : ((width / 2) - (this.dispSize / 2)),
 	startYPos : ((height / 2) - (this.dispSize / 2)),
 	xPos : this.startXPos,
@@ -32,7 +36,10 @@ thor = {
 	isPointing : 1,
 	moveSize : 3,
 	walkAnimFrame : 11,
-	
+	items: ['sword'],
+	nextToID: "nothing",
+	nextToType: "nothing",		
+
 	thorPicOneN : new Image(),
 	thorPicTwoN : new Image(),
 
@@ -95,6 +102,20 @@ function drawBackground() {
 	for (var i=0; i<tile.obstacles.length; i++) {
 		tile.obstacles[i].draw();
 	}
+	//now draw the items
+	for (var i=0; i<tile.items.length; i++) {
+		tile.items[i].draw();
+	}
+	//now draw the npcs
+	for (var i=0; i<tile.npcs.length; i++) {
+		tile.npcs[i].draw();
+	}
+	//now draw the enemies
+	
+	for (var i=0; i<tile.enemies.length; i++) {
+		tile.enemies[i].draw();
+	}
+	
 }
 
 function drawunderparts(){
@@ -103,7 +124,31 @@ function drawunderparts(){
 	ctz.fill;
 }
 
+// "new" functions to simplify hit-detection code:
+function itCantGoThere(mover) {
+	return (hitDetection(mover, thor.currentTile.obstacles) ||
+			hitDetection(mover, thor.currentTile.items)	||
+			hitDetection(mover, thor.currentTile.npcs) ||
+			hitDetection(mover, thor.currentTile.enemies) ||
+			hitDetection(mover, [thor]));
+}
 
+function stayOnScreen(mover) {
+	// a simple function, to make sure things that move stay on the canvas
+	// will be applied to Thor and to all enemies
+	if (mover.xPos <= 0) {
+		mover.xPos = 0;
+	}
+	if (mover.xPos+mover.width >= width) {
+		mover.xPos = width - mover.width;
+	}
+	if (mover.yPos <= 0) {
+		mover.yPos = 0;
+	}
+	if (mover.yPos+mover.height >= height) {
+		mover.yPos = height - mover.height;
+	}
+}
 
 
 // this is mostly still here because 
@@ -115,12 +160,8 @@ function thor_movement(){
 
 		thor.yPos -= thor.moveSize;
    		
-		if( thor.yPos <= 0){
-			thor.yPos = 0;
-		}
-
-		//Feeding in the current tiles Obstacles array
-		if (thorObstacleCollide()){
+		//Feeding in the current tiles Obstacles, Items, Characters array
+		if (itCantGoThere(thor)) {
 			//if thor is hitting an object, set position to previous
 			thor.yPos += thor.moveSize;
 		}
@@ -131,10 +172,8 @@ function thor_movement(){
 	if (keys[83]) {
 		thor.isPointing = 3;
 		thor.yPos += thor.moveSize;
-		if( thor.yPos >= height - thor.dispSize){
-			thor.yPos = height - thor.dispSize;
-		}
-		if (thorObstacleCollide()){
+		//Feeding in the current tiles Obstacles, Items, Characters array
+		if (itCantGoThere(thor)) {
 			//if thor is hitting an object, set position to previous
 			thor.yPos -= thor.moveSize;
 		}
@@ -145,10 +184,8 @@ function thor_movement(){
 	if (keys[65]) {
 		thor.isPointing = 2;
 		thor.xPos -= thor.moveSize;
-		if( thor.xPos <= 0){
-			thor.xPos = 0;
-		}
-		if (thorObstacleCollide()){
+		//Feeding in the current tiles Obstacles, Items, Characters array
+		if (itCantGoThere(thor)) {
 			//if thor is hitting an object, set position to previous
 			thor.xPos += thor.moveSize;
 		}
@@ -158,15 +195,15 @@ function thor_movement(){
 	if (keys[68]) {
 		thor.isPointing = 4;
 		thor.xPos += thor.moveSize;
-		if( thor.xPos >= width - thor.dispSize){
-			thor.xPos = width - thor.dispSize;
-		}
-		if (thorObstacleCollide()){
+		//Feeding in the current tiles Obstacles, Items, Characters array
+		if (itCantGoThere(thor)) {
 			//if thor is hitting an object, set position to previous
 			thor.xPos -= thor.moveSize;
 		}		
 		thor.walkAnimFrame += 1;
 	}
+
+	stayOnScreen(thor);
 }
 
 /* put door detection code here, for better modularity (and making it much easier for me (RZ) to code it!)
@@ -196,6 +233,11 @@ function thor_walkThroughDoor() {
 					if (worldMap[j].id == tile.doors[i].pointer[0]) {
 						var newTile = worldMap[j];
 						thor.currentTile = newTile;
+						// set all enemies to be in their initial positions on new tile:
+						for (var k=0; k<newTile.enemies.length; k++) {
+							newTile.enemies[k].xPos = newTile.enemies[k].startXPos;
+							newTile.enemies[k].yPos = newTile.enemies[k].startYPos;
+						}
 						// find door where Thor will "arrive" at
 						for (var k=0; k<newTile.doors.length; k++) {
 							var door = newTile.doors[k];
@@ -261,11 +303,34 @@ function drawPlayer() {
 }
 
 function words(){
-	ctz.font = "30px Arial";
 	ctz.fillStyle = "#000";
 	// ctz.fillText("This is where there will be words and maybe pictures",10,50);
-	ctz.fillText("this is the map tile called " + thor.currentTile.id, 10, 50);
-	ctz.fill;
+	//ctz.fillText("this is the map tile called " + thor.currentTile.id, 10, 50);
+	if (thor.health <= 0) {
+		ctz.font = "100px Arial";
+		ctz.fillText("Sorry, you're DEAD!!!", 10, 100);
+		ctz.fill;
+		quit();
+	}
+	else {
+		ctz.font = "30px Arial";
+		ctz.fillText("Current health: " + thor.health, 10, 50);
+		ctz.fill;
+	}
+}
+
+function enemyMovement() {
+	for (var i=0; i<thor.currentTile.enemies.length; i++) {
+		var enemy = thor.currentTile.enemies[i];
+		var currentXPos = enemy.xPos;
+		var currentYPos = enemy.yPos;
+		enemy.move();
+		if (itCantGoThere(enemy)) {
+			enemy.xPos = currentXPos;
+			enemy.yPos = currentYPos;
+		}
+		stayOnScreen(enemy);
+	}
 }
 
 function quit() {
@@ -292,6 +357,8 @@ function gameLoop(){
 		hasRun = true;	
 	}
 	
+
+	
 	// if (lives === 0) {
 	// 	quit();
 	// }
@@ -299,10 +366,16 @@ function gameLoop(){
 	clearCanvas();
  	thor_movement();
 	thor_walkThroughDoor();
+	enemyMovement();
  	drawBackground();
  	drawPlayer();
  	drawunderparts();
  	words();
+	obtainItem();
+ 	//To enable diaglogue with NPC's on key press (C)
+	npcButtonChat();
+
+
 
  	requestAnimationFrame(gameLoop);
 
