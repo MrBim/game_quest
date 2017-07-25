@@ -227,6 +227,8 @@ MapTile.prototype.getWallSegments = function() {
     return result;
 }
 
+var swordPic = new Image();
+swordPic.src = 'assets/items/sword.png';
 
 //Obstacles drawn as rectangles, first two numbers are start x and y, third is length, last height (drawn down)
 var tree1_1 = new Obstacle(50,180,40,40, "red"); // I (Robin) changed the position so it's not now over a wall!
@@ -243,7 +245,7 @@ var rock1_6 = new Obstacle(500,500,200, 25, "blue");
 var tree2_1 = new Obstacle(100,50,40,40, "green");
 var tree2_2 = new Obstacle(300,300,50,50, "black");
 var rock2_1 = new Obstacle(500,500,70, 70, "blue");
-
+var sword = new Sword(500, 350, swordPic);
 // try to construct basic map. Will be square, but without doors in all the obvious places!
 // note that there are no items or characters for now!
 
@@ -253,7 +255,7 @@ It will just have a door to the East, connecting to room "NE" */
 var NWDoorE = new EWallDoor(30, 70);
 NWDoorE.doorID = "NWDoorE";
 NWDoorE.pointer = ["NE", "NEDoorW"];
-var NWTile = new MapTile("NW", [NWDoorE], [], [], [tree1_1, tree1_2, rock1_1, rock1_2, rock1_3, rock1_4, rock1_5, rock1_6],"#02b109", "black"); // honouring Bim's original choice of colour!
+var NWTile = new MapTile("NW", [NWDoorE], [], [], [ sword, tree1_1, tree1_2, rock1_1, rock1_2, rock1_3, rock1_4, rock1_5, rock1_6],"#02b109", "black"); // honouring Bim's original choice of colour!
 
 // NE tile will have doors to the West and South
 var NEDoorW = new WWallDoor(30, 70);
@@ -262,7 +264,7 @@ NEDoorW.pointer = ["NW", "NWDoorE"]
 var NEDoorS = new SWallDoor (width-120, 100);
 NEDoorS.doorID = "NEDoorS";
 NEDoorS.pointer = ["SE", "SEDoorN"];
-var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [], [], [tree2_1, tree2_2, rock2_1], "red", "green"); //my own colour choices are more boring ;)
+var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [], [], [ sword, tree2_1, tree2_2, rock2_1], "red", "green"); //my own colour choices are more boring ;)
 
 // similary SE tile will have doors to North and West
 var SEDoorN = new NWallDoor(width-120, 100);

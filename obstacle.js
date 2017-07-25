@@ -12,6 +12,17 @@
 */
 
 
+function Sword (xPos1, yPos1, pic) {
+    this.pic = pic;
+    this.xPos1 = xPos1;
+    this.yPos1 = yPos1;
+    this.draw = function() {
+        ctx.beginPath();
+        ctx.drawImage(this.pic, this.xPos, this.yPos, 40, 40);
+        ctx.closePath();
+        };
+}
+
 function Obstacle (xPos1, yPos1, xPos2, yPos2, colour) {
     this.xPos1 = xPos1;
     this.yPos1 = yPos1;
@@ -25,8 +36,6 @@ function Obstacle (xPos1, yPos1, xPos2, yPos2, colour) {
         ctx.fill();
         };
 }
-
-
 /*
     This function obtains the obstacles on the current tile, and then iterates through them, working out the area of each object in 
     turn on the tile and then checks to see if Thor is within it. If Thor is within an obstacle it will return true, and the return 
