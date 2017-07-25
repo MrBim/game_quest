@@ -1,5 +1,15 @@
+
+//Variable to limit key press to one function execution per key press
+//Can have multiple executions for one button press otherwise (keyboard quirk)
+var itemObtainingOK;
+
+
 /*
-       Item constructor:
+    Item constructor
+
+	Noteworthy elements:
+			  id: The ID is deemed the unique identifier for the item on any tile.
+			name: items in game name (eg "Magic Key"), you can have more than 1 item of the same name on the current tile.
 */
 
 
@@ -29,10 +39,18 @@ document.body.addEventListener("keydown", function(e) {
 });
 
 
+/* 
+	obtainItem Function
 
-/* Can get an item in one of two ways, pick up or given (next to NPC), also need to list items (button press when not near item or NPC) */
+	When the I button is pressed:
+		if Thor is facing an on screen item he will pick it up (it is put in his inventory and is removed from the display) 
+		if Thor is next to a NPC the item they have for him will be placed in his inventory
+		if thor is not facing an Item or NPC the inventory will be listed
 
-var itemObtainingOK;
+	The function places the complete Item object into Thors items array each time (rather than just the name of it), the intention of this is that 
+	all/any Item properties can be interrogated with greater ease by other functions simply by accessing Thors items array, a futureproofing move if
+	nothing else :-)
+*/
 
 function obtainItem(){
     if (itemObtainingOK) {
@@ -45,9 +63,15 @@ function obtainItem(){
 				if (thor.currentTile.items[i].id == thor.nextToID){
 					//add it to Thors inventory
  					thor.items.push(thor.currentTile.items[i]);
-					console.log(thor.currentTile.npcs[i].questItem.name + ": added to Thors inventory");
+					console.log(thor.currentTile.items[i].name + ": added to Thors inventory");
 					//remove it from the current tile
 					thor.currentTile.items.splice(thor.currentTile.items[i], 1);
+
+					//enable inventory to be shown directly after pick up, without need to move
+            		thor.nextToID = "nothing";
+            		thor.nextToType = "nothing";
+
+					//No need to complete redundent cycles of for loop
 					break;
 				}
 			}
@@ -61,7 +85,7 @@ function obtainItem(){
 					//does the NPC have a questItem
 
 					if (thor.currentTile.npcs[j].questItem === undefined){
-						console.log("Sorry, nothing to give you, onwards on your quest!");
+						console.log(thor.currentTile.npcs[j].id.toUpperCase() + ": Sorry, nothing to give you, onwards with your quest!");
 					}
 	
 					else if (thor.items.indexOf(thor.currentTile.npcs[j].questItem) == -1){
@@ -72,6 +96,9 @@ function obtainItem(){
 					else{
 						console.log(thor.currentTile.npcs[j].questItem.name + ": already in Thors inventory");
 					}
+					
+					//No need to complete redundent cycles of for loop
+					break;					
 				}
 			}	
 		}

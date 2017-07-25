@@ -1,16 +1,11 @@
 /*
-        Obstacle constructor:
-            Takes in a start x, y co-ordinate to start rectangle, then a second x position to draw out to the left and a second y to draw DOWN
-            Takes in a colour argument for the fill colour
+    Obstacle constructor:
+    ---------------------
+    Takes in a start x, y co-ordinate to start rectangle, then a second x position to draw out to the left and a second y to draw DOWN
+    Takes in a colour argument for the fill colour
 
-            It also contains a draw function to draw the rectangle invoked via the drawBackground() function.
-
-        Lists of possible checks:
-         - obstacle needs to be on side of walls
-         - obstacle cannot be placed on top of another
-         - obstacle cannot be placed infront of a door (need a threshold distance)
+    It also contains a draw function to draw the rectangle invoked via the drawBackground() function.
 */
-
 
 function Obstacle (id, xPos, yPos, width, height, colour) {
     this.type = "Obstacle";
@@ -63,7 +58,7 @@ function hitDetection(mover, thingsToAvoid){
             if (thingsToAvoid[i].type == "Obstacle"){
             }
             else if (thingsToAvoid[i].type == "Item" && mover == thor){
-                console.log("Item '" + thingsToAvoid[i].id + "' detected");
+                //console.log("Item '" + thingsToAvoid[i].id + "' detected");
                 //recorded for use with button press activities (so Thor knows what item is being picked up)
                 thor.nextToID = thingsToAvoid[i].id;                
                 thor.nextToType = thingsToAvoid[i].type;                

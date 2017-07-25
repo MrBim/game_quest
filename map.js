@@ -237,9 +237,11 @@ var obstacle2_2 = new Obstacle("ob2_2", 500,100,30,60, "blue");
 var item2_1 = new Item("item2_1", "Magic Glove", 250,250,40, 40, "Yellow");
 var item2_2 = new Item("item2_2", "Magic Boot");
 var npc2_1 = new NPC("Junior Wizard Colin", 450,450,40, 40, "black", "none", [{speaker: "npc", speech:"I have a magic boot which is essential for your quest"}, {speaker: "Thor", speech: "A boot? Seriously!?!"}, {speaker: "npc", speech:"Yes, be safe a take it with you"}], item2_2);
+var npc2_2 = new NPC("Advance Wizard Jeff", 350,450,40, 40, "black", "none", [{speaker: "npc", speech:"I'm not very chatty and have nothing for you"}, {speaker: "Thor", speech: "Oh!"}, {speaker: "npc", speech:"Try to take something"}]);
 
 var obstacle3_1 = new Obstacle("ob3_1", 0,0,40,40, "blue");
 var item3_1 = new Item("item3_1","Gold Trophy", 350,350,40, 40, "Yellow");
+
 
 // try to construct basic map. Will be square, but without doors in all the obvious places!
 // note that there are no items or characters for now!
@@ -259,7 +261,7 @@ NEDoorW.pointer = ["NW", "NWDoorE"]
 var NEDoorS = new SWallDoor (width-120, 100);
 NEDoorS.doorID = "NEDoorS";
 NEDoorS.pointer = ["SE", "SEDoorN"];
-var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [item2_1, item2_2], [npc2_1], [obstacle2_1, obstacle2_2], [triangulator], "red", "green"); //my own colour choices are more boring ;)
+var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [item2_1, item2_2], [npc2_1, npc2_2], [obstacle2_1, obstacle2_2], [triangulator], "red", "green"); //my own colour choices are more boring ;)
 
 // similary SE tile will have doors to North and West
 var SEDoorN = new NWallDoor(width-120, 100);
