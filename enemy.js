@@ -140,7 +140,8 @@ function randomMovement(stability) {
 }
 
 var itsFollowingMe = new Enemy("follower", wallThickness, height-wallThickness-50, 10, 40, "hotpink", 2, moveTowardsThor);
-var xOscillator = new Enemy("x-oscillator", wallThickness, wallThickness, 50, 50, "magenta", 1, fixedPath([[wallThickness,wallThickness], [width-wallThickness-50, wallThickness]]));
+var xOscillator = new Enemy("x-oscillator", wallThickness, wallThickness, 50, 50, "magenta", 1, fixedPath([[wallThickness,
+	wallThickness], [width-wallThickness-50, wallThickness]]));
 var triangulator = new Enemy("triangulator", 50, 80, 20, 20, "lightsteelblue", 2, fixedPath([[50,80], [280,400], [650,220]]));
 var funnyPath = new Enemy("funnyShape", wallThickness, wallThickness, 80, 80, "#21abd2", 5,
                             fixedPath([[wallThickness,wallThickness], [width-wallThickness-80,wallThickness],

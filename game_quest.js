@@ -36,7 +36,10 @@ thor = {
 	isPointing : 1,
 	moveSize : 3,
 	walkAnimFrame : 11,
-	
+	items: [],
+	nextToID: "nothing",
+	nextToType: "nothing",		
+
 	thorPicOneN : new Image(),
 	thorPicTwoN : new Image(),
 
@@ -368,7 +371,7 @@ function gameLoop(){
  	drawPlayer();
  	drawunderparts();
  	words();
-
+	obtainItem();
  	//To enable diaglogue with NPC's on key press (C)
 	npcButtonChat();
 

@@ -226,18 +226,20 @@ MapTile.prototype.getWallSegments = function() {
 var obstacle1_1 = new Obstacle("ob1_1", 50,180,40,40, "blue");
 var obstacle1_2 = new Obstacle("ob1_2", 90,90,60,60, "blue");
 var obstacle1_3 = new Obstacle("ob1_3", 250,250,80, 80, "blue");
-var item1_1 = new Item("item1_1", 350,350,40, 40, "Yellow");
-var npc1_1 = new NPC("Wizard Dave", 550,550,40, 40, "black", "Yo, Yo, Yo, Homie!", [{speaker:"Thor", speech:"Word Up"}, {speaker:"npc", speech:"I da evil wizard!"}, {speaker: "Thor", speech:"O'crumbs!"}, {speaker: "NPC", speech:"Ya get me!"}, {speaker:"NPC", speech:"You best be off or I get me boyz on da broomsticks to beat yo ass"}, {speaker: "Thor", speech:"I'll be off then!"}]);
-var npc1_2 = new NPC("Grand Wizard Malcom", 450,450,40, 40, "black", "Good Evening, How do you do?", [{speaker:"Thor", speech:"Warm Salutations to you"}, {speaker:"Npc", speech:"I am a nice wizard"}, {speaker: "Thor", speech:"Hmmm, how do I know?"}, {speaker:"npc", speech: "I will magic you a cup of tea for your quest"}, {speaker: "Thor", speech:"Very kind of you old bean"}, {speaker:"npc", speech:"Ta-da! There you go, nice to meet you."}, {speaker: "Thor", speech:"Slurrrrrp, thats lovely jubbly, thanks!"}]);
+var item1_1 = new Item("item1_1", "Magic Key", 350,350,40, 40, "Yellow");
+var item1_2 = new Item("item1_2", "Magic Potion1");
+var item1_3 = new Item("item1_3", "Magic Mushroom");
+var npc1_1 = new NPC("Wizard Dave", 550,550,40, 40, "black", "Greetings Thor", [{speaker:"Thor", speech:"Hello"}, {speaker:"npc", speech:"I have a magic potion for you, please take it"}], item1_2);
+var npc1_2 = new NPC("Grand Wizard Malcom", 450,450,40, 40, "black", "Hello Thor", [{speaker:"Thor", speech:"Warm Salutations to you"}, {speaker:"Npc", speech:"I have some magic mushrooms to make your quest more interesting, please take them"}], item1_3);
 
 var obstacle2_1 = new Obstacle("ob2_1", 500,500,140,140, "blue");
 var obstacle2_2 = new Obstacle("ob2_2", 500,100,30,60, "blue");
-var item2_1 = new Item("item2_1", 250,250,40, 40, "Yellow");
-var item2_2 = new Item("item2_2", 150,300,40, 40, "Yellow");
-var npc2_1 = new NPC("Junior Wizard Colin", 450,450,40, 40, "black", "none", [{speaker: "npc", speech:"I am another nice wizard but need you to invoke chat with me"}, {speaker: "Thor", speech:"Oh, well at least your nice"}, {speaker: "npc", speech:"I will magic you a cup of coffee for your quest"}, {speaker: "Thor", speech:"Triffic, love a coffee, me"}, {speaker: "Thor", speech:"Could you do me a bacon roll too?"}, {speaker: "npc", speech:"Ta-da! A coffee, but no bacon roll, your putting on a bit of timber."}, {speaker: "Thor", speech:"HOW DARE YOU! I'm outta here"}]);
+var item2_1 = new Item("item2_1", "Magic Glove", 250,250,40, 40, "Yellow");
+var item2_2 = new Item("item2_2", "Magic Boot");
+var npc2_1 = new NPC("Junior Wizard Colin", 450,450,40, 40, "black", "none", [{speaker: "npc", speech:"I have a magic boot which is essential for your quest"}, {speaker: "Thor", speech: "A boot? Seriously!?!"}, {speaker: "npc", speech:"Yes, be safe a take it with you"}], item2_2);
 
 var obstacle3_1 = new Obstacle("ob3_1", 0,0,40,40, "blue");
-var item3_1 = new Item("item3_1", 350,350,40, 40, "Yellow");
+var item3_1 = new Item("item3_1","Gold Trophy", 350,350,40, 40, "Yellow");
 
 // try to construct basic map. Will be square, but without doors in all the obvious places!
 // note that there are no items or characters for now!

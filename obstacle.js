@@ -65,7 +65,8 @@ function hitDetection(mover, thingsToAvoid){
             else if (thingsToAvoid[i].type == "Item" && mover == thor){
                 console.log("Item '" + thingsToAvoid[i].id + "' detected");
                 //recorded for use with button press activities (so Thor knows what item is being picked up)
-                thor_next_to = thingsToAvoid[i].id;                
+                thor.nextToID = thingsToAvoid[i].id;                
+                thor.nextToType = thingsToAvoid[i].type;                
             }
         
             else if (thingsToAvoid[i].type == "NPC" && mover == thor){
@@ -74,7 +75,8 @@ function hitDetection(mover, thingsToAvoid){
                 thingsToAvoid[i].greet();
                 
                 //Recorded for use with button press activities (so the right NPC chat is invoked)
-                thor_next_to = thingsToAvoid[i].id; 
+                thor.nextToID = thingsToAvoid[i].id; 
+                thor.nextToType = thingsToAvoid[i].type;                                
             }
             //This return is required by the thor_movement() function to determin if Thor can move or not
             return true;
@@ -82,8 +84,8 @@ function hitDetection(mover, thingsToAvoid){
         }
         else if (mover == thor){
             //Resetting when not near anything to ensure correct detection
-            thor_next_to = "nothing";
-            
+            thor.nextToID = "nothing";
+            thor.nextToType = "nothing";
             //if you've moved away from an NPC, reset the dialogue position to zero for that NPC
             thingsToAvoid[i].chatPosition = 0;
         }
