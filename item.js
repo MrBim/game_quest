@@ -3,7 +3,6 @@
 //Can have multiple executions for one button press otherwise (keyboard quirk)
 var itemObtainingOK;
 
-
 /*
     Item constructor
 
@@ -42,12 +41,12 @@ document.body.addEventListener("keydown", function(e) {
 /* 
 	obtainItem Function
 
-	When the I button is pressed:
-		if Thor is facing an on screen item he will pick it up (it is put in his inventory and is removed from the display) 
+	When the 'I' button is pressed:
+		if Thor is facing an on screen item he will pick it up (it is put in his inventory and be removed from the display/tile) 
 		if Thor is next to a NPC the item they have for him will be placed in his inventory
 		if thor is not facing an Item or NPC the inventory will be listed
 
-	The function places the complete Item object into Thors items array each time (rather than just the name of it), the intention of this is that 
+	The function places each complete Item object into Thors items array each time (rather than just the name of it), the intention of this is that 
 	all/any Item properties can be interrogated with greater ease by other functions simply by accessing Thors items array, a futureproofing move if
 	nothing else :-)
 */
