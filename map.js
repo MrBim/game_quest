@@ -224,7 +224,7 @@ MapTile.prototype.getWallSegments = function() {
 */
 
 
-var item1_1 = new Item("item1_1", "Magic Key", 350,350,40, 40, "Yellow");
+var item1_1 = new Item("item1_1", "Magic Key", 350,350,40, 40, "yellow");
 var item1_2 = new Item("item1_2", "Magic Potion");
 var item1_3 = new Item("item1_3", "Magic Mushroom");
 var item1_4 = new Item("item1_4", "Secret Squirrel");
@@ -238,8 +238,8 @@ var obstacle2_1 = new Obstacle("ob2_1", 500,500,140,140, "blue");
 var obstacle2_2 = new Obstacle("ob2_2", 500,100,30,60, "blue");
 var item2_1 = new Item("item2_1", "Magic Glove", 250,250,40, 40, "Yellow");
 var item2_2 = new Item("item2_2", "Magic Boot");
-var npc2_1 = new NPC("npc2_1", "Junior Wizard Colin", 450,450,40, 40, "black", "none", [{speaker: "npc", speech:"I have a magic boot which is essential for your quest"}, {speaker: "Thor", speech: "A boot? Seriously!?!"}, {speaker: "npc", speech:"Yes, be safe a take it with you"}], item2_2);
-var npc2_2 = new NPC("npc2_2","Advance Wizard Jeff", 350,450,40, 40, "black", "none", [{speaker: "npc", speech:"I'm not very chatty and have nothing for you"}, {speaker: "Thor", speech: "Oh!"}, {speaker: "npc", speech:"Try to take something"}]);
+var npc2_1 = new NPC("npc2_1", "Junior Wizard Colin", 450,450,40, 40, "black", "none", [[{speaker: "npc", speech:"I have a magic boot which is essential for your quest"}, {speaker: "Thor", speech: "A boot? Seriously!?!"}, {speaker: "npc", speech:"Yes, be safe a take it with you"}]], item2_2);
+var npc2_2 = new NPC("npc2_2","Advance Wizard Jeff", 350,450,40, 40, "black", "none", [[{speaker: "npc", speech:"I'm not very chatty and have nothing for you"}, {speaker: "Thor", speech: "Oh!"}, {speaker: "npc", speech:"Try to take something"}]]);
 
 var item3_1 = new Item("item3_1","Gold Trophy", 350,350,40, 40, "Yellow");
 var item3_2 = new Item("item3_1","Magic Banjo");

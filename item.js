@@ -84,7 +84,7 @@ function obtainItem(){
 					//does the NPC have a questItem
 
 					if (thor.currentTile.npcs[j].questItem === undefined){
-						console.log(thor.currentTile.npcs[j].id.toUpperCase() + ": Sorry, nothing to give you, onwards with your quest!");
+						console.log(thor.currentTile.npcs[j].name.toUpperCase() + ": Sorry, nothing to give you, onwards with your quest!");
 
 						//NPC - nothing to give convo
 					}

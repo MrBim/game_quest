@@ -80,15 +80,12 @@ function hitDetection(mover, thingsToAvoid){
             }
 
             if (thingsToAvoid[i].type == "Obstacle" && mover == thor){
-
-                console.log("Type: " +thingsToAvoid[i].type);
-                console.log("ID: " +thingsToAvoid[i].id);
+               //recorded for use with button press activities (so Thor knows obstacle he is infront of)
                 thor.nextToID = thingsToAvoid[i].id;                
                 thor.nextToType = thingsToAvoid[i].type;                                    
             }
  
             else if (thingsToAvoid[i].type == "Item" && mover == thor){
-                //console.log("Item '" + thingsToAvoid[i].id + "' detected");
                 //recorded for use with button press activities (so Thor knows what item is being picked up)
                 thor.nextToID = thingsToAvoid[i].id;                
                 thor.nextToType = thingsToAvoid[i].type;                
@@ -98,7 +95,6 @@ function hitDetection(mover, thingsToAvoid){
                 //Greet right away, no button press required
                 //Use 'None' in NPC constructor to have no greeting
                 thingsToAvoid[i].greet();
-                
                 //Recorded for use with button press activities (so the right NPC chat is invoked)
                 thor.nextToID = thingsToAvoid[i].id; 
                 thor.nextToType = thingsToAvoid[i].type;                                

@@ -18,18 +18,6 @@ var npcChatOK;
 */
 
 
-/* need to have a conversation object that can be passed in so can be switched by situation 
-    
-    initial = {speaker: "npc", speech: "blah"},
-    after = {speaker: "npc", speech: "meh"},
-
-
-    dialogue = [[initial], [after]]
-
-    }
-
-*/
-
 
 function NPC (id, name, xPos, yPos, width, height, colour, greeting, dialogueList, questItem) {
     this.type = "NPC";
@@ -39,8 +27,8 @@ function NPC (id, name, xPos, yPos, width, height, colour, greeting, dialogueLis
     this.yPos = yPos;
     this.width = width;
     this.height = height;
+    this.colour = colour;
     this.greeting = greeting;
-
     this.convoStatus = "Initial";
     this.currentDialogue = dialogueList[0];
     this.dialogueList = dialogueList;    
@@ -98,8 +86,7 @@ function npcButtonChat(){
                 //check to see NPC's dialogue has been used up for this exchange
                 if (thor.currentTile.npcs[i].currentDialogue.length == thor.currentTile.npcs[i].chatPosition) {
 
-                    //Not sure if this is required but could have a general game msg which tells user that is end of convo, can be binned easily if not required
-                    //Console.log to be replaced once output destination is confirmed
+                    //Indication to user that convo have finished
                     console.log(thor.currentTile.npcs[i].name.toUpperCase() + ": We have spoken enough, on with your Quest!");
 
                     //Stop executing for loop as any additional loops 
@@ -111,7 +98,6 @@ function npcButtonChat(){
     				//Cycle through the current NPC chat using the chatPosition variable
                     if (thor.currentTile.npcs[i].currentDialogue[thor.currentTile.npcs[i].chatPosition].speaker.toUpperCase() == "NPC"){
                         
-
                        	//Console.log to be replaced once output destination is confirmed
                     	console.log(thor.currentTile.npcs[i].name.toUpperCase() + ": " +                    
                    		thor.currentTile.npcs[i].currentDialogue[thor.currentTile.npcs[i].chatPosition].speech);
