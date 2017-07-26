@@ -85,12 +85,32 @@ function obtainItem(){
 
 					if (thor.currentTile.npcs[j].questItem === undefined){
 						console.log(thor.currentTile.npcs[j].id.toUpperCase() + ": Sorry, nothing to give you, onwards with your quest!");
+
+						//NPC - nothing to give convo
 					}
 	
 					else if (thor.items.indexOf(thor.currentTile.npcs[j].questItem) == -1){
 						//if Thor doesn't already have item, add the whole object
 						thor.items.push(thor.currentTile.npcs[j].questItem);
 						console.log(thor.currentTile.npcs[j].questItem.name + ": added to Thors inventory");
+
+						//Updating the NPC's conversation array based on 
+	                    if (thor.currentTile.npcs[j].convoStatus == "Initial"){
+	                    	//Make sure the NPC has a secondary conversation set up, if so use it
+	                    	if (thor.currentTile.npcs[j].dialogueList.length > 1){
+    	    	                //Move the array to point to the next item
+        	    	            thor.currentTile.npcs[j].currentDialogue = thor.currentTile.npcs[j].dialogueList[1];
+        	    	            //start at the beginning of the array
+        	    	            thor.currentTile.npcs[j].chatPosition = 0;
+            	    	        //Update NPC for next convo
+                	    	    thor.currentTile.npcs[j].convoStatus = "Given";
+	                    	}
+                    	}
+                    	/*
+                    	else if (convoStatus == "Given" && thor.currentTile.npcs[i].id == <specificNPC> ){
+                        	 Specific use cases for setting NPC conversation can be put in here
+                     	}
+                    	*/
 					}
 					else{
 						console.log(thor.currentTile.npcs[j].questItem.name + ": already in Thors inventory");

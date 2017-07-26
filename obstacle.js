@@ -72,23 +72,21 @@ function hitDetection(mover, thingsToAvoid){
             mover.yPos < (thingsToAvoid[i].yPos + thingsToAvoid[i].height) && 
             mover.yPos > (thingsToAvoid[i].yPos - mover.height)) {
 
+
             if ((thingsToAvoid[i].type == "enemy" && mover == thor) || thingsToAvoid[i] == thor){
                 // space left for code to remove health from Thor, or whatever
                 // the following is just an example:
                 thor.health--;
             }
 
-            if (thingsToAvoid[i].type == "Obstacle"){
-                //Be aware that walls are also obstacles, need to filter out 'wall' as being an obstacle type to 
-                // prevent confusion in the obtainItem function
-                if (thor.nextToID == "wall" || thingsToAvoid[i].id == "wall"){
+            if (thingsToAvoid[i].type == "Obstacle" && mover == thor){
 
-                }
-                else{
-                    thor.nextToID = thingsToAvoid[i].id;                
-                    thor.nextToType = thingsToAvoid[i].type;                                    
-                }
+                console.log("Type: " +thingsToAvoid[i].type);
+                console.log("ID: " +thingsToAvoid[i].id);
+                thor.nextToID = thingsToAvoid[i].id;                
+                thor.nextToType = thingsToAvoid[i].type;                                    
             }
+ 
             else if (thingsToAvoid[i].type == "Item" && mover == thor){
                 //console.log("Item '" + thingsToAvoid[i].id + "' detected");
                 //recorded for use with button press activities (so Thor knows what item is being picked up)
