@@ -96,6 +96,16 @@ function fixedPath(points) {
     }
 }
 
+var itsFollowingMe = new Enemy("follower", 10, height-50, 30, 30, "hotpink", 2, moveTowardsThor);
+var xOscillator = new Enemy("x-oscillator", 0, 0, 50, 50, "magenta", 1, fixedPath([[0,0], [width-50, 0]]));
+var triangulator = new Enemy("triangulator", 50, 80, 20, 20, "lightsteelblue", 2, fixedPath([[50,80], [360,500], [650,330]]));
+var funnyPath = new Enemy("funnyShape", wallThickness, wallThickness, 80, 80, "#21abd2", 5,
+                            fixedPath([[wallThickness,wallThickness], [width-wallThickness-80,wallThickness],
+                            [width-wallThickness-80,height*2/3], [width/2, 20], [width/4, 400]]));
+
+   
+
+
 function randomMovement(stability) {
     // "stability" is a parameter which defines how many times the enemy needs to
     // keep moving in the same direction before changing

@@ -384,6 +384,8 @@ function gameLoop(){
  	//To enable diaglogue with NPC's on key press (C)
 	npcButtonChat();
 
+
+
  	requestAnimationFrame(gameLoop);
 
 	// 'q' for quit

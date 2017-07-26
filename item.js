@@ -138,19 +138,15 @@ function obtainItem(){
 		//Not near anything? Then just list inventory.
 		else {
 			//As the thor items is  list of objects, need to iterate through and add names to a new array to be output
+			
 			var thorInventoryOutput = [];
-        	for (var k=0; k<thor.items.length; k++) {
-        		thorInventoryOutput.push(thor.items[k].name);
-        	}
-        	console.log(thorInventoryOutput);
+    		for (var k=0; k<thor.items.length; k++) {
+				thorInventoryOutput.push(thor.items[k].name);
+   			}
+       		console.log("Thor's Swag Bag: " +thorInventoryOutput);
+
     	}
     }
     itemObtainingOK = false;
 }
-
-
-function obstaclesWallFilter(array) {
-    return array.id != "wall";
-}
-
 

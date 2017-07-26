@@ -212,6 +212,8 @@ MapTile.prototype.getWallSegments = function() {
     return result;
 }
 
+var swordPic = new Image();
+swordPic.src = 'assets/items/sword.png';
 /*
 	Game Objects
 	------------
@@ -245,6 +247,9 @@ var item3_2 = new Item("item3_1","Magic Banjo");
 var obstacle3_1 = new Obstacle("ob3_1", 10,10,40,40, "red", item3_2);
 
 
+var tree2_1 = new Obstacle(100,50,40,40, "green");
+var tree2_2 = new Obstacle(300,300,50,50, "black");
+var rock2_1 = new Obstacle(500,500,70, 70, "blue");
 
 // try to construct basic map. Will be square, but without doors in all the obvious places!
 // note that there are no items or characters for now!
@@ -265,6 +270,7 @@ var NEDoorS = new SWallDoor (width-120, 100);
 NEDoorS.doorID = "NEDoorS";
 NEDoorS.pointer = ["SE", "SEDoorN"];
 var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [item2_1, item2_2], [npc2_1, npc2_2], [obstacle2_1, obstacle2_2], [triangulator], "red", "green"); //my own colour choices are more boring ;)
+
 
 // similary SE tile will have doors to North and West
 var SEDoorN = new NWallDoor(width-120, 100);
