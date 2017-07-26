@@ -36,7 +36,7 @@ thor = {
 	isPointing : 1,
 	moveSize : 3,
 	walkAnimFrame : 11,
-	items: ['sword'],
+	items: [],
 	nextToID: "nothing",
 	nextToType: "nothing",		
 

@@ -225,12 +225,13 @@ swordPic.src = 'assets/items/sword.png';
 */
 
 
-var obstacle1_1 = new Obstacle("ob1_1", 50,180,40,40, "blue");
-var obstacle1_2 = new Obstacle("ob1_2", 90,90,60,60, "blue");
-var obstacle1_3 = new Obstacle("ob1_3", 250,250,80, 80, "blue");
 var item1_1 = new Item("item1_1", "Magic Key", 350,350,40, 40, "Yellow");
-var item1_2 = new Item("item1_2", "Magic Potion1");
+var item1_2 = new Item("item1_2", "Magic Potion");
 var item1_3 = new Item("item1_3", "Magic Mushroom");
+var item1_4 = new Item("item1_4", "Secret Squirrel");
+var obstacle1_1 = new Obstacle("ob1_1", 50,180,40,40, "blue");
+var obstacle1_2 = new Obstacle("ob1_2", 90,90,60,60, "blue", item1_4);
+var obstacle1_3 = new Obstacle("ob1_3", 250,250,80, 80, "blue");
 var npc1_1 = new NPC("Wizard Dave", 550,550,40, 40, "black", "Greetings Thor", [{speaker:"Thor", speech:"Hello"}, {speaker:"npc", speech:"I have a magic potion for you, please take it"}], item1_2);
 var npc1_2 = new NPC("Grand Wizard Malcom", 450,450,40, 40, "black", "Hello Thor", [{speaker:"Thor", speech:"Warm Salutations to you"}, {speaker:"Npc", speech:"I have some magic mushrooms to make your quest more interesting, please take them"}], item1_3);
 
@@ -241,13 +242,14 @@ var item2_2 = new Item("item2_2", "Magic Boot");
 var npc2_1 = new NPC("Junior Wizard Colin", 450,450,40, 40, "black", "none", [{speaker: "npc", speech:"I have a magic boot which is essential for your quest"}, {speaker: "Thor", speech: "A boot? Seriously!?!"}, {speaker: "npc", speech:"Yes, be safe a take it with you"}], item2_2);
 var npc2_2 = new NPC("Advance Wizard Jeff", 350,450,40, 40, "black", "none", [{speaker: "npc", speech:"I'm not very chatty and have nothing for you"}, {speaker: "Thor", speech: "Oh!"}, {speaker: "npc", speech:"Try to take something"}]);
 
-var obstacle3_1 = new Obstacle("ob3_1", 0,0,40,40, "blue");
 var item3_1 = new Item("item3_1","Gold Trophy", 350,350,40, 40, "Yellow");
+var item3_2 = new Item("item3_1","Magic Banjo");
+var obstacle3_1 = new Obstacle("ob3_1", 10,10,40,40, "red", item3_2);
+
 
 var tree2_1 = new Obstacle(100,50,40,40, "green");
 var tree2_2 = new Obstacle(300,300,50,50, "black");
 var rock2_1 = new Obstacle(500,500,70, 70, "blue");
-var sword = new Sword(500, 350, swordPic);
 
 // try to construct basic map. Will be square, but without doors in all the obvious places!
 // note that there are no items or characters for now!

@@ -7,8 +7,23 @@
     It also contains a draw function to draw the rectangle invoked via the drawBackground() function.
 */
 
-
+<<<<<<< HEAD
 function Obstacle (id, xPos, yPos, width, height, colour, questItem) {
+=======
+
+function Sword (xPos1, yPos1, pic) {
+    this.pic = pic;
+    this.xPos1 = xPos1;
+    this.yPos1 = yPos1;
+    this.draw = function() {
+        ctx.beginPath();
+        ctx.drawImage(this.pic, this.xPos, this.yPos, 40, 40);
+        ctx.closePath();
+        };
+}
+
+function Obstacle (id, xPos, yPos, width, height, colour) {
+>>>>>>> master
     this.type = "Obstacle";
     this.id = id; 
     this.xPos = xPos;
