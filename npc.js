@@ -11,7 +11,8 @@ var npcChatOK;
 	Noteworthy elements:
 			greeting: A message output by NPC when Thor is next to them.
 					- If an NPC which needs conversation invoked is desired, use the keyword 'None' in the constructor to omit a greeting.
-			dialogue: Should be an array of JS objects in the form {speaker: "xyz", speech: "abc"}.
+     currentDialogue: The dialogue script which will be used when the chatButton code executes
+		dialogueList: Should be an array, of arrays containing JS objects in the form {speaker: "xyz", speech: "abc"}.
 					- if speaker npc then use npc in constructor and the npc ID property will be used, anything else assumes Thor is speaking.
 		chatPosition: Tracks the current position in the dialogue array, is reset when a Thor moves away from an NPC.
            questItem: An item *object* the NPC is holding for thor to aid him on his quest - so items need creating *BEFORE* NPC's so they can be passed in
@@ -32,9 +33,6 @@ function NPC (id, name, xPos, yPos, width, height, colour, greeting, dialogueLis
     this.convoStatus = "Initial";
     this.currentDialogue = dialogueList[0];
     this.dialogueList = dialogueList;    
-
-
-    
     this.questItem = questItem;
     this.chatPosition = 0;
 

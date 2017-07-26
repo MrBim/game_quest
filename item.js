@@ -12,7 +12,7 @@ var itemObtainingOK;
 */
 
 
-function Item (id, name, xPos, yPos, width, height, colour, questItem) {
+function Item (id, name, xPos, yPos, width, height, colour) {
     this.type = "Item";
     this.id = id;    
     this.name = name;
@@ -21,7 +21,6 @@ function Item (id, name, xPos, yPos, width, height, colour, questItem) {
     this.width = width;
     this.height = height;
     this.colour = colour;
-    this.questItem = questItem;
     this.draw = function() {
         ctx.beginPath();
         ctx.fillStyle=this.colour;

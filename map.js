@@ -231,7 +231,7 @@ var item1_4 = new Item("item1_4", "Secret Squirrel");
 var obstacle1_1 = new Obstacle("ob1_1", 50,180,40,40, "blue");
 var obstacle1_2 = new Obstacle("ob1_2", 90,90,60,60, "blue", item1_4);
 var obstacle1_3 = new Obstacle("ob1_3", 250,250,80, 80, "blue");
-var npc1_1 = new NPC("npc1_1", "Wizard Dave", 550,550,40, 40, "black", "Greetings Thor", [[{speaker:"Thor", speech:"Hello"}, {speaker:"npc", speech:"I have a magic potion for you, please take it"}], [{speaker:"npc", speech:"I given you the magic potion, stop *&!*&*^% perstering me! On your way!"}]], item1_2);
+var npc1_1 = new NPC("npc1_1", "Wizard Dave", 550,550,40, 40, "black", "Greetings Thor", [[{speaker:"Thor", speech:"Hello"}, {speaker:"npc", speech:"I have a magic potion for you, please take it"}], [{speaker:"npc", speech:"I given you the magic potion, stop *&!*&*^% pestering me! On your way!"}]], item1_2);
 var npc1_2 = new NPC("npc1_2","Grand Wizard Malcom", 450,450,40, 40, "black", "Hello Thor", [[{speaker:"Thor", speech:"Warm Salutations to you"}, {speaker:"Npc", speech:"I have some magic mushrooms to make your quest more interesting, please take them"}], [{speaker:"npc", speech:"I am not giving you any more magic mushrooms, this is a quest not a party"}, {speaker:"Thor", speech:"Awww maaan, your meeeeeean!"}]], item1_3);
 
 var obstacle2_1 = new Obstacle("ob2_1", 500,500,140,140, "blue");
