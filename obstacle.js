@@ -7,7 +7,7 @@
     It also contains a draw function to draw the rectangle invoked via the drawBackground() function.
 */
 
-function Obstacle (id, xPos, yPos, width, height, colour) {
+function Obstacle (id, xPos, yPos, width, height, colour, questItem) {
     this.type = "Obstacle";
     this.id = id; 
     this.xPos = xPos;
@@ -15,6 +15,7 @@ function Obstacle (id, xPos, yPos, width, height, colour) {
     this.width = width;
     this.height = height;
     this.colour = colour;
+    this.questItem = questItem;
     this.draw = function() {
         ctx.beginPath();
         ctx.fillStyle=this.colour;
@@ -54,8 +55,17 @@ function hitDetection(mover, thingsToAvoid){
                 // the following is just an example:
                 thor.health--;
             }
-            
+
             if (thingsToAvoid[i].type == "Obstacle"){
+                //Be aware that walls are also obstacles, need to filter out 'wall' as being an obstacle type to 
+                // prevent confusion in the obtainItem function
+                if (thor.nextToID == "wall" || thingsToAvoid[i].id == "wall"){
+
+                }
+                else{
+                    thor.nextToID = thingsToAvoid[i].id;                
+                    thor.nextToType = thingsToAvoid[i].type;                                    
+                }
             }
             else if (thingsToAvoid[i].type == "Item" && mover == thor){
                 //console.log("Item '" + thingsToAvoid[i].id + "' detected");

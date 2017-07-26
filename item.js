@@ -12,7 +12,7 @@ var itemObtainingOK;
 */
 
 
-function Item (id, name, xPos, yPos, width, height, colour) {
+function Item (id, name, xPos, yPos, width, height, colour, questItem) {
     this.type = "Item";
     this.id = id;    
     this.name = name;
@@ -21,7 +21,7 @@ function Item (id, name, xPos, yPos, width, height, colour) {
     this.width = width;
     this.height = height;
     this.colour = colour;
-
+    this.questItem = questItem;
     this.draw = function() {
         ctx.beginPath();
         ctx.fillStyle=this.colour;
@@ -101,6 +101,40 @@ function obtainItem(){
 				}
 			}	
 		}
+		else if (thor.nextToType == "Obstacle"){
+			//Work out which obstacle
+			//The Obstacle array contains wall obstacles as well as game obstacles
+			//Need to filter out the wall obstacles
+			var replacementObstacleArray = [];
+        	for (var a=0; a<thor.currentTile.obstacles.length; a++) {
+        		if (thor.currentTile.obstacles[a].id != "wall"){
+					replacementObstacleArray.push(thor.currentTile.obstacles[a]); 
+        		}
+        	}
+        	for (var m=0; m<replacementObstacleArray.length; m++) {
+
+        		//find the npc within the currentTile.items array
+				if (replacementObstacleArray[m].id == thor.nextToID){
+					//does the obstacle have a questItem
+					if (replacementObstacleArray[m].questItem === undefined){
+						console.log("I'm a mere obstacle, move along!");
+					}
+	
+					else if (thor.items.indexOf(replacementObstacleArray[m].questItem) == -1){
+						//if Thor doesn't already have item, add the whole object
+						thor.items.push(replacementObstacleArray[m].questItem);
+						console.log(replacementObstacleArray[m].questItem.name + ": added to Thors inventory");
+					}
+					else{
+						console.log(replacementObstacleArray[m].questItem.name + ": already in Thors inventory");
+					}
+					
+					//No need to complete redundent cycles of for loop
+					break;					
+				}
+			}	
+		}
+
 		//Not near anything? Then just list inventory.
 		else {
 			//As the thor items is  list of objects, need to iterate through and add names to a new array to be output
@@ -109,8 +143,14 @@ function obtainItem(){
         		thorInventoryOutput.push(thor.items[k].name);
         	}
         	console.log(thorInventoryOutput);
-    	}	
+    	}
     }
     itemObtainingOK = false;
 }
+
+
+function obstaclesWallFilter(array) {
+    return array.id != "wall";
+}
+
 
