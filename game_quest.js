@@ -113,7 +113,9 @@ function drawBackground() {
 	//now draw the enemies
 	
 	for (var i=0; i<tile.enemies.length; i++) {
-		tile.enemies[i].draw();
+		if (tile.enemies[i].alive) {
+			tile.enemies[i].draw();
+		}
 	}
 	
 }
@@ -129,7 +131,7 @@ function itCantGoThere(mover) {
 	return (hitDetection(mover, thor.currentTile.obstacles) ||
 			hitDetection(mover, thor.currentTile.items)	||
 			hitDetection(mover, thor.currentTile.npcs) ||
-			hitDetection(mover, thor.currentTile.enemies) ||
+			hitDetection(mover, thor.currentTile.enemies.filter(enemy => enemy.alive)) ||
 			hitDetection(mover, [thor]));
 }
 
@@ -233,12 +235,15 @@ function thor_walkThroughDoor() {
 					if (worldMap[j].id == tile.doors[i].pointer[0]) {
 						var newTile = worldMap[j];
 						thor.currentTile = newTile;
-						// set all enemies to be in their initial positions on new tile:
+						// set all enemies to be in their initial positions on new tile
+						// - also regenerate them if they were previously dead!:
 						for (var k=0; k<newTile.enemies.length; k++) {
-							newTile.enemies[k].xPos = newTile.enemies[k].startXPos;
-							newTile.enemies[k].yPos = newTile.enemies[k].startYPos;
+							var enemy = newTile.enemies[k];
+							enemy.alive = true;
+							enemy.xPos = enemy.startXPos;
+							enemy.yPos = enemy.startYPos;
 							// also make sure fixed-path enemies resume their path from the start:
-							newTile.enemies[k].targetIndex = undefined;
+							enemy.targetIndex = undefined;
 						}
 						// find door where Thor will "arrive" at
 						for (var k=0; k<newTile.doors.length; k++) {
@@ -342,6 +347,36 @@ function enemyMovement() {
 	}
 }
 
+function violence() {
+	if (keys[86]) { // V for violence, why not?
+		if (thor.health == 100) {
+			// fire lightning, code will go here!
+		}
+		else {
+			// hit with sword
+			console.log("feel my sword, you annoying bunch of pixels!")
+			for (var i=0; i<thor.currentTile.enemies.filter(enemy => enemy.alive).length; i++) {
+				// trying out arrow functions for the first time, why not? Saves quite a lot of space here!
+				var enemy = thor.currentTile.enemies.filter(enemy => enemy.alive)[i];
+				if (hitDetection(thor, [enemy], 10)) {
+					enemy.health--;
+					console.log (enemy.id + " health now " + enemy.health);
+					if (enemy.health <= 0) {
+						enemy.alive = false;
+					}
+				}
+			}
+		}
+	}
+}
+
+function thor_healthCheck() {
+	if (thor.hasBeenHit) {
+		thor.health--;
+		thor.hasBeenHit = false;
+	}
+}
+
 function quit() {
 	hasRun = false;
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -375,10 +410,12 @@ function gameLoop(){
 	clearCanvas();
  	thor_movement();
 	thor_walkThroughDoor();
+	violence();
 	enemyMovement();
  	drawBackground();
  	drawPlayer();
- 	drawunderparts();
+	drawunderparts();
+	thor_healthCheck();
  	words();
 	obtainItem();
  	//To enable diaglogue with NPC's on key press (C)

@@ -58,7 +58,10 @@ function Obstacle (id, xPos, yPos, width, height, colour, questItem) {
 
     Couldn't think of a better word than 'things' to encapsulate obstacles, items and characters, lol - if you do, please update below!
 */
-function hitDetection(mover, thingsToAvoid){    
+function hitDetection(mover, thingsToAvoid, tolerance){ 
+    if (tolerance === undefined) {
+        tolerance = 0;
+    }   
     for (var i=0; i<thingsToAvoid.length; i++) {      
 
         // need to skip detection of an enemy against itself, or it will never move!
@@ -67,19 +70,19 @@ function hitDetection(mover, thingsToAvoid){
             continue;
         }
         
-        if (mover.xPos > (thingsToAvoid[i].xPos -mover.width) && 
-            mover.xPos < (thingsToAvoid[i].xPos + thingsToAvoid[i].width) &&
-            mover.yPos < (thingsToAvoid[i].yPos + thingsToAvoid[i].height) && 
-            mover.yPos > (thingsToAvoid[i].yPos - mover.height)) {
+        if (mover.xPos + tolerance > (thingsToAvoid[i].xPos -mover.width) && 
+            mover.xPos - tolerance < (thingsToAvoid[i].xPos + thingsToAvoid[i].width) &&
+            mover.yPos - tolerance < (thingsToAvoid[i].yPos + thingsToAvoid[i].height) && 
+            mover.yPos + tolerance > (thingsToAvoid[i].yPos - mover.height)) {
 
 
-            if ((thingsToAvoid[i].type == "enemy" && mover == thor) || thingsToAvoid[i] == thor){
+            if ((thingsToAvoid[i].type == "enemy" && thingsToAvoid[i].alive && mover == thor) || thingsToAvoid[i] == thor && mover.alive){
                 // space left for code to remove health from Thor, or whatever
                 // the following is just an example:
-                thor.health--;
+                thor.hasBeenHit = true;
             }
 
-            if (thingsToAvoid[i].type == "Obstacle" && mover == thor){
+            else if (thingsToAvoid[i].type == "Obstacle" && mover == thor){
                //recorded for use with button press activities (so Thor knows obstacle he is infront of)
                 thor.nextToID = thingsToAvoid[i].id;                
                 thor.nextToType = thingsToAvoid[i].type;                                    
