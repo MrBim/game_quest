@@ -240,6 +240,7 @@ function thor_walkThroughDoor() {
 						for (var k=0; k<newTile.enemies.length; k++) {
 							var enemy = newTile.enemies[k];
 							enemy.alive = true;
+							enemy.health = enemy.startHealth;
 							enemy.xPos = enemy.startXPos;
 							enemy.yPos = enemy.startYPos;
 							// also make sure fixed-path enemies resume their path from the start:

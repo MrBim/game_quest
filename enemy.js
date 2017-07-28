@@ -45,6 +45,7 @@ function Enemy (id, startXPos, startYPos, width, height, colour, speed, move, he
     this.speed = speed;
     this.move = move;
     this.health = health;
+    this.startHealth = health;
     this.alive = true;
 }
 
