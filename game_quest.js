@@ -59,7 +59,7 @@ var thor = {
 
 var lightning = {
 	size: 20,
-	speed: 1,
+	speed: 5,
 	positions: []
 	// positions will be an array of objects - one for each "block" of lightning on the screen
 	// each such block will have 3 properties, an xPos, yPos and a direction
@@ -391,6 +391,8 @@ function violence() {
 			lightning.positions.push({
 				xPos: lightningStartXPos,
 				yPos: lightningStartYPos,
+				width: lightning.size,
+				height: lightning.size,
 				direction: directions[thor.isPointing - 1]
 			});
 		}
@@ -418,41 +420,41 @@ function lightningMoveAndHits() {
 	that strange behaviour could result. To be save we start with a new empty array,
 	add each lightning block back in if it *hasn't* hit an enemy, then set lightning.positions
 	to be the new array at the end of the loop */
-	var newLightningPositions = [];
 	for (var i=0; i<thor.currentTile.enemies.filter(enemy => enemy.alive).length; i++) {
+		var newLightningPositions = [];
 		var enemy = thor.currentTile.enemies.filter(enemy => enemy.alive)[i];
+		if (hitDetection(enemy, lightning.positions)) {
+			enemy.health--;
+			console.log (enemy.id + " hit by lightning! Health now " + enemy.health);
+			if (enemy.health <= 0) {
+				enemy.alive = false;
+			}
+		}
 		for (var j=0; j<lightning.positions.length; j++) {
-			console.log(i);
+			// console.log(i);
 			var keepIt = true;
-			console.log(lightning.positions.length);
-			if (lightning.positions.length>100) {
-				debugger;
-			}
-			if (hitDetection(enemy, [lightning.positions[j]])) {
-				enemy.health--;
-				console.log (enemy.id + " hit by lightning! Health now " + enemy.health);
-				if (enemy.health <= 0) {
-					enemy.alive = false;
-				}
-			}
+			// console.log(newLightningPositions.length);
+						
 			// remove lightning if it hits an enemy (or obstacle/npc/item/thor)!
 			if (itCantGoThere(lightning.positions[j])) {
 				keepIt = false;
 			}
-			console.log(lightning.positions.length);
-			console.log(newLightningPositions);
+			// console.log(newLightningPositions.length);
+			// console.log(newLightningPositions);
 			if (keepIt) {
 				newLightningPositions.push(lightning.positions[j]);
+				// console.log(newLightningPositions.length);
 			}
-			console.log(newLightningPositions);
+			// console.log(newLightningPositions.length);
 		}
-		console.log("loop through lightning blocks over for now");
-		lightning.positions = newLightningPositions.slice();
+		// console.log("loop through lightning blocks over for now");
+		lightning.positions = newLightningPositions;
 	}
+		
 	// lightning movement
 	for (var i=0; i<lightning.positions.length; i++) {
-		lightning.positions[i].xPos += lightning.positions[i].direction[0];
-		lightning.positions[i].yPos += lightning.positions[i].direction[1];
+		lightning.positions[i].xPos += lightning.speed*lightning.positions[i].direction[0];
+		lightning.positions[i].yPos += lightning.speed*lightning.positions[i].direction[1];
 	}
 }
 
