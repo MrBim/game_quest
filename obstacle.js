@@ -70,7 +70,7 @@ function hitDetection(mover, thingsToAvoid, tolerance){
             continue;
         }
         
-        if (mover.xPos + tolerance > (thingsToAvoid[i].xPos -mover.width) && 
+        if (mover.xPos + tolerance > (thingsToAvoid[i].xPos - mover.width) && 
             mover.xPos - tolerance < (thingsToAvoid[i].xPos + thingsToAvoid[i].width) &&
             mover.yPos - tolerance < (thingsToAvoid[i].yPos + thingsToAvoid[i].height) && 
             mover.yPos + tolerance > (thingsToAvoid[i].yPos - mover.height)) {

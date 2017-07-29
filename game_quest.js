@@ -421,7 +421,6 @@ function lightningMoveAndHits() {
 	add each lightning block back in if it *hasn't* hit an enemy, then set lightning.positions
 	to be the new array at the end of the loop */
 	for (var i=0; i<thor.currentTile.enemies.filter(enemy => enemy.alive).length; i++) {
-		var newLightningPositions = [];
 		var enemy = thor.currentTile.enemies.filter(enemy => enemy.alive)[i];
 		if (hitDetection(enemy, lightning.positions)) {
 			enemy.health--;
@@ -430,32 +429,24 @@ function lightningMoveAndHits() {
 				enemy.alive = false;
 			}
 		}
-		for (var j=0; j<lightning.positions.length; j++) {
-			// console.log(i);
-			var keepIt = true;
-			// console.log(newLightningPositions.length);
-						
-			// remove lightning if it hits an enemy (or obstacle/npc/item/thor)!
-			if (itCantGoThere(lightning.positions[j])) {
-				keepIt = false;
-			}
-			// console.log(newLightningPositions.length);
-			// console.log(newLightningPositions);
-			if (keepIt) {
-				newLightningPositions.push(lightning.positions[j]);
-				// console.log(newLightningPositions.length);
-			}
-			// console.log(newLightningPositions.length);
-		}
-		// console.log("loop through lightning blocks over for now");
-		lightning.positions = newLightningPositions;
 	}
-		
-	// lightning movement
+
+	var newLightningPositions = [];
 	for (var i=0; i<lightning.positions.length; i++) {
+		var keepIt = true;
+						
+		// remove lightning if it hits an enemy (or obstacle/npc/item/thor)!
+		if (itCantGoThere(lightning.positions[i])) {
+			keepIt = false;
+		}
+		if (keepIt) {
+			newLightningPositions.push(lightning.positions[i]);
+		}
+		// lightning movement
 		lightning.positions[i].xPos += lightning.speed*lightning.positions[i].direction[0];
 		lightning.positions[i].yPos += lightning.speed*lightning.positions[i].direction[1];
 	}
+	lightning.positions = newLightningPositions;
 }
 
 function thor_healthCheck() {
@@ -510,9 +501,7 @@ function gameLoop(){
  	//To enable diaglogue with NPC's on key press (C)
 	npcButtonChat();
 
-
-
- 	requestAnimationFrame(gameLoop);
+	requestAnimationFrame(gameLoop);
 
 	// 'q' for quit
 	if (keys[81]) {  	
