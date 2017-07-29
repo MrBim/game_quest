@@ -23,7 +23,7 @@ var keys = [];
 // game elements
 var hasRun = false; // used to set init values on first itteration of game loop
 
-thor = {
+var thor = {
 	health: 100,
 	dispSize : 40,
 	// defining width and height separately, because needed for hit detection code now:
@@ -55,7 +55,15 @@ thor = {
 	// need to know starting location
 	currentTile: NWTile
 
-}
+};
+
+var lightning = {
+	size: 20,
+	speed: 1,
+	positions: []
+	// positions will be an array of objects - one for each "block" of lightning on the screen
+	// each such block will have 3 properties, an xPos, yPos and a direction
+};
 
 thor.thorPicOneN.src = 'assets/thor/thor_one_n.png';
 thor.thorPicTwoN.src = 'assets/thor/thor_two_n.png';
@@ -117,6 +125,14 @@ function drawBackground() {
 			tile.enemies[i].draw();
 		}
 	}
+
+	//draw lightning
+	for (var i=0; i<lightning.positions.length; i++) {
+		ctx.beginPath();
+        ctx.fillStyle="white";
+        ctx.rect(lightning.positions[i].xPos, lightning.positions[i].yPos, lightning.size, lightning.size); 
+        ctx.fill();
+	};
 	
 }
 
@@ -245,6 +261,8 @@ function thor_walkThroughDoor() {
 							enemy.yPos = enemy.startYPos;
 							// also make sure fixed-path enemies resume their path from the start:
 							enemy.targetIndex = undefined;
+							// finally remove all lightning from new screen!
+							lightning.positions = [];
 						}
 						// find door where Thor will "arrive" at
 						for (var k=0; k<newTile.doors.length; k++) {
@@ -351,7 +369,30 @@ function enemyMovement() {
 function violence() {
 	if (keys[86]) { // V for violence, why not?
 		if (thor.health == 100) {
-			// fire lightning, code will go here!
+			// fire lightning!
+			var directions = [[0,-1], [-1,0], [0,1], [1,0]];
+			var lightningStartXPos, lightningStartYPos;
+			if (thor.isPointing == 1) { // up
+				lightningStartXPos = thor.xPos + (thor.dispSize - lightning.size)/2;
+				lightningStartYPos = thor.yPos - lightning.size;
+			}
+			else if (thor.isPointing == 2) { // left
+				lightningStartXPos = thor.xPos - lightning.size;
+				lightningStartYPos = thor.yPos + (thor.dispSize - lightning.size)/2;
+			}
+			else if (thor.isPointing == 3) { // down
+				lightningStartXPos = thor.xPos + (thor.dispSize - lightning.size)/2;
+				lightningStartYPos = thor.yPos + thor.dispSize;
+			}
+			else if (thor.isPointing == 4) { // right
+				lightningStartXPos = thor.xPos + thor.dispSize;
+				lightningStartYPos = thor.yPos + (thor.dispSize - lightning.size)/2;
+			}
+			lightning.positions.push({
+				xPos: lightningStartXPos,
+				yPos: lightningStartYPos,
+				direction: directions[thor.isPointing - 1]
+			});
 		}
 		else {
 			// hit with sword
@@ -368,6 +409,50 @@ function violence() {
 				}
 			}
 		}
+	}
+}
+
+function lightningMoveAndHits() {
+	/* start to construct new array of lightning position objects. We want to remove any
+	which have hit an enemy - but if we just remove from the array we are looping over
+	that strange behaviour could result. To be save we start with a new empty array,
+	add each lightning block back in if it *hasn't* hit an enemy, then set lightning.positions
+	to be the new array at the end of the loop */
+	var newLightningPositions = [];
+	for (var i=0; i<thor.currentTile.enemies.filter(enemy => enemy.alive).length; i++) {
+		var enemy = thor.currentTile.enemies.filter(enemy => enemy.alive)[i];
+		for (var j=0; j<lightning.positions.length; j++) {
+			console.log(i);
+			var keepIt = true;
+			console.log(lightning.positions.length);
+			if (lightning.positions.length>100) {
+				debugger;
+			}
+			if (hitDetection(enemy, [lightning.positions[j]])) {
+				enemy.health--;
+				console.log (enemy.id + " hit by lightning! Health now " + enemy.health);
+				if (enemy.health <= 0) {
+					enemy.alive = false;
+				}
+			}
+			// remove lightning if it hits an enemy (or obstacle/npc/item/thor)!
+			if (itCantGoThere(lightning.positions[j])) {
+				keepIt = false;
+			}
+			console.log(lightning.positions.length);
+			console.log(newLightningPositions);
+			if (keepIt) {
+				newLightningPositions.push(lightning.positions[j]);
+			}
+			console.log(newLightningPositions);
+		}
+		console.log("loop through lightning blocks over for now");
+		lightning.positions = newLightningPositions.slice();
+	}
+	// lightning movement
+	for (var i=0; i<lightning.positions.length; i++) {
+		lightning.positions[i].xPos += lightning.positions[i].direction[0];
+		lightning.positions[i].yPos += lightning.positions[i].direction[1];
 	}
 }
 
@@ -412,6 +497,7 @@ function gameLoop(){
  	thor_movement();
 	thor_walkThroughDoor();
 	violence();
+	lightningMoveAndHits();
 	enemyMovement();
  	drawBackground();
  	drawPlayer();
