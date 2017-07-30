@@ -228,6 +228,7 @@ var item1_1 = new Item("item1_1", "Magic Key", 350,350,40, 40, "yellow");
 var item1_2 = new Item("item1_2", "Magic Potion");
 var item1_3 = new Item("item1_3", "Magic Mushroom");
 var item1_4 = new Item("item1_4", "Secret Squirrel");
+var powerUp1 = new Item("powerup", "Power Up 1", width-wallThickness-30, (height/2)-50, 30, 30, "yellow")
 var obstacle1_1 = new Obstacle("ob1_1", 50,180,40,40, "blue");
 var obstacle1_2 = new Obstacle("ob1_2", 90,90,60,60, "blue", item1_4);
 var obstacle1_3 = new Obstacle("ob1_3", 250,250,80, 80, "blue");
@@ -256,10 +257,10 @@ var rock2_1 = new Obstacle(500,500,70, 70, "blue");
 /* This first room is the top-left of the square - so it has an ID of "NW".
 It will just have a door to the East, connecting to room "NE" */
 
-var NWDoorE = new EWallDoor(30, 70);
+var NWDoorE = new EWallDoor(30, 80);
 NWDoorE.doorID = "NWDoorE";
 NWDoorE.pointer = ["NE", "NEDoorW"];
-var NWTile = new MapTile("NW", [NWDoorE], [item1_1], [npc1_1, npc1_2], [obstacle1_1, obstacle1_2, obstacle1_3], [xOscillator, randomMover], "#02b109", "black"); // honouring Bim's original choice of colour!
+var NWTile = new MapTile("NW", [NWDoorE], [item1_1, powerUp1], [npc1_1, npc1_2], [obstacle1_1, obstacle1_2, obstacle1_3], [xOscillator, randomMover], "#02b109", "black"); // honouring Bim's original choice of colour!
 
 
 // NE tile will have doors to the West and South

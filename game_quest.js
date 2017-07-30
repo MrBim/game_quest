@@ -23,7 +23,7 @@ var keys = [];
 // game elements
 var hasRun = false; // used to set init values on first itteration of game loop
 
-thor = {
+var thor = {
 	health: 100,
 	dispSize : 40,
 	// defining width and height separately, because needed for hit detection code now:
@@ -55,7 +55,15 @@ thor = {
 	// need to know starting location
 	currentTile: NWTile
 
-}
+};
+
+var lightning = {
+	size: 20,
+	speed: 5,
+	positions: []
+	// positions will be an array of objects - one for each "block" of lightning on the screen
+	// each such block will have 3 properties, an xPos, yPos and a direction
+};
 
 thor.thorPicOneN.src = 'assets/thor/thor_one_n.png';
 thor.thorPicTwoN.src = 'assets/thor/thor_two_n.png';
@@ -113,8 +121,18 @@ function drawBackground() {
 	//now draw the enemies
 	
 	for (var i=0; i<tile.enemies.length; i++) {
-		tile.enemies[i].draw();
+		if (tile.enemies[i].alive) {
+			tile.enemies[i].draw();
+		}
 	}
+
+	//draw lightning
+	for (var i=0; i<lightning.positions.length; i++) {
+		ctx.beginPath();
+        ctx.fillStyle="white";
+        ctx.rect(lightning.positions[i].xPos, lightning.positions[i].yPos, lightning.size, lightning.size); 
+        ctx.fill();
+	};
 	
 }
 
@@ -129,7 +147,7 @@ function itCantGoThere(mover) {
 	return (hitDetection(mover, thor.currentTile.obstacles) ||
 			hitDetection(mover, thor.currentTile.items)	||
 			hitDetection(mover, thor.currentTile.npcs) ||
-			hitDetection(mover, thor.currentTile.enemies) ||
+			hitDetection(mover, thor.currentTile.enemies.filter(enemy => enemy.alive)) ||
 			hitDetection(mover, [thor]));
 }
 
@@ -233,12 +251,18 @@ function thor_walkThroughDoor() {
 					if (worldMap[j].id == tile.doors[i].pointer[0]) {
 						var newTile = worldMap[j];
 						thor.currentTile = newTile;
-						// set all enemies to be in their initial positions on new tile:
+						// set all enemies to be in their initial positions on new tile
+						// - also regenerate them if they were previously dead!:
 						for (var k=0; k<newTile.enemies.length; k++) {
-							newTile.enemies[k].xPos = newTile.enemies[k].startXPos;
-							newTile.enemies[k].yPos = newTile.enemies[k].startYPos;
+							var enemy = newTile.enemies[k];
+							enemy.alive = true;
+							enemy.health = enemy.startHealth;
+							enemy.xPos = enemy.startXPos;
+							enemy.yPos = enemy.startYPos;
 							// also make sure fixed-path enemies resume their path from the start:
-							newTile.enemies[k].targetIndex = undefined;
+							enemy.targetIndex = undefined;
+							// finally remove all lightning from new screen!
+							lightning.positions = [];
 						}
 						// find door where Thor will "arrive" at
 						for (var k=0; k<newTile.doors.length; k++) {
@@ -342,6 +366,96 @@ function enemyMovement() {
 	}
 }
 
+function violence() {
+	if (keys[86]) { // V for violence, why not?
+		if (thor.health == 100) {
+			// fire lightning!
+			var directions = [[0,-1], [-1,0], [0,1], [1,0]];
+			var lightningStartXPos, lightningStartYPos;
+			if (thor.isPointing == 1) { // up
+				lightningStartXPos = thor.xPos + (thor.dispSize - lightning.size)/2;
+				lightningStartYPos = thor.yPos - lightning.size;
+			}
+			else if (thor.isPointing == 2) { // left
+				lightningStartXPos = thor.xPos - lightning.size;
+				lightningStartYPos = thor.yPos + (thor.dispSize - lightning.size)/2;
+			}
+			else if (thor.isPointing == 3) { // down
+				lightningStartXPos = thor.xPos + (thor.dispSize - lightning.size)/2;
+				lightningStartYPos = thor.yPos + thor.dispSize;
+			}
+			else if (thor.isPointing == 4) { // right
+				lightningStartXPos = thor.xPos + thor.dispSize;
+				lightningStartYPos = thor.yPos + (thor.dispSize - lightning.size)/2;
+			}
+			lightning.positions.push({
+				xPos: lightningStartXPos,
+				yPos: lightningStartYPos,
+				width: lightning.size,
+				height: lightning.size,
+				direction: directions[thor.isPointing - 1]
+			});
+		}
+		else {
+			// hit with sword
+			console.log("feel my sword, you annoying bunch of pixels!")
+			for (var i=0; i<thor.currentTile.enemies.filter(enemy => enemy.alive).length; i++) {
+				// trying out arrow functions for the first time, why not? Saves quite a lot of space here!
+				var enemy = thor.currentTile.enemies.filter(enemy => enemy.alive)[i];
+				if (hitDetection(thor, [enemy], 10)) {
+					enemy.health--;
+					console.log (enemy.id + " health now " + enemy.health);
+					if (enemy.health <= 0) {
+						enemy.alive = false;
+					}
+				}
+			}
+		}
+	}
+}
+
+function lightningMoveAndHits() {
+	/* start to construct new array of lightning position objects. We want to remove any
+	which have hit an enemy - but if we just remove from the array we are looping over
+	that strange behaviour could result. To be save we start with a new empty array,
+	add each lightning block back in if it *hasn't* hit an enemy, then set lightning.positions
+	to be the new array at the end of the loop */
+	for (var i=0; i<thor.currentTile.enemies.filter(enemy => enemy.alive).length; i++) {
+		var enemy = thor.currentTile.enemies.filter(enemy => enemy.alive)[i];
+		if (hitDetection(enemy, lightning.positions)) {
+			enemy.health--;
+			console.log (enemy.id + " hit by lightning! Health now " + enemy.health);
+			if (enemy.health <= 0) {
+				enemy.alive = false;
+			}
+		}
+	}
+
+	var newLightningPositions = [];
+	for (var i=0; i<lightning.positions.length; i++) {
+		var keepIt = true;
+						
+		// remove lightning if it hits an enemy (or obstacle/npc/item/thor)!
+		if (itCantGoThere(lightning.positions[i])) {
+			keepIt = false;
+		}
+		if (keepIt) {
+			newLightningPositions.push(lightning.positions[i]);
+		}
+		// lightning movement
+		lightning.positions[i].xPos += lightning.speed*lightning.positions[i].direction[0];
+		lightning.positions[i].yPos += lightning.speed*lightning.positions[i].direction[1];
+	}
+	lightning.positions = newLightningPositions;
+}
+
+function thor_healthCheck() {
+	if (thor.hasBeenHit) {
+		thor.health--;
+		thor.hasBeenHit = false;
+	}
+}
+
 function quit() {
 	hasRun = false;
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -375,18 +489,19 @@ function gameLoop(){
 	clearCanvas();
  	thor_movement();
 	thor_walkThroughDoor();
+	violence();
+	lightningMoveAndHits();
 	enemyMovement();
  	drawBackground();
  	drawPlayer();
- 	drawunderparts();
+	drawunderparts();
+	thor_healthCheck();
  	words();
 	obtainItem();
  	//To enable diaglogue with NPC's on key press (C)
 	npcButtonChat();
 
-
-
- 	requestAnimationFrame(gameLoop);
+	requestAnimationFrame(gameLoop);
 
 	// 'q' for quit
 	if (keys[81]) {  	

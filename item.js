@@ -57,13 +57,21 @@ function obtainItem(){
 		if (thor.nextToType == "Item"){
   			//work out which item
         	for (var i=0; i<thor.currentTile.items.length; i++) {
-        		//find the npc within the currentTile.items array
+        		//find the item within the currentTile.items array
 				if (thor.currentTile.items[i].id == thor.nextToID){
-					//add it to Thors inventory
- 					thor.items.push(thor.currentTile.items[i]);
-					console.log(thor.currentTile.items[i].name + ": added to Thors inventory");
+					// increase health to 100 if powerup taken
+					if (thor.nextToID == "powerup") {
+						thor.health = 100;
+						console.log("Yummy powerup!");
+					}
+					else {
+						//add it to Thors inventory
+ 						thor.items.push(thor.currentTile.items[i]);
+						console.log(thor.currentTile.items[i].name + ": added to Thors inventory");
+					}
+					
 					//remove it from the current tile
-					thor.currentTile.items.splice(thor.currentTile.items[i], 1);
+					thor.currentTile.items.splice(i, 1);
 
 					//enable inventory to be shown directly after pick up, without need to move
             		thor.nextToID = "nothing";
@@ -71,6 +79,7 @@ function obtainItem(){
 
 					//No need to complete redundent cycles of for loop
 					break;
+					
 				}
 			}
     	}
