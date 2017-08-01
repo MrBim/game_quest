@@ -14,7 +14,7 @@ var itemObtainingOK;
 
 function Item (id, name, xPos, yPos, width, height, colour) {
     this.type = "Item";
-    this.id = id;    
+    this.id = id;
     this.name = name;
     this.xPos = xPos;
     this.yPos = yPos;
@@ -25,7 +25,7 @@ function Item (id, name, xPos, yPos, width, height, colour) {
     this.draw = function() {
         ctx.beginPath();
         ctx.fillStyle=this.colour;
-        ctx.rect(this.xPos,this.yPos,this.width,this.height); 
+        ctx.rect(this.xPos,this.yPos,this.width,this.height);
         ctx.fill();
         };
 }
@@ -38,15 +38,15 @@ document.body.addEventListener("keydown", function(e) {
 });
 
 
-/* 
+/*
 	obtainItem Function
 
 	When the 'I' button is pressed:
-		if Thor is facing an on screen item he will pick it up (it is put in his inventory and be removed from the display/tile) 
+		if Thor is facing an on screen item he will pick it up (it is put in his inventory and be removed from the display/tile)
 		if Thor is next to a NPC the item they have for him will be placed in his inventory
 		if thor is not facing an Item or NPC the inventory will be listed
 
-	The function places each complete Item object into Thors items array each time (rather than just the name of it), the intention of this is that 
+	The function places each complete Item object into Thors items array each time (rather than just the name of it), the intention of this is that
 	all/any Item properties can be interrogated with greater ease by other functions simply by accessing Thors items array, a futureproofing move if
 	nothing else :-)
 */
@@ -86,7 +86,7 @@ function obtainItem(){
 					if (thor.currentTile.npcs[j].questItem === undefined){
 						console.log(thor.currentTile.npcs[j].id.toUpperCase() + ": Sorry, nothing to give you, onwards with your quest!");
 					}
-	
+
 					else if (thor.items.indexOf(thor.currentTile.npcs[j].questItem) == -1){
 						//if Thor doesn't already have item, add the whole object
 						thor.items.push(thor.currentTile.npcs[j].questItem);
@@ -95,11 +95,11 @@ function obtainItem(){
 					else{
 						console.log(thor.currentTile.npcs[j].questItem.name + ": already in Thors inventory");
 					}
-					
+	
 					//No need to complete redundent cycles of for loop
-					break;					
+					break;
 				}
-			}	
+			}
 		}
 		//Not near anything? Then just list inventory.
 		else {
@@ -109,8 +109,7 @@ function obtainItem(){
         		thorInventoryOutput.push(thor.items[k].name);
         	}
         	console.log(thorInventoryOutput);
-    	}	
+    	}
     }
     itemObtainingOK = false;
 }
-

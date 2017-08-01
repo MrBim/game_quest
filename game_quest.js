@@ -23,6 +23,8 @@ var keys = [];
 // game elements
 var hasRun = false; // used to set init values on first itteration of game loop
 
+var iconWidth = 80;
+
 thor = {
 	health: 100,
 	dispSize : 40,
@@ -53,7 +55,7 @@ thor = {
 	thorPicTwoW : new Image(),
 
 	// need to know starting location
-	currentTile: NWTile
+	currentTile: NWTile,
 
 }
 
@@ -69,6 +71,20 @@ thor.thorPicTwoS.src = 'assets/thor/thor_two_s.png';
 thor.thorPicOneW.src = 'assets/thor/thor_one_w.png';
 thor.thorPicTwoW.src = 'assets/thor/thor_two_w.png';
 
+
+items = {
+	swordPic : new Image(),
+	// keyPic : new Image(),
+	 // : new Image(),
+	 // : new Image(),
+	 // : new Image(),
+	 // : new Image(),
+	 // : new Image(),
+	 // : new Image(),
+}
+
+items.swordPic.src = 'assets/items/sword2.png';
+// items.keyPic.src = 'assets/items/key';
 // ----------------------    Land of Functs ---------------------------------------------
 // clearCanvas() clears the canvas before each new frame. 
 //i was going to put the code that draws the map features in here too 
@@ -122,6 +138,26 @@ function drawunderparts(){
 	ctz.fillStyle = "#8f7219";
 	ctz.fillRect(0,0,width,heightTwo);
 	ctz.fill;
+// left hand side, text for conversation
+
+
+// right hand side, health + inventory
+
+	for (var i=0; i<thor.items.length; i++) {
+
+		var xCorner = (500 + (i * iconWidth));
+		var yCorner = (30);
+		
+		if (i > 4){
+			yCorner  += iconWidth;
+			
+			}
+
+		thor.items[i]
+
+
+		}
+
 }
 
 // "new" functions to simplify hit-detection code:
@@ -349,8 +385,8 @@ function gameLoop(){
 	if (hasRun === false) {
 		// initalise all game variables here
 		clearCanvas();	
-		thor.xPos = ((width/2) - (thor.dispSize/2));
-		thor.yPos = ((height/2) - (thor.dispSize/2));
+		// thor.xPos = ((width/2) - (thor.dispSize/2));
+		// thor.yPos = ((height/2) - (thor.dispSize/2));
 		// gameMusics.play();	
 		drawBackground();
 		drawPlayer();

@@ -7,7 +7,7 @@
     It also contains a draw function to draw the rectangle invoked via the drawBackground() function.
 */
 
-<<<<<<< HEAD
+// <<<<<<< HEAD
 
 function Sword (xPos1, yPos1, pic) {
     this.pic = pic;
@@ -20,12 +20,12 @@ function Sword (xPos1, yPos1, pic) {
         };
 }
 
-function Obstacle (xPos1, yPos1, xPos2, yPos2, colour) {
-    this.xPos1 = xPos1;
-    this.yPos1 = yPos1;
-    this.xPos2 = xPos2;
-    this.yPos2 = yPos2;
-=======
+// function Obstacle (xPos1, yPos1, xPos2, yPos2, colour) {
+//     this.xPos1 = xPos1;
+//     this.yPos1 = yPos1;
+//     this.xPos2 = xPos2;
+//     this.yPos2 = yPos2;
+// =======
 function Obstacle (id, xPos, yPos, width, height, colour) {
     this.type = "Obstacle";
     this.id = id; 
@@ -33,14 +33,14 @@ function Obstacle (id, xPos, yPos, width, height, colour) {
     this.yPos = yPos;
     this.width = width;
     this.height = height;
->>>>>>> b893d36981b4b369ff879223888ab281c0979a74
+// >>>>>>> b893d36981b4b369ff879223888ab281c0979a74
     this.colour = colour;
     this.draw = function() {
         ctx.beginPath();
         ctx.fillStyle=this.colour;
         ctx.rect(this.xPos,this.yPos,this.width,this.height); 
         ctx.fill();
-<<<<<<< HEAD
+// <<<<<<< HEAD
         };
 }
 /*
@@ -61,10 +61,9 @@ function thorObstacleCollide(){
             return true;
         }
 
-    }
-=======
+    
     };
->>>>>>> b893d36981b4b369ff879223888ab281c0979a74
+
 }
 
 

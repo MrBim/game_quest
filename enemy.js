@@ -2,14 +2,15 @@
 
 //As this seems to be the place for globals...
 //This holds what thor is next to, based on the last directional button push
-//So if he is next to two things, one above and one to side, and up was last 
+//So if he is next to two things, one above and one to side, and up was last
 //button pressed, it'll hold the id of the 'thing' above
+"use strict";
 var thor_next_to = "nothing";
 
 
 // canvas variables
 var width = 1000;
-var height = 700; 
+var height = 700;
 var heightTwo = 200;
 // canvas
 var canvas = document.getElementById("canvas");
@@ -28,9 +29,9 @@ var worldMap = [];
 
 function Enemy (id, startXPos, startYPos, width, height, colour, speed, move) {
     this.type = "enemy";
-    this.id = id; 
+    this.id = id;
     this.startXPos = startXPos;
-    this.startYPos = startYPos;   
+    this.startYPos = startYPos;
     this.xPos = startXPos;
     this.yPos = startYPos;
     this.width = width;
@@ -39,7 +40,7 @@ function Enemy (id, startXPos, startYPos, width, height, colour, speed, move) {
     this.draw = function() {
         ctx.beginPath();
         ctx.fillStyle=this.colour;
-        ctx.rect(this.xPos,this.yPos,this.width,this.height); 
+        ctx.rect(this.xPos,this.yPos,this.width,this.height);
         ctx.fill();
     };
     this.speed = speed;
@@ -140,8 +141,7 @@ function randomMovement(stability) {
 }
 
 var itsFollowingMe = new Enemy("follower", wallThickness, height-wallThickness-50, 10, 40, "hotpink", 2, moveTowardsThor);
-var xOscillator = new Enemy("x-oscillator", wallThickness, wallThickness, 50, 50, "magenta", 1, fixedPath([[wallThickness,
-	wallThickness], [width-wallThickness-50, wallThickness]]));
+var xOscillator = new Enemy("x-oscillator", wallThickness, wallThickness, 50, 50, "magenta", 1, fixedPath([[wallThickness, wallThickness], [width-wallThickness-50, wallThickness]]));
 var triangulator = new Enemy("triangulator", 50, 80, 20, 20, "lightsteelblue", 2, fixedPath([[50,80], [280,400], [650,220]]));
 var funnyPath = new Enemy("funnyShape", wallThickness, wallThickness, 80, 80, "#21abd2", 5,
                             fixedPath([[wallThickness,wallThickness], [width-wallThickness-80,wallThickness],

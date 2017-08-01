@@ -1,3 +1,5 @@
+'use strict';
+
 // map definition code (first attempt!)
 
 
@@ -6,11 +8,15 @@ without tying us into using a grid system for everything */
 
 /* constructor for map tile objecst. Each is passed an array of doors, items and characters (in the form of objects)
 it also has an ID name (or perhaps number) which identifies it for the purposes of other code which needs
-to interact with it (eg doors leading to that room). 
+to interact with it (eg doors leading to that room).
 
 I am also adding a colour property, mainly to allow easy identification of rooms at this early stage. I imagine
 that in the final code it will be replaced by an image, or something */
+
+
+
 function MapTile (id, doors, items, npcs, obstacles, enemies, colour, wallColour) {
+    "use strict";
     this.id = id;
     this.doors = doors;
     this.northDoors = this.doors.filter(function(door) {return door instanceof NWallDoor;});
@@ -24,7 +30,7 @@ function MapTile (id, doors, items, npcs, obstacles, enemies, colour, wallColour
     this.wallSegments = this.getWallSegments();
     this.wallColour = wallColour;
     // add wall segments to obstacles array:
-    for (var i=0; i<this.wallSegments.length; i++) {
+    for (i=0; i<this.wallSegments.length; i+=1) {
         var indices = this.wallSegments[i];
         this.obstacles.push(new Obstacle("wall", indices[0], indices[1], indices[2], indices[3], this.wallColour));
     }
@@ -141,7 +147,7 @@ CentreDoor.prototype.draw = function() {
     ctx.lineWidth = 10;
     ctx.strokeStyle = this.colour;
     ctx.stroke();
-}
+};
 
 // Add "drawWalls()" method to mapTile object, which takes note of positions of any
 // doors in the walls, and leaves the appropriate gaps. Will implement with basic rectangles atm.
@@ -212,21 +218,17 @@ MapTile.prototype.getWallSegments = function() {
     return result;
 }
 
-<<<<<<< HEAD
-var swordPic = new Image();
-swordPic.src = 'assets/items/sword.png';
-=======
-/*
-	Game Objects
-	------------
 
-	For testing:
-    	Obstacles are Blue
-        Items are Yellow
-   		Characters are Black        
-*/
+	// Game Objects
+	// ------------
 
->>>>>>> b893d36981b4b369ff879223888ab281c0979a74
+	// For testing:
+ //    	Obstacles are Blue
+ //        Items are Yellow
+ //   		Characters are Black        
+
+
+
 
 var obstacle1_1 = new Obstacle("ob1_1", 50,180,40,40, "blue");
 var obstacle1_2 = new Obstacle("ob1_2", 90,90,60,60, "blue");
@@ -247,14 +249,11 @@ var npc2_2 = new NPC("Advance Wizard Jeff", 350,450,40, 40, "black", "none", [{s
 var obstacle3_1 = new Obstacle("ob3_1", 0,0,40,40, "blue");
 var item3_1 = new Item("item3_1","Gold Trophy", 350,350,40, 40, "Yellow");
 
-<<<<<<< HEAD
+
 var tree2_1 = new Obstacle(100,50,40,40, "green");
 var tree2_2 = new Obstacle(300,300,50,50, "black");
 var rock2_1 = new Obstacle(500,500,70, 70, "blue");
-var sword = new Sword(500, 350, swordPic);
-=======
 
->>>>>>> b893d36981b4b369ff879223888ab281c0979a74
 // try to construct basic map. Will be square, but without doors in all the obvious places!
 // note that there are no items or characters for now!
 
@@ -264,11 +263,8 @@ It will just have a door to the East, connecting to room "NE" */
 var NWDoorE = new EWallDoor(30, 70);
 NWDoorE.doorID = "NWDoorE";
 NWDoorE.pointer = ["NE", "NEDoorW"];
-<<<<<<< HEAD
-var NWTile = new MapTile("NW", [NWDoorE], [], [], [ sword, tree1_1, tree1_2, rock1_1, rock1_2, rock1_3, rock1_4, rock1_5, rock1_6],"#02b109", "black"); // honouring Bim's original choice of colour!
-=======
+
 var NWTile = new MapTile("NW", [NWDoorE], [item1_1], [npc1_1, npc1_2], [obstacle1_1, obstacle1_2, obstacle1_3], [xOscillator, randomMover], "#02b109", "black"); // honouring Bim's original choice of colour!
->>>>>>> b893d36981b4b369ff879223888ab281c0979a74
 
 // NE tile will have doors to the West and South
 var NEDoorW = new WWallDoor(30, 70);
@@ -277,11 +273,8 @@ NEDoorW.pointer = ["NW", "NWDoorE"]
 var NEDoorS = new SWallDoor (width-120, 100);
 NEDoorS.doorID = "NEDoorS";
 NEDoorS.pointer = ["SE", "SEDoorN"];
-<<<<<<< HEAD
-var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [], [], [ sword, tree2_1, tree2_2, rock2_1], "red", "green"); //my own colour choices are more boring ;)
-=======
+
 var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [item2_1, item2_2], [npc2_1, npc2_2], [obstacle2_1, obstacle2_2], [triangulator], "red", "green"); //my own colour choices are more boring ;)
->>>>>>> b893d36981b4b369ff879223888ab281c0979a74
 
 // similary SE tile will have doors to North and West
 var SEDoorN = new NWallDoor(width-120, 100);
