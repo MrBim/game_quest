@@ -1,15 +1,14 @@
 // map definition code (first attempt!)
 
 
-/* going to create a simple square map for now, but hopefully easily extensible,
-without tying us into using a grid system for everything */
+// going to create a simple square map for now, but hopefully easily extensible,
+// without tying us into using a grid system for everything
 
-/* constructor for map tile objecst. Each is passed an array of doors, items and characters (in the form of objects)
-it also has an ID name (or perhaps number) which identifies it for the purposes of other code which needs
-to interact with it (eg doors leading to that room). 
-
-I am also adding a colour property, mainly to allow easy identification of rooms at this early stage. I imagine
-that in the final code it will be replaced by an image, or something */
+//  constructor for map tile objecst. Each is passed an array of doors, items and characters (in the form of objects)
+// it also has an ID name (or perhaps number) which identifies it for the purposes of other code which needs
+// to interact with it (eg doors leading to that room).
+// I am also adding a colour property, mainly to allow easy identification of rooms at this early stage. I imagine
+// that in the final code it will be replaced by an image, or something
 function MapTile (id, doors, items, npcs, obstacles, enemies, colour, wallColour) {
     this.id = id;
     this.doors = doors;
@@ -37,9 +36,7 @@ function MapTile (id, doors, items, npcs, obstacles, enemies, colour, wallColour
 the doors as lines for now), a colour in which to draw that line, a doorID (which only needs to be unique within
 each tile), and a "pointer" to another door (identified by mapTile and ID) to which it leads when the player walks
 through it. I imagine at this stage that pointer will be a 2-element array containing a mapTile id and a door ID
-
 It also has a "draw" method to display it on the screen.
-
 Only the doorID and pointer properties are really part of the logic here - the rest is a convenience for me to test
 these things out and should be easily able to be changed in accordance with what we want the roos/doors to look like*/
 function Door (doorID, colour, pointer) {
@@ -214,13 +211,12 @@ MapTile.prototype.getWallSegments = function() {
 
 
 /*
-	Game Objects
-	------------
-
-	For testing:
-    	Obstacles are Blue
+    Game Objects
+    ------------
+    For testing:
+        Obstacles are Blue
         Items are Yellow
-   		Characters are Black        
+        Characters are Black
 */
 
 
