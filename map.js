@@ -1,14 +1,14 @@
 // map definition code (first attempt!)
 
 
-/* going to create a simple square map for now, but hopefully easily extensible,
-without tying us into using a grid system for everything */
+// going to create a simple square map for now, but hopefully easily extensible,
+// without tying us into using a grid system for everything
 
-/* constructor for map tile objecst. Each is passed an array of doors, items and characters (in the form of objects)
-it also has an ID name (or perhaps number) which identifies it for the purposes of other code which needs
-to interact with it (eg doors leading to that room). 
-I am also adding a colour property, mainly to allow easy identification of rooms at this early stage. I imagine
-that in the final code it will be replaced by an image, or something */
+//  constructor for map tile objecst. Each is passed an array of doors, items and characters (in the form of objects)
+// it also has an ID name (or perhaps number) which identifies it for the purposes of other code which needs
+// to interact with it (eg doors leading to that room).
+// I am also adding a colour property, mainly to allow easy identification of rooms at this early stage. I imagine
+// that in the final code it will be replaced by an image, or something
 function MapTile (id, doors, items, npcs, obstacles, enemies, colour, wallColour) {
     this.id = id;
     this.doors = doors;
@@ -216,7 +216,7 @@ MapTile.prototype.getWallSegments = function() {
     For testing:
         Obstacles are Blue
         Items are Yellow
-        Characters are Black        
+        Characters are Black
 */
 
 

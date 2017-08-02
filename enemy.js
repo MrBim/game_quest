@@ -2,14 +2,14 @@
 
 //As this seems to be the place for globals...
 //This holds what thor is next to, based on the last directional button push
-//So if he is next to two things, one above and one to side, and up was last 
+//So if he is next to two things, one above and one to side, and up was last
 //button pressed, it'll hold the id of the 'thing' above
 var thor_next_to = "nothing";
 
 
 // canvas variables
 var width = 1000;
-var height = 700; 
+var height = 700;
 var heightTwo = 200;
 // canvas
 var canvas = document.getElementById("canvas");
@@ -28,9 +28,9 @@ var worldMap = [];
 
 function Enemy (id, startXPos, startYPos, width, height, colour, speed, move, health) {
     this.type = "enemy";
-    this.id = id; 
+    this.id = id;
     this.startXPos = startXPos;
-    this.startYPos = startYPos;   
+    this.startYPos = startYPos;
     this.xPos = startXPos;
     this.yPos = startYPos;
     this.width = width;
@@ -39,7 +39,7 @@ function Enemy (id, startXPos, startYPos, width, height, colour, speed, move, he
     this.draw = function() {
         ctx.beginPath();
         ctx.fillStyle=this.colour;
-        ctx.rect(this.xPos,this.yPos,this.width,this.height); 
+        ctx.rect(this.xPos,this.yPos,this.width,this.height);
         ctx.fill();
     };
     this.speed = speed;
@@ -88,8 +88,8 @@ function fixedPath(points) {
             // because it keeps moving "either side" of the target and is never considered
             // close enough to move on to the next one
             this.targetIndex = (this.targetIndex == points.length-1 ? 0 : this.targetIndex+1);
-            var xDiff = points[this.targetIndex][0] - this.xPos;
-            var yDiff = points[this.targetIndex][1] - this.yPos;
+            xDiff = points[this.targetIndex][0] - this.xPos;
+            yDiff = points[this.targetIndex][1] - this.yPos;
         }
         var maxDiff  = Math.max(Math.abs(xDiff), Math.abs(yDiff));
         var xSpeed = maxDiff ? this.speed*Math.abs(xDiff)/maxDiff : 0;
