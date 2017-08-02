@@ -78,6 +78,12 @@ thor.thorPicTwoS.src = 'assets/thor/thor_two_s.png';
 thor.thorPicOneW.src = 'assets/thor/thor_one_w.png';
 thor.thorPicTwoW.src = 'assets/thor/thor_two_w.png';
 
+// grahics for items
+var keyPic = new Image();
+keyPic.src = 'assets/items/key_sm.png';
+
+
+
 // ----------------------    Land of Functs ---------------------------------------------
 // clearCanvas() clears the canvas before each new frame.
 //i was going to put the code that draws the map features in here too
@@ -86,11 +92,7 @@ function clearCanvas() {
     ctx.clearRect(0,0,width,height);
     ctz.clearRect(0,0,width,heightTwo);
 }
-/* function drawBackground() {
-ctx.fillStyle = "#02b109";
-ctx.fillRect(0,0,width,height);
-ctx.fill;
-} */
+
 
 
 // altered the above to draw the correct background for the current map tile
@@ -141,8 +143,27 @@ function drawunderparts(){
     ctz.fillStyle = "#8f7219";
     ctz.fillRect(0,0,width,heightTwo);
     ctz.fill;
-}
+    ctz.fillStyle = "#000";
+    ctz.moveTo((width/2),0);
+    ctz.lineTo((width/2),heightTwo);
+    ctz.stroke();
+    //tells you your health
 
+    ctz.fillStyle = "#000";
+    if (thor.health <= 0) {
+        ctz.font = "100px Arial";
+        ctz.fillText("Sorry, you're DEAD!!!", 10, 100);
+        ctz.fill;
+        quit();
+    }
+    else {
+
+        ctz.fillStyle = "#f00"
+        ctz.fillRect(((width/2)+10), 10, ((((width/2)-20)/100)*thor.health), 10);
+        ctz.fill;
+
+    }
+}
 // "new" functions to simplify hit-detection code:
 function itCantGoThere(mover) {
     return (hitDetection(mover, thor.currentTile.obstacles) ||
@@ -327,22 +348,7 @@ function drawPlayer() {
     }// draw player from a .png (40px,40px)
 }
 
-function words(){
-    ctz.fillStyle = "#000";
-// ctz.fillText("This is where there will be words and maybe pictures",10,50);
-//ctz.fillText("this is the map tile called " + thor.currentTile.id, 10, 50);
-    if (thor.health <= 0) {
-        ctz.font = "100px Arial";
-        ctz.fillText("Sorry, you're DEAD!!!", 10, 100);
-        ctz.fill;
-        quit();
-    }
-    else {
-        ctz.font = "30px Arial";
-        ctz.fillText("Current health: " + thor.health, 10, 50);
-        ctz.fill;
-    }
-}
+
 
 function enemyMovement() {
     for (var i=0; i<thor.currentTile.enemies.length; i++) {
@@ -479,12 +485,6 @@ function gameLoop(){
         hasRun = true;
     }
 
-
-
-// if (lives === 0) {
-// quit();
-// }
-
     clearCanvas();
     thor_movement();
     thor_walkThroughDoor();
@@ -495,7 +495,7 @@ function gameLoop(){
     drawPlayer();
     drawunderparts();
     thor_healthCheck();
-    words();
+    // words();
     obtainItem();
  //To enable diaglogue with NPC's on key press (C)
     npcButtonChat();
