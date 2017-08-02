@@ -27,7 +27,7 @@ var worldMap = [];
        Enemy constructor:
 */
 
-function Enemy (id, startXPos, startYPos, width, height, colour, speed, move) {
+function Enemy (id, startXPos, startYPos, width, height, colour, speed, move, health) {
     this.type = "enemy";
     this.id = id;
     this.startXPos = startXPos;
@@ -45,6 +45,9 @@ function Enemy (id, startXPos, startYPos, width, height, colour, speed, move) {
     };
     this.speed = speed;
     this.move = move;
+    this.health = health;
+    this.startHealth = health;
+    this.alive = true;
 }
 
 function moveTowardsThor() {
@@ -140,10 +143,17 @@ function randomMovement(stability) {
     }
 }
 
+<<<<<<< HEAD
 var itsFollowingMe = new Enemy("follower", wallThickness, height-wallThickness-50, 10, 40, "hotpink", 2, moveTowardsThor);
 var xOscillator = new Enemy("x-oscillator", wallThickness, wallThickness, 50, 50, "magenta", 1, fixedPath([[wallThickness, wallThickness], [width-wallThickness-50, wallThickness]]));
 var triangulator = new Enemy("triangulator", 50, 80, 20, 20, "lightsteelblue", 2, fixedPath([[50,80], [280,400], [650,220]]));
+=======
+var itsFollowingMe = new Enemy("follower", wallThickness, height-wallThickness-50, 10, 40, "hotpink", 2, moveTowardsThor, 20);
+var xOscillator = new Enemy("x-oscillator", wallThickness, wallThickness, 50, 50, "magenta", 4, fixedPath([[wallThickness,
+	wallThickness], [width-50, wallThickness]]), 8);
+var triangulator = new Enemy("triangulator", 50, 80, 20, 20, "lightsteelblue", 2, fixedPath([[50,80], [280,400], [650,220]]), 12);
+>>>>>>> 50494184599b9719c788c4e03b633a5ca1a0edce
 var funnyPath = new Enemy("funnyShape", wallThickness, wallThickness, 80, 80, "#21abd2", 5,
                             fixedPath([[wallThickness,wallThickness], [width-wallThickness-80,wallThickness],
-                            [width-wallThickness-80,height*2/3], [width/2, wallThickness], [width/4, 400]]));
-var randomMover = new Enemy("random", (width-80)/2, (height-20)/2, 20, 20, "white", 3, randomMovement(10));
+                            [width-wallThickness-80,height*2/3], [width/2, wallThickness], [width/4, 400]]), 10);
+var randomMover = new Enemy("random", (width-80)/2, (height-20)/2, 20, 20, "white", 3, randomMovement(10), 5);

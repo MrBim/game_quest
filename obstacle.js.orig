@@ -8,7 +8,8 @@
 */
 
 <<<<<<< HEAD
-// <<<<<<< HEAD
+function Obstacle (id, xPos, yPos, width, height, colour, questItem) {
+=======
 
 function Sword (xPos1, yPos1, pic) {
     this.pic = pic;
@@ -21,27 +22,14 @@ function Sword (xPos1, yPos1, pic) {
         };
 }
 
-// function Obstacle (xPos1, yPos1, xPos2, yPos2, colour) {
-//     this.xPos1 = xPos1;
-//     this.yPos1 = yPos1;
-//     this.xPos2 = xPos2;
-//     this.yPos2 = yPos2;
-// =======
 function Obstacle (id, xPos, yPos, width, height, colour) {
-=======
-
-function Obstacle (id, xPos, yPos, width, height, colour, questItem) {
->>>>>>> 50494184599b9719c788c4e03b633a5ca1a0edce
+>>>>>>> master
     this.type = "Obstacle";
     this.id = id; 
     this.xPos = xPos;
     this.yPos = yPos;
     this.width = width;
     this.height = height;
-<<<<<<< HEAD
-// >>>>>>> b893d36981b4b369ff879223888ab281c0979a74
-=======
->>>>>>> 50494184599b9719c788c4e03b633a5ca1a0edce
     this.colour = colour;
     this.questItem = questItem;
     this.draw = function() {
@@ -49,10 +37,6 @@ function Obstacle (id, xPos, yPos, width, height, colour, questItem) {
         ctx.fillStyle=this.colour;
         ctx.rect(this.xPos,this.yPos,this.width,this.height); 
         ctx.fill();
-<<<<<<< HEAD
-// <<<<<<< HEAD
-=======
->>>>>>> 50494184599b9719c788c4e03b633a5ca1a0edce
         };
 }
 /*
@@ -73,16 +57,9 @@ function Obstacle (id, xPos, yPos, width, height, colour, questItem) {
             return true;
         }
 
-<<<<<<< HEAD
-    
-    };
-
-}
-=======
     }
     };
 } */
->>>>>>> 50494184599b9719c788c4e03b633a5ca1a0edce
 
 
 /*
@@ -96,10 +73,7 @@ function Obstacle (id, xPos, yPos, width, height, colour, questItem) {
 
     Couldn't think of a better word than 'things' to encapsulate obstacles, items and characters, lol - if you do, please update below!
 */
-function hitDetection(mover, thingsToAvoid, tolerance){ 
-    if (tolerance === undefined) {
-        tolerance = 0;
-    }   
+function hitDetection(mover, thingsToAvoid){    
     for (var i=0; i<thingsToAvoid.length; i++) {      
 
         // need to skip detection of an enemy against itself, or it will never move!
@@ -108,25 +82,30 @@ function hitDetection(mover, thingsToAvoid, tolerance){
             continue;
         }
         
-        if (mover.xPos + tolerance > (thingsToAvoid[i].xPos - mover.width) && 
-            mover.xPos - tolerance < (thingsToAvoid[i].xPos + thingsToAvoid[i].width) &&
-            mover.yPos - tolerance < (thingsToAvoid[i].yPos + thingsToAvoid[i].height) && 
-            mover.yPos + tolerance > (thingsToAvoid[i].yPos - mover.height)) {
+        if (mover.xPos > (thingsToAvoid[i].xPos -mover.width) && 
+            mover.xPos < (thingsToAvoid[i].xPos + thingsToAvoid[i].width) &&
+            mover.yPos < (thingsToAvoid[i].yPos + thingsToAvoid[i].height) && 
+            mover.yPos > (thingsToAvoid[i].yPos - mover.height)) {
 
-
-            if ((thingsToAvoid[i].type == "enemy" && thingsToAvoid[i].alive && mover == thor) || thingsToAvoid[i] == thor && mover.alive){
+            if ((thingsToAvoid[i].type == "enemy" && mover == thor) || thingsToAvoid[i] == thor){
                 // space left for code to remove health from Thor, or whatever
                 // the following is just an example:
-                thor.hasBeenHit = true;
+                thor.health--;
             }
 
-            else if (thingsToAvoid[i].type == "Obstacle" && mover == thor){
-               //recorded for use with button press activities (so Thor knows obstacle he is infront of)
-                thor.nextToID = thingsToAvoid[i].id;                
-                thor.nextToType = thingsToAvoid[i].type;                                    
+            if (thingsToAvoid[i].type == "Obstacle"){
+                //Be aware that walls are also obstacles, need to filter out 'wall' as being an obstacle type to 
+                // prevent confusion in the obtainItem function
+                if (thor.nextToID == "wall" || thingsToAvoid[i].id == "wall"){
+
+                }
+                else{
+                    thor.nextToID = thingsToAvoid[i].id;                
+                    thor.nextToType = thingsToAvoid[i].type;                                    
+                }
             }
- 
             else if (thingsToAvoid[i].type == "Item" && mover == thor){
+                //console.log("Item '" + thingsToAvoid[i].id + "' detected");
                 //recorded for use with button press activities (so Thor knows what item is being picked up)
                 thor.nextToID = thingsToAvoid[i].id;                
                 thor.nextToType = thingsToAvoid[i].type;                
@@ -136,6 +115,7 @@ function hitDetection(mover, thingsToAvoid, tolerance){
                 //Greet right away, no button press required
                 //Use 'None' in NPC constructor to have no greeting
                 thingsToAvoid[i].greet();
+                
                 //Recorded for use with button press activities (so the right NPC chat is invoked)
                 thor.nextToID = thingsToAvoid[i].id; 
                 thor.nextToType = thingsToAvoid[i].type;                                
