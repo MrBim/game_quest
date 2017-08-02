@@ -1,5 +1,3 @@
-'use strict';
-
 // map definition code (first attempt!)
 
 
@@ -8,15 +6,10 @@ without tying us into using a grid system for everything */
 
 /* constructor for map tile objecst. Each is passed an array of doors, items and characters (in the form of objects)
 it also has an ID name (or perhaps number) which identifies it for the purposes of other code which needs
-to interact with it (eg doors leading to that room).
-
+to interact with it (eg doors leading to that room). 
 I am also adding a colour property, mainly to allow easy identification of rooms at this early stage. I imagine
 that in the final code it will be replaced by an image, or something */
-
-
-
 function MapTile (id, doors, items, npcs, obstacles, enemies, colour, wallColour) {
-    "use strict";
     this.id = id;
     this.doors = doors;
     this.northDoors = this.doors.filter(function(door) {return door instanceof NWallDoor;});
@@ -30,7 +23,7 @@ function MapTile (id, doors, items, npcs, obstacles, enemies, colour, wallColour
     this.wallSegments = this.getWallSegments();
     this.wallColour = wallColour;
     // add wall segments to obstacles array:
-    for (i=0; i<this.wallSegments.length; i+=1) {
+    for (var i=0; i<this.wallSegments.length; i++) {
         var indices = this.wallSegments[i];
         this.obstacles.push(new Obstacle("wall", indices[0], indices[1], indices[2], indices[3], this.wallColour));
     }
@@ -43,9 +36,7 @@ function MapTile (id, doors, items, npcs, obstacles, enemies, colour, wallColour
 the doors as lines for now), a colour in which to draw that line, a doorID (which only needs to be unique within
 each tile), and a "pointer" to another door (identified by mapTile and ID) to which it leads when the player walks
 through it. I imagine at this stage that pointer will be a 2-element array containing a mapTile id and a door ID
-
 It also has a "draw" method to display it on the screen.
-
 Only the doorID and pointer properties are really part of the logic here - the rest is a convenience for me to test
 these things out and should be easily able to be changed in accordance with what we want the roos/doors to look like*/
 function Door (doorID, colour, pointer) {
@@ -147,7 +138,7 @@ CentreDoor.prototype.draw = function() {
     ctx.lineWidth = 10;
     ctx.strokeStyle = this.colour;
     ctx.stroke();
-};
+}
 
 // Add "drawWalls()" method to mapTile object, which takes note of positions of any
 // doors in the walls, and leaves the appropriate gaps. Will implement with basic rectangles atm.
@@ -218,23 +209,15 @@ MapTile.prototype.getWallSegments = function() {
     return result;
 }
 
-<<<<<<< HEAD
-=======
 
 /*
-	Game Objects
-	------------
->>>>>>> 50494184599b9719c788c4e03b633a5ca1a0edce
-
-	// Game Objects
-	// ------------
-
-	// For testing:
- //    	Obstacles are Blue
- //        Items are Yellow
- //   		Characters are Black        
-
-
+    Game Objects
+    ------------
+    For testing:
+        Obstacles are Blue
+        Items are Yellow
+        Characters are Black        
+*/
 
 
 var item1_1 = new Item("item1_1", "Magic Key", 350,350,40, 40, "yellow");
@@ -260,10 +243,6 @@ var item3_2 = new Item("item3_1","Magic Banjo");
 var obstacle3_1 = new Obstacle("ob3_1", 10,10,40,40, "red", item3_2);
 
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 50494184599b9719c788c4e03b633a5ca1a0edce
 var tree2_1 = new Obstacle(100,50,40,40, "green");
 var tree2_2 = new Obstacle(300,300,50,50, "black");
 var rock2_1 = new Obstacle(500,500,70, 70, "blue");
@@ -277,13 +256,8 @@ It will just have a door to the East, connecting to room "NE" */
 var NWDoorE = new EWallDoor(30, 80);
 NWDoorE.doorID = "NWDoorE";
 NWDoorE.pointer = ["NE", "NEDoorW"];
-<<<<<<< HEAD
-
-var NWTile = new MapTile("NW", [NWDoorE], [item1_1], [npc1_1, npc1_2], [obstacle1_1, obstacle1_2, obstacle1_3], [xOscillator, randomMover], "#02b109", "black"); // honouring Bim's original choice of colour!
-=======
 var NWTile = new MapTile("NW", [NWDoorE], [item1_1, powerUp1], [npc1_1, npc1_2], [obstacle1_1, obstacle1_2, obstacle1_3], [xOscillator, randomMover], "#02b109", "black"); // honouring Bim's original choice of colour!
 
->>>>>>> 50494184599b9719c788c4e03b633a5ca1a0edce
 
 // NE tile will have doors to the West and South
 var NEDoorW = new WWallDoor(30, 70);
@@ -292,13 +266,8 @@ NEDoorW.pointer = ["NW", "NWDoorE"]
 var NEDoorS = new SWallDoor (width-120, 100);
 NEDoorS.doorID = "NEDoorS";
 NEDoorS.pointer = ["SE", "SEDoorN"];
-<<<<<<< HEAD
-
-var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [item2_1, item2_2], [npc2_1, npc2_2], [obstacle2_1, obstacle2_2], [triangulator], "red", "green"); //my own colour choices are more boring ;)
-=======
 var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [item2_1, item2_2], [npc2_1, npc2_2], [obstacle2_1, obstacle2_2], [triangulator], "red", "green"); //my own colour choices are more boring ;)
 
->>>>>>> 50494184599b9719c788c4e03b633a5ca1a0edce
 
 // similary SE tile will have doors to North and West
 var SEDoorN = new NWallDoor(width-120, 100);

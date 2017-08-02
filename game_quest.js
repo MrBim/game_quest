@@ -23,13 +23,7 @@ var keys = [];
 // game elements
 var hasRun = false; // used to set init values on first itteration of game loop
 
-<<<<<<< HEAD
-var iconWidth = 80;
-
-thor = {
-=======
 var thor = {
->>>>>>> 50494184599b9719c788c4e03b633a5ca1a0edce
 	health: 100,
 	dispSize : 40,
 	// defining width and height separately, because needed for hit detection code now:
@@ -59,7 +53,7 @@ var thor = {
 	thorPicTwoW : new Image(),
 
 	// need to know starting location
-	currentTile: NWTile,
+	currentTile: NWTile
 
 };
 
@@ -83,20 +77,6 @@ thor.thorPicTwoS.src = 'assets/thor/thor_two_s.png';
 thor.thorPicOneW.src = 'assets/thor/thor_one_w.png';
 thor.thorPicTwoW.src = 'assets/thor/thor_two_w.png';
 
-
-items = {
-	swordPic : new Image(),
-	// keyPic : new Image(),
-	 // : new Image(),
-	 // : new Image(),
-	 // : new Image(),
-	 // : new Image(),
-	 // : new Image(),
-	 // : new Image(),
-}
-
-items.swordPic.src = 'assets/items/sword2.png';
-// items.keyPic.src = 'assets/items/key';
 // ----------------------    Land of Functs ---------------------------------------------
 // clearCanvas() clears the canvas before each new frame. 
 //i was going to put the code that draws the map features in here too 
@@ -160,26 +140,6 @@ function drawunderparts(){
 	ctz.fillStyle = "#8f7219";
 	ctz.fillRect(0,0,width,heightTwo);
 	ctz.fill;
-// left hand side, text for conversation
-
-
-// right hand side, health + inventory
-
-	for (var i=0; i<thor.items.length; i++) {
-
-		var xCorner = (500 + (i * iconWidth));
-		var yCorner = (30);
-		
-		if (i > 4){
-			yCorner  += iconWidth;
-			
-			}
-
-		thor.items[i]
-
-
-		}
-
 }
 
 // "new" functions to simplify hit-detection code:
@@ -269,7 +229,6 @@ This function takes the player's current x and y positions, and a door object, a
 is "close enough" to be able to go through. Note that it checks on "both sides" of the door, even though the
 door will usually be at the edge. This both avoids special cases, and enables there to possible be "doors"
 which are not on the edge (eg. to go into a house)
-
 Expect the behaviour to need plenty of tweaking later! */
 function canIGoThroughDoor(x, y, size, door) {
 	if (x<door.right-size+30 && x>door.left-30 && y<door.bottom-size+30 && y>door.top-30) {
@@ -512,8 +471,8 @@ function gameLoop(){
 	if (hasRun === false) {
 		// initalise all game variables here
 		clearCanvas();	
-		// thor.xPos = ((width/2) - (thor.dispSize/2));
-		// thor.yPos = ((height/2) - (thor.dispSize/2));
+		thor.xPos = ((width/2) - (thor.dispSize/2));
+		thor.yPos = ((height/2) - (thor.dispSize/2));
 		// gameMusics.play();	
 		drawBackground();
 		drawPlayer();

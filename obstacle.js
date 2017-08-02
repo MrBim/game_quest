@@ -3,45 +3,17 @@
     ---------------------
     Takes in a start x, y co-ordinate to start rectangle, then a second x position to draw out to the left and a second y to draw DOWN
     Takes in a colour argument for the fill colour
-
     It also contains a draw function to draw the rectangle invoked via the drawBackground() function.
 */
 
-<<<<<<< HEAD
-// <<<<<<< HEAD
-
-function Sword (xPos1, yPos1, pic) {
-    this.pic = pic;
-    this.xPos1 = xPos1;
-    this.yPos1 = yPos1;
-    this.draw = function() {
-        ctx.beginPath();
-        ctx.drawImage(this.pic, this.xPos, this.yPos, 40, 40);
-        ctx.closePath();
-        };
-}
-
-// function Obstacle (xPos1, yPos1, xPos2, yPos2, colour) {
-//     this.xPos1 = xPos1;
-//     this.yPos1 = yPos1;
-//     this.xPos2 = xPos2;
-//     this.yPos2 = yPos2;
-// =======
-function Obstacle (id, xPos, yPos, width, height, colour) {
-=======
 
 function Obstacle (id, xPos, yPos, width, height, colour, questItem) {
->>>>>>> 50494184599b9719c788c4e03b633a5ca1a0edce
     this.type = "Obstacle";
     this.id = id; 
     this.xPos = xPos;
     this.yPos = yPos;
     this.width = width;
     this.height = height;
-<<<<<<< HEAD
-// >>>>>>> b893d36981b4b369ff879223888ab281c0979a74
-=======
->>>>>>> 50494184599b9719c788c4e03b633a5ca1a0edce
     this.colour = colour;
     this.questItem = questItem;
     this.draw = function() {
@@ -49,10 +21,6 @@ function Obstacle (id, xPos, yPos, width, height, colour, questItem) {
         ctx.fillStyle=this.colour;
         ctx.rect(this.xPos,this.yPos,this.width,this.height); 
         ctx.fill();
-<<<<<<< HEAD
-// <<<<<<< HEAD
-=======
->>>>>>> 50494184599b9719c788c4e03b633a5ca1a0edce
         };
 }
 /*
@@ -72,28 +40,17 @@ function Obstacle (id, xPos, yPos, width, height, colour, questItem) {
             //console.log("collision alert");
             return true;
         }
-
-<<<<<<< HEAD
-    
-    };
-
-}
-=======
     }
     };
 } */
->>>>>>> 50494184599b9719c788c4e03b633a5ca1a0edce
 
 
 /*
     Note: Object is used here to determine an obstacle, item or character.
-
     This is function is passed an array objects with xPos1, yPos1, xPos2, yPos2 co-ordinates and will iterate through
     them and decide if Thor is going to hit them or not. 
-
     Once it has hit an object it can determine (though the objects 'type' property) the type of object, also an ID element has been added to enable
     tracking of individual objects, this may or may not be useful going forwards.
-
     Couldn't think of a better word than 'things' to encapsulate obstacles, items and characters, lol - if you do, please update below!
 */
 function hitDetection(mover, thingsToAvoid, tolerance){ 
@@ -161,4 +118,4 @@ function hitDetection(mover, thingsToAvoid, tolerance){
 
 
 
-
+§
