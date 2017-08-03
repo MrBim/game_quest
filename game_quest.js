@@ -30,10 +30,10 @@ var thor = {
 // defining width and height separately, because needed for hit detection code now:
     height: 40,
     width: 40,
-    startXPos : ((width / 2) - (this.dispSize / 2)),
-    startYPos : ((height / 2) - (this.dispSize / 2)),
-    xPos : this.startXPos,
-    yPos : this.startYPos,
+    startXPos : width/2 - 20,
+    startYPos : height/2 - 20,
+    xPos : width/2 - 20,
+    yPos : height/2 - 20,
     isPointing : 1,
     moveSize : 3,
     walkAnimFrame : 11,
@@ -53,9 +53,13 @@ var thor = {
     thorPicOneW : new Image(),
     thorPicTwoW : new Image(),
 
-// need to know starting location
-    currentTile: NWTile
+    // need to know starting location
+    currentTile: NWTile,
 
+    // set properties to force lightning to not be able to be fired continuously (the value below means approx.
+    // 4 bolts per second can be fired) - and enable it to be fired right at the start if needed
+    lightningFrameLimit: 15,
+    lightningFrameCount: 15
 };
 
 var lightning = {
@@ -374,32 +378,35 @@ function enemyMovement() {
 function violence() {
     if (keys[86]) { // V for violence, why not?
         if (thor.health == 100) {
+            if (thor.lightningFrameCount >= thor.lightningFrameLimit) { // only fire if the framecount is high enough
 // fire lightning!
-            var directions = [[0,-1], [-1,0], [0,1], [1,0]];
-            var lightningStartXPos, lightningStartYPos;
-            if (thor.isPointing == 1) { // up
-                lightningStartXPos = thor.xPos + (thor.dispSize - lightning.size)/2;
-                lightningStartYPos = thor.yPos - lightning.size;
+                var directions = [[0,-1], [-1,0], [0,1], [1,0]];
+                var lightningStartXPos, lightningStartYPos;
+                if (thor.isPointing == 1) { // up
+                    lightningStartXPos = thor.xPos + (thor.dispSize - lightning.size)/2;
+                    lightningStartYPos = thor.yPos - lightning.size;
+                }
+                else if (thor.isPointing == 2) { // left
+                    lightningStartXPos = thor.xPos - lightning.size;
+                    lightningStartYPos = thor.yPos + (thor.dispSize - lightning.size)/2;
+                }
+                else if (thor.isPointing == 3) { // down
+                    lightningStartXPos = thor.xPos + (thor.dispSize - lightning.size)/2;
+                    lightningStartYPos = thor.yPos + thor.dispSize;
+                }
+                else if (thor.isPointing == 4) { // right
+                    lightningStartXPos = thor.xPos + thor.dispSize;
+                    lightningStartYPos = thor.yPos + (thor.dispSize - lightning.size)/2;
+                }
+                lightning.positions.push({
+                    xPos: lightningStartXPos,
+                    yPos: lightningStartYPos,
+                    width: lightning.size,
+                    height: lightning.size,
+                    direction: directions[thor.isPointing - 1]
+                });
+                thor.lightningFrameCount = 0; // reset count
             }
-            else if (thor.isPointing == 2) { // left
-                lightningStartXPos = thor.xPos - lightning.size;
-                lightningStartYPos = thor.yPos + (thor.dispSize - lightning.size)/2;
-            }
-            else if (thor.isPointing == 3) { // down
-                lightningStartXPos = thor.xPos + (thor.dispSize - lightning.size)/2;
-                lightningStartYPos = thor.yPos + thor.dispSize;
-            }
-            else if (thor.isPointing == 4) { // right
-                lightningStartXPos = thor.xPos + thor.dispSize;
-                lightningStartYPos = thor.yPos + (thor.dispSize - lightning.size)/2;
-            }
-            lightning.positions.push({
-                xPos: lightningStartXPos,
-                yPos: lightningStartYPos,
-                width: lightning.size,
-                height: lightning.size,
-                direction: directions[thor.isPointing - 1]
-            });
         }
         else {
 // hit with sword
@@ -499,6 +506,7 @@ function gameLoop(){
     obtainItem();
  //To enable diaglogue with NPC's on key press (C)
     npcButtonChat();
+    thor.lightningFrameCount++;
 
     requestAnimationFrame(gameLoop);
 
