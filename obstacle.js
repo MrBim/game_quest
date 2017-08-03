@@ -52,7 +52,7 @@ function Obstacle (id, xPos, yPos, width, height, colour, questItem) {
     // tracking of individual objects, this may or may not be useful going forwards.
     // Couldn't think of a better word than 'things' to encapsulate obstacles, items and characters, lol - if you do, please update below!
 
-function hitDetection(mover, thingsToAvoid, tolerance){
+function hitDetection(mover, thingsToAvoid, tolerance, pointingDirection){
     if (tolerance === undefined) {
         tolerance = 0;
     }
