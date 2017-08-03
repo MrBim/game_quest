@@ -59,7 +59,8 @@ var thor = {
     // set properties to force lightning to not be able to be fired continuously (the value below means approx.
     // 4 bolts per second can be fired) - and enable it to be fired right at the start if needed
     lightningFrameLimit: 15,
-    lightningFrameCount: 15
+    lightningFrameCount: 15,
+    maxLightningCount: 3 // maximum no. of lightning bolts allowed on screen at once
 };
 
 var lightning = {
@@ -375,11 +376,18 @@ function enemyMovement() {
     }
 }
 
+
+/* there are 2 possible ways of implementing the limit on lightning bolts:
+1) not allow a new one to be fired until enough old ones have disappeared naturally by hitting something
+2) always allow one to be fired, but remove the oldest bolt at the same time
+I think I prefer 2), so this is what is below. To remove 2) and enable 1), simply remove the comment markers in the
+3rd "if" statemenet below, and comment out the 3-line "if" block around the lightning.positions.shift() statement */
 function violence() {
     if (keys[86]) { // V for violence, why not?
         if (thor.health == 100) {
-            if (thor.lightningFrameCount >= thor.lightningFrameLimit) { // only fire if the framecount is high enough
-// fire lightning!
+            if (thor.lightningFrameCount >= thor.lightningFrameLimit 
+                /*&& lightning.positions.length < thor.maxLightningCount*/) { 
+                // fire lightning! But only if enough frames have elapsed and there aren't already too many on screen
                 var directions = [[0,-1], [-1,0], [0,1], [1,0]];
                 var lightningStartXPos, lightningStartYPos;
                 if (thor.isPointing == 1) { // up
@@ -405,6 +413,10 @@ function violence() {
                     height: lightning.size,
                     direction: directions[thor.isPointing - 1]
                 });
+                // remove oldest lightning bolt from screen if there are now too many
+                if (lightning.positions.length > thor.maxLightningCount) {
+                    lightning.positions.shift();
+                }
                 thor.lightningFrameCount = 0; // reset count
             }
         }
