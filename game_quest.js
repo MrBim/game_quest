@@ -427,8 +427,10 @@ function violence() {
                 console.log("feel my sword, you annoying bunch of pixels!")
                 for (var i=0; i<thor.currentTile.enemies.filter(enemy => enemy.alive).length; i++) {
                     var enemy = thor.currentTile.enemies.filter(enemy => enemy.alive)[i];
-                    if (hitDetection(thor, [enemy], 20)) {
+                    // hit detection for sword - needs Thor pointing in the same direction as the enemy!
+                    if (hitDetection(thor, [enemy], 20, thor.isPointing)) {
                         enemy.health--;
+                        enemy.hasBeenHit = true;
                         console.log (enemy.id + " health now " + enemy.health);
                         if (enemy.health <= 0) {
                             enemy.alive = false;
@@ -451,6 +453,7 @@ function lightningMoveAndHits() {
         var enemy = thor.currentTile.enemies.filter(enemy => enemy.alive)[i];
         if (hitDetection(enemy, lightning.positions)) {
             enemy.health--;
+            enemy.hasBeenHit = true;
             console.log (enemy.id + " hit by lightning! Health now " + enemy.health);
             if (enemy.health <= 0) {
                 enemy.alive = false;

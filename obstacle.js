@@ -68,43 +68,51 @@ function hitDetection(mover, thingsToAvoid, tolerance, pointingDirection){
             mover.yPos - tolerance < (thingsToAvoid[i].yPos + thingsToAvoid[i].height) &&
             mover.yPos + tolerance > (thingsToAvoid[i].yPos - mover.height)) {
 
+            // check you're pointing in the right direction (needed for thor's sword, if nothing else):
+            if (pointingDirection === undefined || // but only if a direction is given!
+                (pointingDirection == 1 && thingsToAvoid[i].yPos <= mover.yPos) ||
+                (pointingDirection == 2 && thingsToAvoid[i].xPos <= mover.xPos) ||
+                (pointingDirection == 3 && thingsToAvoid[i].yPos >= mover.yPos) ||
+                (pointingDirection == 4 && thingsToAvoid[i].xPos >= mover.xPos)) {
 
-            if ((thingsToAvoid[i].type == "enemy" && thingsToAvoid[i].alive && mover == thor) || thingsToAvoid[i] == thor && mover.alive){
-                // space left for code to remove health from Thor, or whatever
-                // the following is just an example:
-                thor.hasBeenHit = true;
+                if ((thingsToAvoid[i].type == "enemy" && thingsToAvoid[i].alive && mover == thor) ||
+                     thingsToAvoid[i] == thor && mover.alive){
+                    // space left for code to remove health from Thor, or whatever
+                    // the following is just an example:
+                    thor.hasBeenHit = true;
+                }
+
+                else if (thingsToAvoid[i].type == "Obstacle" && mover == thor){
+                    //recorded for use with button press activities (so Thor knows obstacle he is infront of)
+                    thor.nextToID = thingsToAvoid[i].id;
+                    thor.nextToType = thingsToAvoid[i].type;
+                }
+
+                else if (thingsToAvoid[i].type == "Item" && mover == thor){
+                    //recorded for use with button press activities (so Thor knows what item is being picked up)
+                    thor.nextToID = thingsToAvoid[i].id;
+                    thor.nextToType = thingsToAvoid[i].type;
+                }
+
+                else if (thingsToAvoid[i].type == "NPC" && mover == thor){
+                    //Greet right away, no button press required
+                    //Use 'None' in NPC constructor to have no greeting
+                    thingsToAvoid[i].greet();
+                    //Recorded for use with button press activities (so the right NPC chat is invoked)
+                    thor.nextToID = thingsToAvoid[i].id;
+                    thor.nextToType = thingsToAvoid[i].type;
+                }
+                //This return is required by the thor_movement() function to determin if Thor can move or not
+                return true;
+
             }
-
-            else if (thingsToAvoid[i].type == "Obstacle" && mover == thor){
-               //recorded for use with button press activities (so Thor knows obstacle he is infront of)
-                thor.nextToID = thingsToAvoid[i].id;
-                thor.nextToType = thingsToAvoid[i].type;
+            else if (mover == thor){
+                //Resetting when not near anything to ensure correct detection
+                thor.nextToID = "nothing";
+                thor.nextToType = "nothing";
+                //if you've moved away from an NPC, reset the dialogue position to zero for that NPC
+                thingsToAvoid[i].chatPosition = 0;
             }
-
-            else if (thingsToAvoid[i].type == "Item" && mover == thor){
-                //recorded for use with button press activities (so Thor knows what item is being picked up)
-                thor.nextToID = thingsToAvoid[i].id;
-                thor.nextToType = thingsToAvoid[i].type;
-            }
-
-            else if (thingsToAvoid[i].type == "NPC" && mover == thor){
-                //Greet right away, no button press required
-                //Use 'None' in NPC constructor to have no greeting
-                thingsToAvoid[i].greet();
-                //Recorded for use with button press activities (so the right NPC chat is invoked)
-                thor.nextToID = thingsToAvoid[i].id;
-                thor.nextToType = thingsToAvoid[i].type;
-            }
-            //This return is required by the thor_movement() function to determin if Thor can move or not
-            return true;
-
-        }
-        else if (mover == thor){
-            //Resetting when not near anything to ensure correct detection
-            thor.nextToID = "nothing";
-            thor.nextToType = "nothing";
-            //if you've moved away from an NPC, reset the dialogue position to zero for that NPC
-            thingsToAvoid[i].chatPosition = 0;
         }
     }
 }

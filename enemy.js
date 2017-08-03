@@ -38,7 +38,13 @@ function Enemy (id, startXPos, startYPos, width, height, colour, speed, move, he
     this.colour = colour;
     this.draw = function() {
         ctx.beginPath();
-        ctx.fillStyle=this.colour;
+        if (this.hasBeenHit) {
+            ctx.fillStyle = "red";
+            this.hasBeenHit = false;
+        }
+        else {
+            ctx.fillStyle = this.colour;
+        }
         ctx.rect(this.xPos,this.yPos,this.width,this.height);
         ctx.fill();
     };
