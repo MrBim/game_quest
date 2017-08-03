@@ -53,9 +53,9 @@ function NPC (id, name, xPos, yPos, width, height, colour, greeting, dialogueLis
 
 
 document.body.addEventListener("keydown", function(e) {
-    //Using the C 'chat' key
-    //T is 84 if people prefer 'talk'
-    if (e.keyCode == 67) {
+    //Using the J 'chat' key
+    //T is 84 if people prefer 'talk' i have changed it to J based on position of the key
+    if (e.keyCode == 74) {
         npcChatOK = true;
     }
 });

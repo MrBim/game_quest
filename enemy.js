@@ -48,7 +48,28 @@ function Enemy (id, startXPos, startYPos, width, height, colour, speed, move, he
     this.startHealth = health;
     this.alive = true;
 }
-
+// change to pass the correct pic in to the enemy constructor rather than having a number of different constructors
+function randEnemy (id, startXPos, startYPos, width, height, colour, speed, move, health) {
+    this.type = "enemy";
+    this.id = id;
+    this.startXPos = startXPos;
+    this.startYPos = startYPos;
+    this.xPos = startXPos;
+    this.yPos = startYPos;
+    this.width = 40;
+    this.height = 40;
+    this.colour = colour;
+    this.draw = function() {
+        ctx.beginPath();
+        ctx.drawImage(spiderPic, this.xPos,this.yPos, 40, 40);
+        ctx.closePath();
+    };
+    this.speed = speed;
+    this.move = move;
+    this.health = health;
+    this.startHealth = health;
+    this.alive = true;
+}
 function moveTowardsThor() {
     var xDiff = thor.xPos - this.xPos;
     var yDiff = thor.yPos - this.yPos;
@@ -149,4 +170,4 @@ var triangulator = new Enemy("triangulator", 50, 80, 20, 20, "lightsteelblue", 2
 var funnyPath = new Enemy("funnyShape", wallThickness, wallThickness, 80, 80, "#21abd2", 5,
                             fixedPath([[wallThickness,wallThickness], [width-wallThickness-80,wallThickness],
                             [width-wallThickness-80,height*2/3], [width/2, wallThickness], [width/4, 400]]), 10);
-var randomMover = new Enemy("random", (width-80)/2, (height-20)/2, 20, 20, "white", 3, randomMovement(10), 5);
+var randomMover = new randEnemy("random", (width-100)/2, (height-20)/2, 20, 20, "white", 3, randomMovement(10), 5);
