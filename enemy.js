@@ -22,12 +22,6 @@ var wallThickness = 30;
 // worldMap is an array which will contain all the individual mapTile objects
 var worldMap = [];
 
-
-// graphics for bad guys
-var spiderPic = new Image();
-spiderPic.src = 'assets/spider/spider.png';
-
-
 /*
        Enemy constructor:
 */
@@ -60,29 +54,7 @@ function Enemy (id, startXPos, startYPos, width, height, colour, speed, move, he
     this.startHealth = health;
     this.alive = true;
 }
-// change to pass the correct pic in to the enemy constructor rather than having a number of different constructors
-function randEnemy (id, sprite, startXPos, startYPos, width, height, colour, speed, move, health) {
-    this.type = "enemy";
-    this.id = id;
-    this.sprite = sprite;
-    this.startXPos = startXPos;
-    this.startYPos = startYPos;
-    this.xPos = startXPos;
-    this.yPos = startYPos;
-    this.width = 40;
-    this.height = 40;
-    this.colour = colour;
-    this.draw = function() {
-        ctx.beginPath();
-        ctx.drawImage(this.sprite, this.xPos,this.yPos, 40, 40);
-        ctx.closePath();
-    };
-    this.speed = speed;
-    this.move = move;
-    this.health = health;
-    this.startHealth = health;
-    this.alive = true;
-}
+
 function moveTowardsThor() {
     var xDiff = thor.xPos - this.xPos;
     var yDiff = thor.yPos - this.yPos;
@@ -130,7 +102,7 @@ function fixedPath(points) {
         var ySpeed = maxDiff ? this.speed*Math.abs(yDiff)/maxDiff : 0;
         this.xPos += Math.sign(xDiff)*xSpeed;
         this.yPos += Math.sign(yDiff)*ySpeed;
-    };
+    }
 }
 
 function randomMovement(stability) {
@@ -176,20 +148,11 @@ function randomMovement(stability) {
     }
 }
 
-
-var itsFollowingMe = new Enemy("follower", wallThickness, height-wallThickness-50, 10, 40, "hotpink", 2, moveTowardsThor, 20);
-
+var itsFollowingMe = new Enemy("follower", wallThickness, height-wallThickness-50, 10, 40, "hotpink", 2, moveTowardsThor, 10);
 var xOscillator = new Enemy("x-oscillator", wallThickness, wallThickness, 50, 50, "magenta", 4, fixedPath([[wallThickness,
-    wallThickness], [width-50, wallThickness]]), 8);
-
-var triangulator = new Enemy("triangulator", 50, 80, 20, 20, "lightsteelblue", 2, fixedPath([[50,80], [280,400], [650,220]]), 12);
-
+    wallThickness], [width-50, wallThickness]]), 4);
+var triangulator = new Enemy("triangulator", 50, 80, 20, 20, "lightsteelblue", 2, fixedPath([[50,80], [280,400], [650,220]]), 6);
 var funnyPath = new Enemy("funnyShape", wallThickness, wallThickness, 80, 80, "#21abd2", 5,
                             fixedPath([[wallThickness,wallThickness], [width-wallThickness-80,wallThickness],
-                            [width-wallThickness-80,height*2/3], [width/2, wallThickness], [width/4, 400]]), 10);
-
-var randomMover = new randEnemy("random", spiderPic, (width-100), (height-200), 20,    20,    "white", 3,     randomMovement(10), 5);
-//                               id,       startXPos,     startYPos,    width, height, colour, speed, move,               health) 
-
-
-
+                            [width-wallThickness-80,height*2/3], [width/2, wallThickness], [width/4, 400]]), 5);
+var randomMover = new Enemy("random", (width-80)/2, (height-20)/2, 20, 20, "white", 3, randomMovement(10), 2);
