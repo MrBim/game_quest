@@ -85,9 +85,9 @@ keyPic.src = 'assets/items/key_sm.png';
 var swordPic = new Image();
 swordPic.src = 'assets/items/sword.png';
 
-// graphics for bad guys
-var spiderPic = new Image();
-spiderPic.src = 'assets/spider/spider.png';
+var lighteningPic = new Image();
+lighteningPic.src = 'assets/items/lightening.png';
+
 
 
 // ----------------------    Land of Functs ---------------------------------------------
@@ -162,8 +162,12 @@ function drawunderparts(){
         quit();
     }
     else {
-        ctz.fillStyle = "#f00"
-        ctz.fillRect(((width/2)+10), 10, ((((width/2)-20)/100)*thor.health), 10);
+    	ctz.fillStyle = "#000"
+        ctz.fillRect(((width/2)+10), 10, ((width/2)-20), 20);
+        ctz.fillStyle = "#a5c"
+        ctz.fillRect((((width/2)+10)+1), 11, (((((width/2)-20)/100)*thor.health)-2), 18);
+        ctz.fillStyle = "#d22"
+        ctz.fillRect((((width/2)+10)+1), 15, (((((width/2)-20)/100)*thor.health)-6), 10);
         ctz.fill;
     }
     // item icons
