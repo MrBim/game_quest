@@ -171,9 +171,17 @@ function drawunderparts(){
         ctz.fill;
     }
     // item icons
-    ctz.beginPath();
-    ctz.drawImage(swordPic, (500 + 10), (0 + 40), 40, 40);
-    ctz.closePath();
+
+    if (thor.health < 100) {
+    	ctz.beginPath();	    
+	    ctz.drawImage(swordPic, (500 + 10), (0 + 40), 40, 40);
+	    ctz.closePath();
+	}
+	else {
+		ctz.beginPath();	    
+	    ctz.drawImage(lighteningPic, (500 + 10), (0 + 40), 40, 40);
+	    ctz.closePath();
+	}
 }
 
 
