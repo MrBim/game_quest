@@ -9,14 +9,6 @@ document.body.addEventListener("keydown", function(e) {
 document.body.addEventListener("keyup", function(e) {
     keys[e.keyCode] = false;
 });
-/* new event listener just for "o", because to go through doors it should respond to a single keydown,
-not to a continous press (otherwise you xontinously flip between the 2 maps and it's pot luck where you end up)*/
-var movingThroughDoor = false;
-document.body.addEventListener("keydown", function(e) {
-    if (e.keyCode == 79) {
-        movingThroughDoor = true;
-    }
-});
 
 // keyboard array (stores key value)
 var keys = [];
@@ -253,14 +245,19 @@ function thor_movement(){
     stayOnScreen(thor);
 }
 
-/* put door detection code here, for better modularity (and making it much easier for me (RZ) to code it!)
-This function takes the player's current x and y positions, and a door object, and checks whether the player
-is "close enough" to be able to go through. Note that it checks on "both sides" of the door, even though the
-door will usually be at the edge. This both avoids special cases, and enables there to possible be "doors"
-which are not on the edge (eg. to go into a house)
-Expect the behaviour to need plenty of tweaking later! */
+/* this function is now completely reworked, and only checks if thor is pointing in the right direction to
+go through the door. Hit detection is now done in the thor_walkThroughDoor funciton itself (by calling the
+hitDetection function, of course). Note that it still needs parameters x, y and size, because of the awkward
+"centre doors", where Thor's direction is irrelevant, and only his position counts*/
 function canIGoThroughDoor(x, y, size, door) {
-    if (x<door.right-size+30 && x>door.left-30 && y<door.bottom-size+30 && y>door.top-30) {
+    if (hitDetection(thor, [door], door instanceof CentreDoor ? 0 : 1-wallThickness) && 
+        /* negative tolerance, to make sure you can only go through when you are right at the edge
+        of the screen. Doesn't work well if applied to Centre Doors though! */
+        ((thor.currentTile.northDoors.indexOf(door) > -1 && thor.isPointing == 1)
+        || (thor.currentTile.westDoors.indexOf(door) > -1 && thor.isPointing == 2)
+        || (thor.currentTile.southDoors.indexOf(door) > -1 && thor.isPointing == 3)
+        || (thor.currentTile.eastDoors.indexOf(door) > -1 && thor.isPointing == 4)
+        || (thor.currentTile.centreDoors.indexOf(door) > -1 && hitDetection(thor, [door])))) {
         return true;
     }
     return false;
@@ -268,48 +265,43 @@ function canIGoThroughDoor(x, y, size, door) {
 
 function thor_walkThroughDoor() {
     var tile = thor.currentTile;
-    if (movingThroughDoor) {
-        //  check that a door is within range
-        for (var i=0; i<tile.doors.length; i++) {
-            if (canIGoThroughDoor(thor.xPos, thor.yPos, thor.dispSize, tile.doors[i])) {
-                console.log("I CAN go through this door!");
-                // code to update thor.currentTile and set an appropriate x and y pos for the player
-                for (var j=0; j<worldMap.length; j++) {
-                    if (worldMap[j].id == tile.doors[i].pointer[0]) {
-                        var newTile = worldMap[j];
-                        thor.currentTile = newTile;
-                        // set all enemies to be in their initial positions on new tile
-                        // - also regenerate them if they were previously dead!:
-                        for (var k=0; k<newTile.enemies.length; k++) {
-                            var enemy = newTile.enemies[k];
-                            enemy.alive = true;
-                            enemy.health = enemy.startHealth;
-                            enemy.xPos = enemy.startXPos;
-                            enemy.yPos = enemy.startYPos;
-                            // also make sure fixed-path enemies resume their path from the start:
-                            enemy.targetIndex = undefined;
-                            // finally remove all lightning from new screen!
-                            lightning.positions = [];
-                        }
-                        // find door where Thor will "arrive" at
-                        for (var k=0; k<newTile.doors.length; k++) {
-                            var door = newTile.doors[k];
-                            if (tile.doors[i].pointer[1] == door.doorID) {
-                                thor.xPos = (door.left + door.right - thor.dispSize)/2;
-                                thor.yPos = (door.top + door.bottom - thor.dispSize)/2;
-                                break;
-                            }
-                        }
-                        break;
+    //  check that Thor is able to go through (mostly a check that he is pointing in the right direction)
+    for (var i=0; i<tile.doors.length; i++) {
+        if (canIGoThroughDoor(thor.xPos, thor.yPos, thor.dispSize, tile.doors[i])) {
+            // put in to test doors were being correctly recognised while debugging. I will leave it in for now.
+            console.log ("going through door with ID " + tile.doors[i].doorID);
+            // code to update thor.currentTile and set an appropriate x and y pos for the player
+            for (var j=0; j<worldMap.length; j++) {
+                if (worldMap[j].id == tile.doors[i].pointer[0]) {
+                    var newTile = worldMap[j];
+                    thor.currentTile = newTile;
+                    // set all enemies to be in their initial positions on new tile
+                    // - also regenerate them if they were previously dead!:
+                    for (var k=0; k<newTile.enemies.length; k++) {
+                        var enemy = newTile.enemies[k];
+                        enemy.alive = true;
+                        enemy.health = enemy.startHealth;
+                        enemy.xPos = enemy.startXPos;
+                        enemy.yPos = enemy.startYPos;
+                        // also make sure fixed-path enemies resume their path from the start:
+                        enemy.targetIndex = undefined;
+                        // finally remove all lightning from new screen!
+                        lightning.positions = [];
                     }
+                    // find door where Thor will "arrive" at
+                    for (var k=0; k<newTile.doors.length; k++) {
+                        var door = newTile.doors[k];
+                        if (tile.doors[i].pointer[1] == door.doorID) {
+                            thor.xPos = (door.left + door.right - thor.dispSize)/2;
+                            thor.yPos = (door.top + door.bottom - thor.dispSize)/2;
+                            break;
+                        }
+                    }
+                    break;
                 }
-                break;
             }
-            else {
-                console.log("what door? where?");
-            }
+            break;
         }
-        movingThroughDoor = false;
     }
 }
 
