@@ -9,14 +9,6 @@ document.body.addEventListener("keydown", function(e) {
 document.body.addEventListener("keyup", function(e) {
     keys[e.keyCode] = false;
 });
-/* new event listener just for "o", because to go through doors it should respond to a single keydown,
-not to a continous press (otherwise you xontinously flip between the 2 maps and it's pot luck where you end up)*/
-var movingThroughDoor = false;
-document.body.addEventListener("keydown", function(e) {
-    if (e.keyCode == 79) {
-        movingThroughDoor = true;
-    }
-});
 
 // keyboard array (stores key value)
 var keys = [];
@@ -30,10 +22,10 @@ var thor = {
 // defining width and height separately, because needed for hit detection code now:
     height: 40,
     width: 40,
-    startXPos : ((width / 2) - (this.dispSize / 2)),
-    startYPos : ((height / 2) - (this.dispSize / 2)),
-    xPos : this.startXPos,
-    yPos : this.startYPos,
+    startXPos : width/2 - 20,
+    startYPos : height/2 - 20,
+    xPos : width/2 - 20,
+    yPos : height/2 - 20,
     isPointing : 1,
     moveSize : 3,
     walkAnimFrame : 11,
@@ -53,9 +45,16 @@ var thor = {
     thorPicOneW : new Image(),
     thorPicTwoW : new Image(),
 
-// need to know starting location
-    currentTile: NWTile
+    // need to know starting location
+    currentTile: NWTile,
 
+    // set properties to force lightning to not be able to be fired continuously (the value below means approx.
+    // 4 bolts per second can be fired) - and enable it to be fired right at the start if needed
+    lightningFrameLimit: 15,
+    lightningFrameCount: 15,
+    maxLightningCount: 3, // maximum no. of lightning bolts allowed on screen at once
+    swordFrameLimit: 15,
+    swordFrameCount: 15
 };
 
 var lightning = {
@@ -246,64 +245,63 @@ function thor_movement(){
     stayOnScreen(thor);
 }
 
-/* put door detection code here, for better modularity (and making it much easier for me (RZ) to code it!)
-This function takes the player's current x and y positions, and a door object, and checks whether the player
-is "close enough" to be able to go through. Note that it checks on "both sides" of the door, even though the
-door will usually be at the edge. This both avoids special cases, and enables there to possible be "doors"
-which are not on the edge (eg. to go into a house)
-Expect the behaviour to need plenty of tweaking later! */
+/* this function is now completely reworked, and only checks if thor is pointing in the right direction to
+go through the door. Hit detection is now done in the thor_walkThroughDoor funciton itself (by calling the
+hitDetection function, of course). Note that it still needs parameters x, y and size, because of the awkward
+"centre doors", where Thor's direction is irrelevant, and only his position counts*/
 function canIGoThroughDoor(x, y, size, door) {
-    if (x<door.right-size+30 && x>door.left-30 && y<door.bottom-size+30 && y>door.top-30) {
+    if (hitDetection(thor, [door], door instanceof CentreDoor ? 0 : 1-wallThickness) && 
+        /* negative tolerance, to make sure you can only go through when you are right at the edge
+        of the screen. Doesn't work well if applied to Centre Doors though! */
+        ((thor.currentTile.northDoors.indexOf(door) > -1 && thor.isPointing == 1)
+        || (thor.currentTile.westDoors.indexOf(door) > -1 && thor.isPointing == 2)
+        || (thor.currentTile.southDoors.indexOf(door) > -1 && thor.isPointing == 3)
+        || (thor.currentTile.eastDoors.indexOf(door) > -1 && thor.isPointing == 4)
+        || (thor.currentTile.centreDoors.indexOf(door) > -1 && hitDetection(thor, [door])))) {
         return true;
     }
     return false;
 }
 
 function thor_walkThroughDoor() {
-// check that o is pressed
     var tile = thor.currentTile;
-    if (movingThroughDoor) {
-//  check that a door is within range
-        for (var i=0; i<tile.doors.length; i++) {
-            if (canIGoThroughDoor(thor.xPos, thor.yPos, thor.dispSize, tile.doors[i])) {
-console.log("I CAN go through this door!");
-// code to update thor.currentTile and set an appropriate x and y pos for the player
-                for (var j=0; j<worldMap.length; j++) {
-                    if (worldMap[j].id == tile.doors[i].pointer[0]) {
-                        var newTile = worldMap[j];
-                        thor.currentTile = newTile;
-// set all enemies to be in their initial positions on new tile
-// - also regenerate them if they were previously dead!:
-                        for (var k=0; k<newTile.enemies.length; k++) {
-                            var enemy = newTile.enemies[k];
-                            enemy.alive = true;
-                            enemy.health = enemy.startHealth;
-                            enemy.xPos = enemy.startXPos;
-                            enemy.yPos = enemy.startYPos;
-// also make sure fixed-path enemies resume their path from the start:
-                            enemy.targetIndex = undefined;
-// finally remove all lightning from new screen!
-                            lightning.positions = [];
-                        }
-// find door where Thor will "arrive" at
-                        for (var k=0; k<newTile.doors.length; k++) {
-                            var door = newTile.doors[k];
-                            if (tile.doors[i].pointer[1] == door.doorID) {
-                                thor.xPos = (door.left + door.right - thor.dispSize)/2;
-                                thor.yPos = (door.top + door.bottom - thor.dispSize)/2;
-                                break;
-                            }
-                        }
-                        break;
+    //  check that Thor is able to go through (mostly a check that he is pointing in the right direction)
+    for (var i=0; i<tile.doors.length; i++) {
+        if (canIGoThroughDoor(thor.xPos, thor.yPos, thor.dispSize, tile.doors[i])) {
+            // put in to test doors were being correctly recognised while debugging. I will leave it in for now.
+            console.log ("going through door with ID " + tile.doors[i].doorID);
+            // code to update thor.currentTile and set an appropriate x and y pos for the player
+            for (var j=0; j<worldMap.length; j++) {
+                if (worldMap[j].id == tile.doors[i].pointer[0]) {
+                    var newTile = worldMap[j];
+                    thor.currentTile = newTile;
+                    // set all enemies to be in their initial positions on new tile
+                    // - also regenerate them if they were previously dead!:
+                    for (var k=0; k<newTile.enemies.length; k++) {
+                        var enemy = newTile.enemies[k];
+                        enemy.alive = true;
+                        enemy.health = enemy.startHealth;
+                        enemy.xPos = enemy.startXPos;
+                        enemy.yPos = enemy.startYPos;
+                        // also make sure fixed-path enemies resume their path from the start:
+                        enemy.targetIndex = undefined;
+                        // finally remove all lightning from new screen!
+                        lightning.positions = [];
                     }
+                    // find door where Thor will "arrive" at
+                    for (var k=0; k<newTile.doors.length; k++) {
+                        var door = newTile.doors[k];
+                        if (tile.doors[i].pointer[1] == door.doorID) {
+                            thor.xPos = (door.left + door.right - thor.dispSize)/2;
+                            thor.yPos = (door.top + door.bottom - thor.dispSize)/2;
+                            break;
+                        }
+                    }
+                    break;
                 }
-                break;
             }
-            else {
-                console.log("what door? where?");
-            }
+            break;
         }
-        movingThroughDoor = false;
     }
 }
 
@@ -371,64 +369,83 @@ function enemyMovement() {
     }
 }
 
+
+/* there are 2 possible ways of implementing the limit on lightning bolts:
+1) not allow a new one to be fired until enough old ones have disappeared naturally by hitting something
+2) always allow one to be fired, but remove the oldest bolt at the same time
+I think I prefer 2), so this is what is below. To remove 2) and enable 1), simply remove the comment markers in the
+3rd "if" statemenet below, and comment out the 3-line "if" block around the lightning.positions.shift() statement */
 function violence() {
     if (keys[86]) { // V for violence, why not?
         if (thor.health == 100) {
-// fire lightning!
-            var directions = [[0,-1], [-1,0], [0,1], [1,0]];
-            var lightningStartXPos, lightningStartYPos;
-            if (thor.isPointing == 1) { // up
-                lightningStartXPos = thor.xPos + (thor.dispSize - lightning.size)/2;
-                lightningStartYPos = thor.yPos - lightning.size;
+            if (thor.lightningFrameCount >= thor.lightningFrameLimit 
+                /*&& lightning.positions.length < thor.maxLightningCount*/) { 
+                // fire lightning! But only if enough frames have elapsed and there aren't already too many on screen
+                var directions = [[0,-1], [-1,0], [0,1], [1,0]];
+                var lightningStartXPos, lightningStartYPos;
+                if (thor.isPointing == 1) { // up
+                    lightningStartXPos = thor.xPos + (thor.dispSize - lightning.size)/2;
+                    lightningStartYPos = thor.yPos - lightning.size;
+                }
+                else if (thor.isPointing == 2) { // left
+                    lightningStartXPos = thor.xPos - lightning.size;
+                    lightningStartYPos = thor.yPos + (thor.dispSize - lightning.size)/2;
+                }
+                else if (thor.isPointing == 3) { // down
+                    lightningStartXPos = thor.xPos + (thor.dispSize - lightning.size)/2;
+                    lightningStartYPos = thor.yPos + thor.dispSize;
+                }
+                else if (thor.isPointing == 4) { // right
+                    lightningStartXPos = thor.xPos + thor.dispSize;
+                    lightningStartYPos = thor.yPos + (thor.dispSize - lightning.size)/2;
+                }
+                lightning.positions.push({
+                    xPos: lightningStartXPos,
+                    yPos: lightningStartYPos,
+                    width: lightning.size,
+                    height: lightning.size,
+                    direction: directions[thor.isPointing - 1]
+                });
+                // remove oldest lightning bolt from screen if there are now too many
+                if (lightning.positions.length > thor.maxLightningCount) {
+                    lightning.positions.shift();
+                }
+                thor.lightningFrameCount = 0; // reset count
             }
-            else if (thor.isPointing == 2) { // left
-                lightningStartXPos = thor.xPos - lightning.size;
-                lightningStartYPos = thor.yPos + (thor.dispSize - lightning.size)/2;
-            }
-            else if (thor.isPointing == 3) { // down
-                lightningStartXPos = thor.xPos + (thor.dispSize - lightning.size)/2;
-                lightningStartYPos = thor.yPos + thor.dispSize;
-            }
-            else if (thor.isPointing == 4) { // right
-                lightningStartXPos = thor.xPos + thor.dispSize;
-                lightningStartYPos = thor.yPos + (thor.dispSize - lightning.size)/2;
-            }
-            lightning.positions.push({
-                xPos: lightningStartXPos,
-                yPos: lightningStartYPos,
-                width: lightning.size,
-                height: lightning.size,
-                direction: directions[thor.isPointing - 1]
-            });
         }
         else {
-// hit with sword
-            console.log("feel my sword, you annoying bunch of pixels!")
-            for (var i=0; i<thor.currentTile.enemies.filter(enemy => enemy.alive).length; i++) {
-// trying out arrow functions for the first time, why not? Saves quite a lot of space here!
-                var enemy = thor.currentTile.enemies.filter(enemy => enemy.alive)[i];
-                if (hitDetection(thor, [enemy], 10)) {
-                    enemy.health--;
-                    console.log (enemy.id + " health now " + enemy.health);
-                    if (enemy.health <= 0) {
-                        enemy.alive = false;
+            // hit with sword
+            if (thor.swordFrameCount >= thor.swordFrameLimit) {
+                console.log("feel my sword, you annoying bunch of pixels!")
+                for (var i=0; i<thor.currentTile.enemies.filter(enemy => enemy.alive).length; i++) {
+                    var enemy = thor.currentTile.enemies.filter(enemy => enemy.alive)[i];
+                    // hit detection for sword - needs Thor pointing in the same direction as the enemy!
+                    if (hitDetection(thor, [enemy], 20, thor.isPointing)) {
+                        enemy.health--;
+                        enemy.hasBeenHit = true;
+                        console.log (enemy.id + " health now " + enemy.health);
+                        if (enemy.health <= 0) {
+                            enemy.alive = false;
+                        }
                     }
                 }
+                thor.swordFrameCount = 0;
             }
         }
     }
 }
 
 function lightningMoveAndHits() {
-/* start to construct new array of lightning position objects. We want to remove any
-which have hit an enemy - but if we just remove from the array we are looping over
-that strange behaviour could result. To be save we start with a new empty array,
-add each lightning block back in if it *hasn't* hit an enemy, then set lightning.positions
-to be the new array at the end of the loop */
+    /* start to construct new array of lightning position objects. We want to remove any
+    which have hit an enemy - but if we just remove from the array we are looping over
+    that strange behaviour could result. To be save we start with a new empty array,
+    add each lightning block back in if it *hasn't* hit an enemy, then set lightning.positions
+    to be the new array at the end of the loop */
     for (var i=0; i<thor.currentTile.enemies.filter(enemy => enemy.alive).length; i++) {
         var enemy = thor.currentTile.enemies.filter(enemy => enemy.alive)[i];
         if (hitDetection(enemy, lightning.positions)) {
             enemy.health--;
+            enemy.hasBeenHit = true;
             console.log (enemy.id + " hit by lightning! Health now " + enemy.health);
             if (enemy.health <= 0) {
                 enemy.alive = false;
@@ -440,14 +457,14 @@ to be the new array at the end of the loop */
     for (var i=0; i<lightning.positions.length; i++) {
         var keepIt = true;
 
-// remove lightning if it hits an enemy (or obstacle/npc/item/thor)!
+        // remove lightning if it hits an enemy (or obstacle/npc/item/thor)!
         if (itCantGoThere(lightning.positions[i])) {
             keepIt = false;
         }
         if (keepIt) {
             newLightningPositions.push(lightning.positions[i]);
         }
-// lightning movement
+        // lightning movement
         lightning.positions[i].xPos += lightning.speed*lightning.positions[i].direction[0];
         lightning.positions[i].yPos += lightning.speed*lightning.positions[i].direction[1];
     }
@@ -475,11 +492,11 @@ function stopMusic(){
 function gameLoop(){
 
     if (hasRun === false) {
-// initalise all game variables here
+        // initalise all game variables here
         clearCanvas();
         thor.xPos = ((width/2) - (thor.dispSize/2));
         thor.yPos = ((height/2) - (thor.dispSize/2));
-// gameMusics.play();
+        // gameMusics.play();
         drawBackground();
         drawPlayer();
         hasRun = true;
@@ -497,12 +514,14 @@ function gameLoop(){
     thor_healthCheck();
     // words();
     obtainItem();
- //To enable diaglogue with NPC's on key press (C)
+    //To enable diaglogue with NPC's on key press (C)
     npcButtonChat();
+    thor.lightningFrameCount++;
+    thor.swordFrameCount++;
 
     requestAnimationFrame(gameLoop);
 
-// 'q' for quit
+    // 'q' for quit
     if (keys[81]) {
         quit();
     }
