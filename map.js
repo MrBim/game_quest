@@ -59,13 +59,13 @@ function NWallDoor(startPos, width) {
     this.width = width;
     // this.middleX = startPos + width/2;
     // this.middleY = 0;
-    this.left = this.startPos;
-    this.right = this.startPos + this.width;
-    this.top = 0;
-    this.bottom = wallThickness;
+    // this.left = this.startPos;
+    // this.right = this.startPos + this.width;
+    // this.top = 0;
+    // this.bottom = wallThickness;
     this.xPos = this.startPos;
     this.yPos = 0;
-    this.height = this.bottom;
+    this.height = wallThickness;
 }
 
 NWallDoor.prototype = Object.create(Door.prototype);
@@ -77,11 +77,11 @@ function EWallDoor(startPos, height) {
     this.height = height;
     // this.middleX = width;
     // this.middleY = startPos + height/2;
-    this.left = width - wallThickness;
-    this.right = width;
-    this.top = this.startPos;
-    this.bottom = this.startPos + this.height;
-    this.xPos = this.left;
+    // this.left = width - wallThickness;
+    // this.right = width;
+    // this.top = this.startPos;
+    // this.bottom = this.startPos + this.height;
+    this.xPos = width - wallThickness;
     this.yPos = this.startPos;
     this.width = wallThickness;
 }
@@ -95,12 +95,12 @@ function SWallDoor(startPos, width) {
     this.width = width;
     // this.middleX = startPos + width/2;
     // this.middleY = height;
-    this.left = this.startPos;
-    this.right = this.startPos + this.width;
-    this.top = height - wallThickness;
-    this.bottom = height;
+    // this.left = this.startPos;
+    // this.right = this.startPos + this.width;
+    // this.top = height - wallThickness;
+    // this.bottom = height;
     this.xPos = this.startPos;
-    this.yPos = this.top;
+    this.yPos = height - wallThickness;
     this.height = wallThickness;
 }
 
@@ -113,13 +113,13 @@ function WWallDoor(startPos, height) {
     this.height = height;
     // this.middleX = 0;
     // this.middleY = startPos + height/2;
-    this.left = 0;
-    this.right = wallThickness;
-    this.top = this.startPos;
-    this.bottom = this.startPos + this.height;
-    this.xPos = this.left;
+    // this.left = 0;
+    // this.right = wallThickness;
+    // this.top = this.startPos;
+    // this.bottom = this.startPos + this.height;
+    this.xPos = 0;
     this.yPos = this.startPos;
-    this.width = this.right;
+    this.width = wallThickness;
 }
 
 WWallDoor.prototype = Object.create(Door.prototype);
@@ -134,14 +134,14 @@ function CentreDoor(xPos1, yPos1, xPos2, yPos2, colour) {
     // this.middleX = (xPos1 + xPos2)/2;
     // this.middleY = (yPos1 + yPos2)/2;
     this.colour = colour;
-    this.left = Math.min(this.xPos1, this.xPos2);
-    this.right = Math.max(this.xPos1, this.xPos2);
-    this.top = Math.min(this.yPos1, this.yPos2);
-    this.bottom = Math.max(this.yPos1, this.yPos2);
-    this.xPos = this.left;
-    this.yPos = this.top;
-    this.width = this.right - this.left;
-    this.height = this.bottom - this.top;
+    // this.left = Math.min(this.xPos1, this.xPos2);
+    // this.right = Math.max(this.xPos1, this.xPos2);
+    // this.top = Math.min(this.yPos1, this.yPos2);
+    // this.bottom = Math.max(this.yPos1, this.yPos2);
+    this.xPos = Math.min(this.xPos1, this.xPos2);
+    this.yPos = Math.min(this.yPos1, this.yPos2);
+    this.width = Math.max(this.xPos1, this.xPos2) - this.xPos;
+    this.height = Math.max(this.yPos1, this.yPos2) - this.yPos;
 }
 
 CentreDoor.prototype = Object.create(Door.prototype);
@@ -272,7 +272,10 @@ It will just have a door to the East, connecting to room "NE" */
 var NWDoorE = new EWallDoor(30, 80);
 NWDoorE.doorID = "NWDoorE";
 NWDoorE.pointer = ["NE", "NEDoorW"];
-var NWTile = new MapTile("NW", [NWDoorE], [item1_1, powerUp1], [npc1_1, npc1_2], [obstacle1_1, obstacle1_2, obstacle1_3], [xOscillator, randomMover], "#02b109", "black"); // honouring Bim's original choice of colour!
+var NWDoorW = new WWallDoor ((height/2)-30, 60);
+NWDoorW.doorID = "NWDoorW";
+NWDoorW.pointer = ["enemies", "doorToEnemyRoom"];
+var NWTile = new MapTile("NW", [NWDoorE, NWDoorW], [item1_1, powerUp1], [npc1_1, npc1_2], [obstacle1_1, obstacle1_2, obstacle1_3], [xOscillator, randomMover], "#02b109", "black"); // honouring Bim's original choice of colour!
 
 
 // NE tile will have doors to the West and South
@@ -302,5 +305,19 @@ SWDoorE.pointer = ["SE", "SEDoorW"];
 // first (NW) tile,
 var SWCentreDoor = new CentreDoor(width/2 - 20, 2*height/3, width/2 + 20, 3*height/4, "red");
 SWCentreDoor.doorID = "SWCentreDoor";
-SWCentreDoor.pointer = ["NW", "NWDoorE"];
+SWCentreDoor.pointer = ["NWTile", "NWDoorE"];
 var SWTile = new MapTile("SW", [SWDoorE, SWCentreDoor], [], [], [], [funnyPath], "yellow", "hotpink");
+
+var giant1 = new Enemy("Giant 1", ((width - 2*wallThickness)/8) + wallThickness - 20, wallThickness + 5, 40, 40, "black", 3, moveTowardsThor, 20);
+var giant2 = new Enemy("Giant 2", (3*(width - 2*wallThickness)/8) + wallThickness - 20, wallThickness + 5, 40, 40, "black", 3, moveTowardsThor, 20);
+var giant3 = new Enemy("Giant 3", (5*(width - 2*wallThickness)/8) + wallThickness - 20, wallThickness + 5, 40, 40, "black", 3, moveTowardsThor, 20);
+var giant4 = new Enemy("Giant 4", (7*(width - 2*wallThickness)/8) + wallThickness - 20, wallThickness + 5, 40, 40, "black", 3, moveTowardsThor, 20);
+var separator1 = new Obstacle("separator1", ((width - 2*wallThickness)/4)+wallThickness-50, wallThickness, 100, height-wallThickness-80, "#aaa");
+var separator2 = new Obstacle("separator1", ((width - 2*wallThickness)/2)+wallThickness-50, wallThickness+80, 100, height-wallThickness, "#aaa");
+var separator3 = new Obstacle("separator1", (3*(width - 2*wallThickness)/4)+wallThickness-50, wallThickness, 100, height-wallThickness-80, "#aaa");
+var enemyTileDoor = new EWallDoor((height/2)-30, 60);
+enemyTileDoor.doorID = "doorToEnemyRoom";
+enemyTileDoor.pointer = ["NW", "NWDoorW"];
+var enemyTile = new MapTile("enemies", [enemyTileDoor], [], [], [separator1, separator2, separator3], [giant1, giant2, giant3, giant4], "blue", "brown");
+
+

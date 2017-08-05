@@ -292,8 +292,8 @@ function thor_walkThroughDoor() {
                     for (var k=0; k<newTile.doors.length; k++) {
                         var door = newTile.doors[k];
                         if (tile.doors[i].pointer[1] == door.doorID) {
-                            thor.xPos = (door.left + door.right - thor.dispSize)/2;
-                            thor.yPos = (door.top + door.bottom - thor.dispSize)/2;
+                            thor.xPos = door.xPos + (door.width - thor.dispSize)/2;
+                            thor.yPos = door.yPos + (door.height - thor.dispSize)/2;
                             break;
                         }
                     }

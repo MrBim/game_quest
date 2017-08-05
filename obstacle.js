@@ -75,7 +75,8 @@ function hitDetection(mover, thingsToAvoid, tolerance, pointingDirection){
                 (pointingDirection == 3 && thingsToAvoid[i].yPos >= mover.yPos) ||
                 (pointingDirection == 4 && thingsToAvoid[i].xPos >= mover.xPos)) {
 
-                if ((thingsToAvoid[i].type == "enemy" && thingsToAvoid[i].alive && mover == thor) ||
+                if ((thingsToAvoid[i].type == "enemy" && thingsToAvoid[i].alive && mover == thor
+                    && hitDetection(thingsToAvoid[i],[thor])) ||  // make sure enemy can actually see thor, with no separation
                      thingsToAvoid[i] == thor && mover.alive){
                     // space left for code to remove health from Thor, or whatever
                     // the following is just an example:
