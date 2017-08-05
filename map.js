@@ -238,13 +238,14 @@ var item2_2 = new Item("item2_2", "Magic Boot");
 
 var PuzzlePeice2_1 = new PuzzlePeice("puzOb2_1", 500,500,140,140, "#d85504", "#ffffff", ["#ffffff","#e2a77a","#e0782a"]);
 var PuzzlePeice2_2 = new PuzzlePeice("puzOb2_2", 400,100,30,60, "#d85504", "#ffffff", ["#ffffff","#ddb89b","#e2a77a", "#e09257","#e0782a"]);
+
 var npc2_1 = new NPC("npc2_1", "Junior Wizard Colin", 450,450,40, 40, "black", "none", [[{speaker: "npc", speech:"I have a magic boot which is essential for your quest"}, {speaker: "Thor", speech: "A boot? Seriously!?!"}, {speaker: "npc", speech:"Yes, be safe a take it with you"}], [{speaker: "npc", speech:"I've given you the boot, now scoot!"}]], item2_2);
 var npc2_2 = new NPC("npc2_2","Advance Wizard Jeff", 350,450,40, 40, "black", "none", [[{speaker: "npc", speech:"I'm not very chatty and have nothing for you"}, {speaker: "Thor", speech: "Oh!"}, {speaker: "npc", speech:"Try to take something"}]]);
 
 var item3_1 = new Item("item3_1","Gold Trophy", 350,350,40, 40, "Yellow");
 var item3_2 = new Item("item3_1","Magic Banjo");
 var obstacle3_1 = new Obstacle("ob3_1", 10,10,40,40, "red", item3_2);
-
+var item3_3 = new Item("item2_1", "Mystical Homemade Headband", 250,250,40, 40, "Yellow");
 
 // try to construct basic map. Will be square, but without doors in all the obvious places!
 // note that there are no items or characters for now!
@@ -261,13 +262,13 @@ var NWTile = new MapTile("NW", [NWDoorE], [item1_1, powerUp1], [npc1_1, npc1_2],
 // NE tile will have doors to the West and South
 var NEDoorW = new WWallDoor(30, 70);
 NEDoorW.doorID = "NEDoorW";
-NEDoorW.pointer = ["NW", "NWDoorE"]
+NEDoorW.pointer = ["NW", "NWDoorE"];
 var NEDoorS = new SWallDoor (width-120, 100);
 NEDoorS.doorID = "NEDoorS";
 NEDoorS.pointer = ["SE", "SEDoorN"];
 var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [item2_1, item2_2], [npc2_1, npc2_2], [], [triangulator], "red", "green"); //my own colour choices are more boring ;)
-NETile["PuzzlePeices"] = [PuzzlePeice2_1, PuzzlePeice2_2];
-NETile["PuzzleComplete"] = false;
+
+
 
 // similary SE tile will have doors to North and West
 var SEDoorN = new NWallDoor(width-120, 100);
@@ -289,5 +290,8 @@ SWCentreDoor.doorID = "SWCentreDoor";
 SWCentreDoor.pointer = ["NW", "NWDoorE"];
 var SWTile = new MapTile("SW", [SWDoorE, SWCentreDoor], [], [], [], [funnyPath], "yellow", "hotpink");
 
-
-
+//Adding all puzzle peices after all have been created
+NETile.PuzzlePeices = [PuzzlePeice2_1, PuzzlePeice2_2];
+NETile.PuzzleComplete = false;
+NETile.targetMapTile = SETile;
+NETile.itemToPlace = item3_3;
