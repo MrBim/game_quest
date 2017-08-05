@@ -94,7 +94,7 @@ function hitDetection(mover, thingsToAvoid, tolerance, pointingDirection){
                     thor.nextToType = thingsToAvoid[i].type;
                 }
 
-                else if (thingsToAvoid[i].type == "PuzzleObstacle" && mover == thor){
+                else if (thingsToAvoid[i].type == "PuzzlePeice" && mover == thor){
                     thor.nextToID = thingsToAvoid[i].id;
                     thor.nextToType = thingsToAvoid[i].type;
                 }

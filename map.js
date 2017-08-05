@@ -224,17 +224,20 @@ var item1_1 = new Item("item1_1", "Magic Key", 350,350,40, 40, "yellow");
 var item1_2 = new Item("item1_2", "Magic Potion");
 var item1_3 = new Item("item1_3", "Magic Mushroom");
 var item1_4 = new Item("item1_4", "Secret Squirrel");
-var powerUp1 = new Item("powerup", "Power Up 1", width-wallThickness-30, (height/2)-50, 30, 30, "yellow")
+var powerUp1 = new Item("powerup", "Power Up 1", width-wallThickness-30, (height/2)-50, 30, 30, "yellow");
 var obstacle1_1 = new Obstacle("ob1_1", 50,180,40,40, "blue");
 var obstacle1_2 = new Obstacle("ob1_2", 90,90,60,60, "blue", item1_4);
 var obstacle1_3 = new Obstacle("ob1_3", 250,250,80, 80, "blue");
 var npc1_1 = new NPC("npc1_1", "Wizard Dave", 550,550,40, 40, "black", "Greetings Thor", [[{speaker:"Thor", speech:"Hello"}, {speaker:"npc", speech:"I have a magic potion for you, please take it"}], [{speaker:"npc", speech:"I given you the magic potion, stop *&!*&*^% pestering me! On your way!"}]], item1_2);
 var npc1_2 = new NPC("npc1_2","Grand Wizard Malcom", 450,450,40, 40, "black", "Hello Thor", [[{speaker:"Thor", speech:"Warm Salutations to you"}, {speaker:"Npc", speech:"I have some magic mushrooms to make your quest more interesting, please take them"}], [{speaker:"npc", speech:"I am not giving you any more magic mushrooms, this is a quest not a party"}, {speaker:"Thor", speech:"Awww maaan, your meeeeeean!"}]], item1_3);
 
-var PuzzleObstacle2_1 = new PuzzleObstacle("puzOb2_1", 500,500,140,140, "brown", 3, [1,2,3]);
-var PuzzleObstacle2_2 = new PuzzleObstacle("puzOb2_2", 400,100,30,60, "brown", 5, [1,2,3,4,5]);
+
+
 var item2_1 = new Item("item2_1", "Magic Glove", 250,250,40, 40, "Yellow");
 var item2_2 = new Item("item2_2", "Magic Boot");
+
+var PuzzlePeice2_1 = new PuzzlePeice("puzOb2_1", 500,500,140,140, "#d85504", "#ffffff", ["#ffffff","#e2a77a","#e0782a"]);
+var PuzzlePeice2_2 = new PuzzlePeice("puzOb2_2", 400,100,30,60, "#d85504", "#ffffff", ["#ffffff","#ddb89b","#e2a77a", "#e09257","#e0782a"]);
 var npc2_1 = new NPC("npc2_1", "Junior Wizard Colin", 450,450,40, 40, "black", "none", [[{speaker: "npc", speech:"I have a magic boot which is essential for your quest"}, {speaker: "Thor", speech: "A boot? Seriously!?!"}, {speaker: "npc", speech:"Yes, be safe a take it with you"}], [{speaker: "npc", speech:"I've given you the boot, now scoot!"}]], item2_2);
 var npc2_2 = new NPC("npc2_2","Advance Wizard Jeff", 350,450,40, 40, "black", "none", [[{speaker: "npc", speech:"I'm not very chatty and have nothing for you"}, {speaker: "Thor", speech: "Oh!"}, {speaker: "npc", speech:"Try to take something"}]]);
 
@@ -242,10 +245,6 @@ var item3_1 = new Item("item3_1","Gold Trophy", 350,350,40, 40, "Yellow");
 var item3_2 = new Item("item3_1","Magic Banjo");
 var obstacle3_1 = new Obstacle("ob3_1", 10,10,40,40, "red", item3_2);
 
-
-var tree2_1 = new Obstacle(100,50,40,40, "green");
-var tree2_2 = new Obstacle(300,300,50,50, "black");
-var rock2_1 = new Obstacle(500,500,70, 70, "blue");
 
 // try to construct basic map. Will be square, but without doors in all the obvious places!
 // note that there are no items or characters for now!
@@ -267,7 +266,8 @@ var NEDoorS = new SWallDoor (width-120, 100);
 NEDoorS.doorID = "NEDoorS";
 NEDoorS.pointer = ["SE", "SEDoorN"];
 var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [item2_1, item2_2], [npc2_1, npc2_2], [], [triangulator], "red", "green"); //my own colour choices are more boring ;)
-NETile["PuzzleObstacle"] = [PuzzleObstacle2_1, PuzzleObstacle2_2];
+NETile["PuzzlePeices"] = [PuzzlePeice2_1, PuzzlePeice2_2];
+NETile["PuzzleComplete"] = false;
 
 // similary SE tile will have doors to North and West
 var SEDoorN = new NWallDoor(width-120, 100);
@@ -288,3 +288,6 @@ var SWCentreDoor = new CentreDoor(width/2 - 20, 2*height/3, width/2 + 20, 3*heig
 SWCentreDoor.doorID = "SWCentreDoor";
 SWCentreDoor.pointer = ["NW", "NWDoorE"];
 var SWTile = new MapTile("SW", [SWDoorE, SWCentreDoor], [], [], [], [funnyPath], "yellow", "hotpink");
+
+
+
