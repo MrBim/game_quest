@@ -224,12 +224,17 @@ var item1_1 = new Item("item1_1", "Magic Key", 350,350,40, 40, "yellow");
 var item1_2 = new Item("item1_2", "Magic Potion");
 var item1_3 = new Item("item1_3", "Magic Mushroom");
 var item1_4 = new Item("item1_4", "Secret Squirrel");
+
+var PuzzlePeice1_1 = new PuzzlePeice("puzOb2_1", 190,100,40,40, "#d85504", "#ffffff", ["#ffffff","#e2a77a","#e0782a"]);
+var PuzzlePeice1_2 = new PuzzlePeice("puzOb2_2", 235,100,40,40, "#d85504", "#ffffff", ["#ffffff","#ddb89b","#e2a77a", "#e09257","#e0782a"]);
+var PuzzlePeice1_3 = new PuzzlePeice("puzOb2_3", 280,100,40,40, "#d85504", "#ffffff", ["#ffffff","#ddb89b","#e2a77a", "#e09257","#e0782a"]);
+
 var powerUp1 = new Item("powerup", "Power Up 1", width-wallThickness-30, (height/2)-50, 30, 30, "yellow");
 var obstacle1_1 = new Obstacle("ob1_1", 50,180,40,40, "blue");
 var obstacle1_2 = new Obstacle("ob1_2", 90,90,60,60, "blue", item1_4);
 var obstacle1_3 = new Obstacle("ob1_3", 250,250,80, 80, "blue");
-var npc1_1 = new NPC("npc1_1", "Wizard Dave", 550,550,40, 40, "black", "Greetings Thor", [[{speaker:"Thor", speech:"Hello"}, {speaker:"npc", speech:"I have a magic potion for you, please take it"}], [{speaker:"npc", speech:"I given you the magic potion, stop *&!*&*^% pestering me! On your way!"}]], item1_2);
-var npc1_2 = new NPC("npc1_2","Grand Wizard Malcom", 450,450,40, 40, "black", "Hello Thor", [[{speaker:"Thor", speech:"Warm Salutations to you"}, {speaker:"Npc", speech:"I have some magic mushrooms to make your quest more interesting, please take them"}], [{speaker:"npc", speech:"I am not giving you any more magic mushrooms, this is a quest not a party"}, {speaker:"Thor", speech:"Awww maaan, your meeeeeean!"}]], item1_3);
+var npc1_1 = new NPC("npc1_1", "Wizard Dave", 550,550,40, 40, "black", "Greetings Thor", [[{speaker:"Thor", speech:"Hello"}, {speaker:"npc", speech:"I have a magic potion for you, please take it"}], [{speaker:"npc", speech:"I have given you the magic potion, stop *&!*&*^% pestering me! On your way!"}]], item1_2);
+var npc1_2 = new NPC("npc1_2","Grand Wizard Malcom", 450,450,40, 40, "black", "Hello Thor", [[{speaker:"Thor", speech:"Warm Salutations to you"}, {speaker:"Npc", speech:"I have some magic mushrooms to make your quest more interesting, please take them"}], [{speaker:"npc", speech:"I am not giving you any more magic mushrooms, this is a quest not a party"}, {speaker:"Thor", speech:"Awww maaan, your meeeeeean!"}], [{speaker:"npc", speech:"I see you have acquired the magic cape from completing the puzzle, are you willing to let me wear it for 5 minutes so I can pretend to be superman?"}, {speaker:"Thor", speech:"Sure, not a very wizardy thing to do though, shouldn't you be focussed on growing your beard and stirring boiling herbs in your cauldron?"}, {speaker:"npc", speech:"I am a performing artist trapped in the body of a wizard"}, {speaker:"Thor", speech:"Oh, right..."}, {speaker:"npc", speech:"As you are letting me do this, I will let you know that on your quest you need to turn two brown looking obstacles of different sizes white, which will allow you to obtain the mystical homemade headband further on in your quest (it will appear as a yellow object in beta)"}]], item1_3);
 
 
 
@@ -290,8 +295,21 @@ SWCentreDoor.doorID = "SWCentreDoor";
 SWCentreDoor.pointer = ["NW", "NWDoorE"];
 var SWTile = new MapTile("SW", [SWDoorE, SWCentreDoor], [], [], [], [funnyPath], "yellow", "hotpink");
 
+
+
+//Adding all puzzle peices after all have been created
+NWTile.PuzzlePeices = [PuzzlePeice1_1, PuzzlePeice1_2, PuzzlePeice1_3];
+NWTile.PuzzleComplete = false;
+//NWTile.newNPCChat = [[{speaker:"npc", speech:"A Wibble!"}]];
+NWTile.newChatNPC_id = "npc1_2";
+
+
 //Adding all puzzle peices after all have been created
 NETile.PuzzlePeices = [PuzzlePeice2_1, PuzzlePeice2_2];
 NETile.PuzzleComplete = false;
 NETile.targetMapTile = SETile;
 NETile.itemToPlace = item3_3;
+
+
+
+

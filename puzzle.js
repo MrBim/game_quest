@@ -89,7 +89,6 @@ function checkPuzzle() {
 
                     //If a colour is defined in original instantiation of object, it is assumed colour is to be cycled
                     if (thor.currentTile.PuzzlePeices[i].colour != undefined) {
-                        console.log(thor.currentTile.PuzzlePeices[i].puzzlePointer);
                         thor.currentTile.PuzzlePeices[i].colour = thor.currentTile.PuzzlePeices[i].allPossibleVals[thor.currentTile.PuzzlePeices[i].puzzlePointer];
                     } else if (1 === 0) {
                         //A deliberate false above as this is just a placeholder for expected future code.
@@ -99,15 +98,9 @@ function checkPuzzle() {
 
                     if (thor.currentTile.PuzzlePeices[i].puzzleCompleteVal == thor.currentTile.PuzzlePeices[i].allPossibleVals[thor.currentTile.PuzzlePeices[i].puzzlePointer]) {
                         thor.currentTile.PuzzlePeices[i].puzzleSuccess = true;
-                        console.log("Solved!!!! - Complete Val: " + thor.currentTile.PuzzlePeices[i].puzzleCompleteVal);
-                        console.log("Solved!!!! - Current value: " + thor.currentTile.PuzzlePeices[i].allPossibleVals[thor.currentTile.PuzzlePeices[i].puzzlePointer]);
-                        console.log(thor.currentTile.PuzzlePeices[i].id + ": solved the puzzle peice!");
-
-
                         //Now go over all of the title puzzle items, if they are all set correctly then perform action!
                         var puzzleCompleted = true;
                         for (var j = 0; j < thor.currentTile.PuzzlePeices.length; j++) {
-                            console.log(thor.currentTile.PuzzlePeices[j].puzzleSuccess);
                             if (thor.currentTile.PuzzlePeices[j].puzzleSuccess === false) {
                                 puzzleCompleted = false;
                             }
@@ -118,21 +111,49 @@ function checkPuzzle() {
                             thor.currentTile.PuzzleComplete = true;
                             console.log("PUZZLE COMPLETED! - KICKING OFF SUPPLIED PUZZLE FUNCTION!");
 
-                            //Wall alert flash
+                            //Wall alert flash to let player know puzzle complete
                             var backgroundAlert = thor.currentTile.colour;
-                            console.log("Background Alert: " + backgroundAlert);
                             thor.currentTile.colour = "#ffff";
                             window.setTimeout(function(){
                                     thor.currentTile.colour = backgroundAlert;
                                 }, 250);
 
-                            //is an item place required?
+                            //Is an item being placed?
                             if (thor.currentTile.hasOwnProperty("itemToPlace")) {
-                                //Assume rest of properties filel di correctly?
-                                console.log(thor.currentTile.targetMapTile);
-                                console.log(thor.currentTile.itemToPlace);                                
                                 thor.currentTile.targetMapTile.items.push(thor.currentTile.itemToPlace);
-                            } else if (1 == 0) {
+                    
+
+                            //Does NPC chat need to be updated?
+                            } else if (thor.currentTile.hasOwnProperty("newChatNPC_id")) {
+                                //find out which NPC
+                                console.log("triggered: 1");
+                                for (var k = 0; k < thor.currentTile.npcs.length; k++) {
+                                    console.log("triggered: 2");
+                                    if (thor.currentTile.npcs[k].id == thor.currentTile.newChatNPC_id) {
+
+                                        console.log("triggered: 3");
+                                        //console.log("thor.currentTile.npcs[k].id - " +thor.currentTile.npcs[k].id);
+                                        //console.log("thor.currentTile.newChatNPC_id - " +thor.currentTile.newChatNPC_id);
+
+                                        //Set inital dialogue statement
+                                        console.log(thor.currentTile.npcs[k].dialogueList[0]);
+                                        console.log(thor.currentTile.npcs[k].dialogueList[1]);
+                                        console.log(thor.currentTile.npcs[k].dialogueList[2]);
+                                        thor.currentTile.npcs[k].currentDialogue = thor.currentTile.npcs[k].dialogueList[2];
+                                        thor.currentTile.npcs[k].chatPosition = 0;
+                                        //start any new dialogue from beginning, irrispective of where last one finished
+
+
+
+
+
+                                        //console.log("thor.currentTile.npcs[k].dialogueList - " +thor.currentTile.npcs[k].dialogueList[2][0]);
+                                        //console.log("thor.currentTile.newNPCChat - " + thor.currentTile.newNPCChat);
+
+
+
+                                    }
+                                }
 
                             } else if (1 == 0) {
 
@@ -141,9 +162,6 @@ function checkPuzzle() {
                     } else {
                         //ensure that value is correct is used if user cycles past correct value
                         thor.currentTile.PuzzlePeices[i].puzzleSuccess = false;
-                        console.log("Not solved yet! - Complete Val: " + thor.currentTile.PuzzlePeices[i].puzzleCompleteVal);
-                        console.log("Not solved yet! - Current value: " + thor.currentTile.PuzzlePeices[i].allPossibleVals[thor.currentTile.PuzzlePeices[i].puzzlePointer]);
-                        console.log(thor.currentTile.PuzzlePeices[i].id + ": not solved yet!");
                     }
 
                     //If the puzzle is complete then don't let obstacles cycle through anymore
