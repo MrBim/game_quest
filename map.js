@@ -231,8 +231,8 @@ var obstacle1_3 = new Obstacle("ob1_3", 250,250,80, 80, "blue");
 var npc1_1 = new NPC("npc1_1", "Wizard Dave", 550,550,40, 40, "black", "Greetings Thor", [[{speaker:"Thor", speech:"Hello"}, {speaker:"npc", speech:"I have a magic potion for you, please take it"}], [{speaker:"npc", speech:"I given you the magic potion, stop *&!*&*^% pestering me! On your way!"}]], item1_2);
 var npc1_2 = new NPC("npc1_2","Grand Wizard Malcom", 450,450,40, 40, "black", "Hello Thor", [[{speaker:"Thor", speech:"Warm Salutations to you"}, {speaker:"Npc", speech:"I have some magic mushrooms to make your quest more interesting, please take them"}], [{speaker:"npc", speech:"I am not giving you any more magic mushrooms, this is a quest not a party"}, {speaker:"Thor", speech:"Awww maaan, your meeeeeean!"}]], item1_3);
 
-var obstacle2_1 = new Obstacle("ob2_1", 500,500,140,140, "blue");
-var obstacle2_2 = new Obstacle("ob2_2", 500,100,30,60, "blue");
+var PuzzleObstacle2_1 = new PuzzleObstacle("puzOb2_1", 500,500,140,140, "brown", 3, [1,2,3]);
+var PuzzleObstacle2_2 = new PuzzleObstacle("puzOb2_2", 400,100,30,60, "brown", 5, [1,2,3,4,5]);
 var item2_1 = new Item("item2_1", "Magic Glove", 250,250,40, 40, "Yellow");
 var item2_2 = new Item("item2_2", "Magic Boot");
 var npc2_1 = new NPC("npc2_1", "Junior Wizard Colin", 450,450,40, 40, "black", "none", [[{speaker: "npc", speech:"I have a magic boot which is essential for your quest"}, {speaker: "Thor", speech: "A boot? Seriously!?!"}, {speaker: "npc", speech:"Yes, be safe a take it with you"}], [{speaker: "npc", speech:"I've given you the boot, now scoot!"}]], item2_2);
@@ -266,8 +266,8 @@ NEDoorW.pointer = ["NW", "NWDoorE"]
 var NEDoorS = new SWallDoor (width-120, 100);
 NEDoorS.doorID = "NEDoorS";
 NEDoorS.pointer = ["SE", "SEDoorN"];
-var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [item2_1, item2_2], [npc2_1, npc2_2], [obstacle2_1, obstacle2_2], [triangulator], "red", "green"); //my own colour choices are more boring ;)
-
+var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [item2_1, item2_2], [npc2_1, npc2_2], [], [triangulator], "red", "green"); //my own colour choices are more boring ;)
+NETile["PuzzleObstacle"] = [PuzzleObstacle2_1, PuzzleObstacle2_2];
 
 // similary SE tile will have doors to North and West
 var SEDoorN = new NWallDoor(width-120, 100);

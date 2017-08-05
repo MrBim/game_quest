@@ -25,6 +25,7 @@ var keys = [];
 var hasRun = false; // used to set init values on first itteration of game loop
 
 var thor = {
+    id: "Thor",
     health: 100,
     dispSize : 40,
 // defining width and height separately, because needed for hit detection code now:
@@ -128,6 +129,17 @@ tile.doors[i].draw();
     for (var i=0; i<tile.npcs.length; i++) {
         tile.npcs[i].draw();
     }
+
+//now draw the Puzzle Obstacles
+    if (tile.PuzzleObstacle){
+        for (var i=0; i<tile.PuzzleObstacle.length; i++) {
+            tile.PuzzleObstacle[i].draw();
+            //console.log("Puzzle Obstacle id: " + tile.PuzzleObstacle[i].id);
+            //console.log("Puzzle Obstacle type: " + tile.PuzzleObstacle[i].type);            
+        }        
+    }
+
+
 //now draw the enemies
 
     for (var i=0; i<tile.enemies.length; i++) {
@@ -173,11 +185,23 @@ function drawunderparts(){
 }
 // "new" functions to simplify hit-detection code:
 function itCantGoThere(mover) {
+
+   if (thor.currentTile.hasOwnProperty("PuzzleObstacle")){
+    return (hitDetection(mover, thor.currentTile.obstacles) ||
+            hitDetection(mover, thor.currentTile.items) ||
+            hitDetection(mover, thor.currentTile.npcs) ||
+            hitDetection(mover, thor.currentTile.enemies.filter(enemy => enemy.alive)) ||
+            hitDetection(mover, [thor]) ||
+            hitDetection(mover, thor.currentTile.PuzzleObstacle));
+
+   }else{
+
     return (hitDetection(mover, thor.currentTile.obstacles) ||
             hitDetection(mover, thor.currentTile.items) ||
             hitDetection(mover, thor.currentTile.npcs) ||
             hitDetection(mover, thor.currentTile.enemies.filter(enemy => enemy.alive)) ||
             hitDetection(mover, [thor]));
+   }
 }
 
 function stayOnScreen(mover) {
@@ -526,6 +550,7 @@ function gameLoop(){
     npcButtonChat();
     thor.lightningFrameCount++;
     thor.swordFrameCount++;
+    checkPuzzle();
 
     requestAnimationFrame(gameLoop);
 
