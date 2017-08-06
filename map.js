@@ -220,7 +220,8 @@ MapTile.prototype.getWallSegments = function() {
 */
 
 
-var item1_1 = new Item("item1_1", "Magic Key", 350,350,40, 40, "yellow");
+var item1_1 = new Item("item", "Magic Key", 350,350,40, 40, "yellow");
+
 var item1_2 = new Item("item1_2", "Magic Potion");
 var item1_3 = new Item("item1_3", "Magic Mushroom");
 var item1_4 = new Item("item1_4", "Secret Squirrel");
@@ -234,10 +235,12 @@ var obstacle1_1 = new Obstacle("ob1_1", 50,180,40,40, "blue");
 var obstacle1_2 = new Obstacle("ob1_2", 90,90,60,60, "blue", item1_4);
 var obstacle1_3 = new Obstacle("ob1_3", 250,250,80, 80, "blue");
 var npc1_1 = new NPC("npc1_1", "Wizard Dave", 550,550,40, 40, "black", "Greetings Thor", [[{speaker:"Thor", speech:"Hello"}, {speaker:"npc", speech:"I have a magic potion for you, please take it"}], [{speaker:"npc", speech:"I have given you the magic potion, stop *&!*&*^% pestering me! On your way!"}]], item1_2);
-var npc1_2 = new NPC("npc1_2","Grand Wizard Malcom", 450,450,40, 40, "black", "Hello Thor", [[{speaker:"Thor", speech:"Warm Salutations to you"}, {speaker:"Npc", speech:"I have some magic mushrooms to make your quest more interesting, please take them"}], [{speaker:"npc", speech:"I am not giving you any more magic mushrooms, this is a quest not a party"}, {speaker:"Thor", speech:"Awww maaan, your meeeeeean!"}], [{speaker:"npc", speech:"I see you have completed the puzzle, are you willing listen to my panpipe version of motorheads track stay clean?"}, {speaker:"Thor", speech:"Sure, not a very wizardy thing to do though, shouldn't you be focussed on growing your beard and stirring boiling herbs in your cauldron?"}, {speaker:"npc", speech:"I am a performing artist trapped in the body of a wizard"}, {speaker:"Thor", speech:"Oh, right...Well crack on, I haven't got all day"}, {speaker:"npc", speech:"As you are letting me do this, I will let you know that on your quest you need to turn two brown looking obstacles of different sizes white, which will allow you to obtain the mystical homemade headband further on in your quest (it will appear as a yellow object in beta)"}, {speaker:"Thor", speech:"OK, thanks for the info. Actually, might not hang around for the panpipes, sounds awful, laters!"}]], item1_3);
+var npc1_2 = new NPC("npc1_2","Grand Wizard Malcom", 450,450,40, 40, "black", "Hello Thor", [[{speaker:"Thor", speech:"Warm Salutations to you"}, {speaker:"Npc", speech:"I have some magic mushrooms to make your quest more interesting, please take them"}], [{speaker:"npc", speech:"I am not giving you any more magic mushrooms, this is a quest not a party"}, {speaker:"Thor", speech:"Awww maaan, your meeeeeean!"}], [{speaker:"npc", speech:"I see you have completed the puzzle, are you willing listen to my panpipes?"}, {speaker:"Thor", speech:"Sure, not a very wizardy thing to do though, shouldn't you be focussed on growing your beard and stirring boiling herbs in your cauldron?"}, {speaker:"npc", speech:"I am a performing artist trapped in the body of a wizard"}, {speaker:"Thor", speech:"Oh, right...Well crack on, I haven't got all day"}, {speaker:"npc", speech:"As you are letting me do this, I will let you know that on your quest you need to turn two brown looking obstacles of different sizes white, which will allow you to obtain the mystical homemade headband further on in your quest (it will appear as a yellow object in beta)"}, {speaker:"Thor", speech:"OK, thanks for the info. Actually, might not hang around for the panpipes, sounds awful, laters!"}]], item1_3);
 
 
 
+var key2_1 = new Item("key", "Magic Key 1", 150,150,20, 20, "Yellow");
+var key2_2 = new Item("key", "Magic Key 2", 125,150,20, 20, "Yellow");
 var item2_1 = new Item("item2_1", "Magic Glove", 250,250,40, 40, "Yellow");
 var item2_2 = new Item("item2_2", "Magic Boot");
 
@@ -271,8 +274,18 @@ NEDoorW.pointer = ["NW", "NWDoorE"];
 var NEDoorS = new SWallDoor (width-120, 100);
 NEDoorS.doorID = "NEDoorS";
 NEDoorS.pointer = ["SE", "SEDoorN"];
-var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [item2_1, item2_2], [npc2_1, npc2_2], [], [triangulator], "red", "green"); //my own colour choices are more boring ;)
+var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [key2_1, key2_2, item2_1, item2_2], [npc2_1, npc2_2], [], [triangulator], "red", "green"); //my own colour choices are more boring ;)
 
+
+//Adding a key to unlock door    
+key2_1.unlocks = NEDoorW;
+key2_2.unlocks = NEDoorS;
+
+NETile.doors[0].locked = true;
+NETile.doors[1].locked = true;
+console.log(NETile.doors[0].doorID);
+console.log(NETile.doors[1].doorID);
+//NETile.doors[1].locked = true;
 
 
 // similary SE tile will have doors to North and West
@@ -297,13 +310,12 @@ var SWTile = new MapTile("SW", [SWDoorE, SWCentreDoor], [], [], [], [funnyPath],
 
 
 
-//Adding all puzzle peices after all have been created
+//PUZZLE - chaning NPC chat after puzzle completion
 NWTile.PuzzlePeices = [PuzzlePeice1_1, PuzzlePeice1_2, PuzzlePeice1_3];
 NWTile.PuzzleComplete = false;
-//NWTile.newNPCChat = [[{speaker:"npc", speech:"A Wibble!"}]];
 NWTile.newChatNPC_id = "npc1_2";
 
-//Adding all puzzle peices after all have been created
+//PUZZLE - adding item after puzzle completion
 NETile.PuzzlePeices = [PuzzlePeice2_1, PuzzlePeice2_2];
 NETile.PuzzleComplete = false;
 NETile.targetMapTile = SETile;

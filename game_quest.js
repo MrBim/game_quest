@@ -282,19 +282,59 @@ door will usually be at the edge. This both avoids special cases, and enables th
 which are not on the edge (eg. to go into a house)
 Expect the behaviour to need plenty of tweaking later! */
 function canIGoThroughDoor(x, y, size, door) {
+
+    /*
+    console.log("Door Supplied: "+door.doorID);  
+    for (var h = 0; h < thor.currentTile.doors.length; h++) {
+        //check current door id against what 
+         console.log("tile.door in loop: "+thor.currentTile.doors[h].doorID);  
+        
+
+            //Is it  locked door, if so skip door entry
+
+        }
+    */
+
     if (x < door.right - size + 30 && x > door.left - 30 && y < door.bottom - size + 30 && y > door.top - 30) {
+
         return true;
     }
     return false;
 }
 
+
+
+
+
+
+
 function thor_walkThroughDoor() {
     var tile = thor.currentTile;
+    var doorLocked = false;
     if (movingThroughDoor) {
         //  check that a door is within range
         for (var i = 0; i < tile.doors.length; i++) {
+
+
             if (canIGoThroughDoor(thor.xPos, thor.yPos, thor.dispSize, tile.doors[i])) {
-                console.log("I CAN go through this door!");
+
+                //if this door is valid, check to see if its locked                
+                console.log("I CAN go through door 2: " + tile.doors[i].doorID);
+
+
+                if (tile.doors[i].hasOwnProperty("locked")) {
+                    if (tile.doors[i].locked === true) {
+                        console.log(tile.doors[i]);
+                        console.log("door: " + tile.doors[i].doorID + " locked - so true:: " + tile.doors[i].locked);
+                        doorLocked = true;
+                    }
+                    else{
+                        console.log("door: " + tile.doors[i].doorID + " unlocked - so false:" + tile.doors[i].locked);
+                    }
+                }
+                if (!doorLocked){
+
+                //console.log("I CAN go through this door!");
                 // code to update thor.currentTile and set an appropriate x and y pos for the player
                 for (var j = 0; j < worldMap.length; j++) {
                     if (worldMap[j].id == tile.doors[i].pointer[0]) {
@@ -326,8 +366,9 @@ function thor_walkThroughDoor() {
                     }
                 }
                 break;
+                }
             } else {
-                console.log("what door? where?");
+                console.log("No door near or door locked!");
             }
         }
         movingThroughDoor = false;

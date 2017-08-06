@@ -63,6 +63,13 @@ function obtainItem() {
                         //add it to Thors inventory
                         thor.items.push(thor.currentTile.items[i]);
                         console.log(thor.currentTile.items[i].name + ": added to Thors inventory");
+
+                        //if its a key, unlock door key is for
+                        if (thor.currentTile.items[i].id == "key"){
+                            thor.currentTile.items[i].unlocks.locked = false;
+                        }
+
+
                     }
 
                     //remove it from the current tile
