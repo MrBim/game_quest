@@ -101,40 +101,25 @@ function checkPuzzle() {
                                 thor.currentTile.targetMapTile.items.push(thor.currentTile.itemToPlace);
                     
 
+                            } 
                             //Does NPC chat need to be updated?
-                            } else if (thor.currentTile.hasOwnProperty("newChatNPC_id")) {
+                            if (thor.currentTile.hasOwnProperty("newChatNPC_id")) {
                                 //find out which NPC
-                                console.log("triggered: 1");
                                 for (var k = 0; k < thor.currentTile.npcs.length; k++) {
-                                    console.log("triggered: 2");
                                     if (thor.currentTile.npcs[k].id == thor.currentTile.newChatNPC_id) {
-
-                                        console.log("triggered: 3");
-                                        //console.log("thor.currentTile.npcs[k].id - " +thor.currentTile.npcs[k].id);
-                                        //console.log("thor.currentTile.newChatNPC_id - " +thor.currentTile.newChatNPC_id);
-
-                                        //Set inital dialogue statement
-                                        console.log(thor.currentTile.npcs[k].dialogueList[0]);
-                                        console.log(thor.currentTile.npcs[k].dialogueList[1]);
-                                        console.log(thor.currentTile.npcs[k].dialogueList[2]);
                                         thor.currentTile.npcs[k].currentDialogue = thor.currentTile.npcs[k].dialogueList[2];
-                                        thor.currentTile.npcs[k].chatPosition = 0;
                                         //start any new dialogue from beginning, irrispective of where last one finished
-
-
-
-
-
-                                        //console.log("thor.currentTile.npcs[k].dialogueList - " +thor.currentTile.npcs[k].dialogueList[2][0]);
-                                        //console.log("thor.currentTile.newNPCChat - " + thor.currentTile.newNPCChat);
-
-
-
+                                          thor.currentTile.npcs[k].chatPosition = 0;
                                     }
                                 }
-
-                            } else if (1 == 0) {
-
+                            }                            
+                           
+                            //Is key being handed over? Then unlock the door on the tile
+                            for (var m = 0; m < thor.currentTile.items.length; m++) {
+                               //if its a key, unlock door key is for
+                               if (thor.currentTile.items[m].id == "key") {
+                                  thor.currentTile.items[m].unlocks.locked = false;
+                               }
                             }
                         }
                     } else {

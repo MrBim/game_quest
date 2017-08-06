@@ -220,7 +220,7 @@ MapTile.prototype.getWallSegments = function() {
 */
 
 
-var item1_1 = new Item("item", "Magic Key", 350,350,40, 40, "yellow");
+var key1 = new Item("key", "Magic Key", 350,350,40, 40, "yellow");
 
 var item1_2 = new Item("item1_2", "Magic Potion");
 var item1_3 = new Item("item1_3", "Magic Mushroom");
@@ -234,13 +234,11 @@ var powerUp1 = new Item("powerup", "Power Up 1", width-wallThickness-30, (height
 var obstacle1_1 = new Obstacle("ob1_1", 50,180,40,40, "blue");
 var obstacle1_2 = new Obstacle("ob1_2", 90,90,60,60, "blue", item1_4);
 var obstacle1_3 = new Obstacle("ob1_3", 250,250,80, 80, "blue");
-var npc1_1 = new NPC("npc1_1", "Wizard Dave", 550,550,40, 40, "black", "Greetings Thor", [[{speaker:"Thor", speech:"Hello"}, {speaker:"npc", speech:"I have a magic potion for you, please take it"}], [{speaker:"npc", speech:"I have given you the magic potion, stop *&!*&*^% pestering me! On your way!"}]], item1_2);
-var npc1_2 = new NPC("npc1_2","Grand Wizard Malcom", 450,450,40, 40, "black", "Hello Thor", [[{speaker:"Thor", speech:"Warm Salutations to you"}, {speaker:"Npc", speech:"I have some magic mushrooms to make your quest more interesting, please take them"}], [{speaker:"npc", speech:"I am not giving you any more magic mushrooms, this is a quest not a party"}, {speaker:"Thor", speech:"Awww maaan, your meeeeeean!"}], [{speaker:"npc", speech:"I see you have completed the puzzle, are you willing listen to my panpipes?"}, {speaker:"Thor", speech:"Sure, not a very wizardy thing to do though, shouldn't you be focussed on growing your beard and stirring boiling herbs in your cauldron?"}, {speaker:"npc", speech:"I am a performing artist trapped in the body of a wizard"}, {speaker:"Thor", speech:"Oh, right...Well crack on, I haven't got all day"}, {speaker:"npc", speech:"As you are letting me do this, I will let you know that on your quest you need to turn two brown looking obstacles of different sizes white, which will allow you to obtain the mystical homemade headband further on in your quest (it will appear as a yellow object in beta)"}, {speaker:"Thor", speech:"OK, thanks for the info. Actually, might not hang around for the panpipes, sounds awful, laters!"}]], item1_3);
+var npc1_1 = new NPC("npc1_1","Grand Wizard Malcom", 450,450,40, 40, "black", "Hello Thor", [[{speaker:"Thor", speech:"Hello"}, {speaker:"Npc", speech:"You MUST complete puzzle to get the key for the door to begin your quest! Use the P key to change each brown puzzle element to white"}, {speaker:"Npc", speech:"Also I have some magic mushrooms to make your quest more interesting - please take them from me (I button)"}], [{speaker:"npc", speech:"I am not giving you any more magic mushrooms, this is a quest not a party - go and solve the puzzle!"}, {speaker:"Thor", speech:"Meanie"}], [{speaker:"npc", speech:"I see you have completed the puzzle and have the magic key! Good luck on your quest dear boy"}, {speaker:"Thor", speech:"Who are you calling 'boy' sunshine?"}, {speaker:"npc", speech:"Oh, get on with your quest before I magic you into a donkey"}, {speaker:"Thor", speech:"Eeeek! I'll be off!"}]], item1_3);
+var npc1_2 = new NPC("npc1_2","Lazy Wizard Bert", 500,450,40, 40, "black", "Hello Thor", [[{speaker:"Thor", speech:"Hello"}, {speaker:"Npc", speech:"I'm too tired to bother helping you much, so go an speak to big Malc"}, {speaker:"Thor", speech:"Oh, right, guess I'll be off then...."}], [], []]);
 
 
-
-var key2_1 = new Item("key", "Magic Key 1", 150,150,20, 20, "Yellow");
-var key2_2 = new Item("key", "Magic Key 2", 125,150,20, 20, "Yellow");
+var key2 = new Item("key", "Magic Key 1", 150,150,20, 20, "Yellow");
 var item2_1 = new Item("item2_1", "Magic Glove", 250,250,40, 40, "Yellow");
 var item2_2 = new Item("item2_2", "Magic Boot");
 
@@ -264,7 +262,7 @@ It will just have a door to the East, connecting to room "NE" */
 var NWDoorE = new EWallDoor(30, 80);
 NWDoorE.doorID = "NWDoorE";
 NWDoorE.pointer = ["NE", "NEDoorW"];
-var NWTile = new MapTile("NW", [NWDoorE], [item1_1, powerUp1], [npc1_1, npc1_2], [obstacle1_1, obstacle1_2, obstacle1_3], [xOscillator, randomMover], "#02b109", "black"); // honouring Bim's original choice of colour!
+var NWTile = new MapTile("NW", [NWDoorE], [key1, powerUp1], [npc1_1, npc1_2], [obstacle1_1, obstacle1_2, obstacle1_3], [xOscillator, randomMover], "#02b109", "black"); // honouring Bim's original choice of colour!
 
 
 // NE tile will have doors to the West and South
@@ -274,18 +272,7 @@ NEDoorW.pointer = ["NW", "NWDoorE"];
 var NEDoorS = new SWallDoor (width-120, 100);
 NEDoorS.doorID = "NEDoorS";
 NEDoorS.pointer = ["SE", "SEDoorN"];
-var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [key2_1, key2_2, item2_1, item2_2], [npc2_1, npc2_2], [], [triangulator], "red", "green"); //my own colour choices are more boring ;)
-
-
-//Adding a key to unlock door    
-key2_1.unlocks = NEDoorW;
-key2_2.unlocks = NEDoorS;
-
-NETile.doors[0].locked = true;
-NETile.doors[1].locked = true;
-console.log(NETile.doors[0].doorID);
-console.log(NETile.doors[1].doorID);
-//NETile.doors[1].locked = true;
+var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [key2, item2_1, item2_2], [npc2_1, npc2_2], [], [], "red", "green"); //my own colour choices are more boring ;)
 
 
 // similary SE tile will have doors to North and West
@@ -310,12 +297,29 @@ var SWTile = new MapTile("SW", [SWDoorE, SWCentreDoor], [], [], [], [funnyPath],
 
 
 
-//PUZZLE - chaning NPC chat after puzzle completion
+//Adding in puzzles!
+
+//Adding a key to unlock door
+//1) define the key to unlock door
+//2) lock the door
+key1.unlocks = NWDoorE;
+NWDoorE.locked = true;
+
+
+//PUZZLE - changing NPC chat after puzzle completion
+//1) Put a new array of conversaiton in the NPC conversation array
+//2) Create the puzzle peices, then add them
+//3) Give the id of the NPC whos convo needs to change
 NWTile.PuzzlePeices = [PuzzlePeice1_1, PuzzlePeice1_2, PuzzlePeice1_3];
 NWTile.PuzzleComplete = false;
-NWTile.newChatNPC_id = "npc1_2";
+NWTile.newChatNPC_id = "npc1_1";
 
 //PUZZLE - adding item after puzzle completion
+//1) Create the seperate puzzle pieces
+//2) Create the item to add
+//3) Add the seperate puzzle pieces into PuzzlePieces array
+//4) Set which map on which item is to appear
+//4) Assign item to be placed
 NETile.PuzzlePeices = [PuzzlePeice2_1, PuzzlePeice2_2];
 NETile.PuzzleComplete = false;
 NETile.targetMapTile = SETile;
