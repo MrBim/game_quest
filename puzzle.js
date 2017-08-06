@@ -16,28 +16,6 @@ var puzzlingOK;
 */
 
 
-
-//Add a key object to the next tile
-function puzzleCreateNewItem(item, targetMapTile) {
-    targetMapTile.items.push(item);
-}
-
-
-function puzzleUpdateNPCConvo(npc_id, newGreeting, newConvo) {
-    npc_id.greeting = newConvo;
-    npc_id.dialogueList = newConvo;
-    npc_id.chatPosition = 0;
-}
-
-function puzzleUnlockDoor(door_id) {
-
-}
-
-//Add a key object to the next tile
-
-
-
-
 /* takes an obstacle in as its self, then the obstacles which will make up the puzzle, and an initial and destinationMapTile to update */
 
 
@@ -81,7 +59,7 @@ if Thor is facing a puzzle button (ie, to check if puzzle complete).....
 function checkPuzzle() {
     if (puzzlingOK) {
         //Is Thor next to an puzzle Obstacle?
-        if (thor.nextToType == "PuzzlePeice") {
+        if (thor.nextToType == "PuzzlePeice" && thor.currentTile.PuzzleComplete === false) {
             //work out which obstacle
             for (var i = 0; i < thor.currentTile.PuzzlePeices.length; i++) {
                 //find the item within the currentTile.items array
