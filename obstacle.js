@@ -22,27 +22,6 @@ function Obstacle(id, xPos, yPos, width, height, colour, questItem) {
     };
 }
 
-// This function obtains the obstacles on the current tile, and then iterates through them, working out the area of each object in
-// turn on the tile and then checks to see if Thor is within it. If Thor is within an obstacle it will return true, and the return
-// value is used within the thor_movement() function.
-
-//  function thorObstacleCollide(){
-//     var tile = thor.currentTile;
-//     for (var i=0; i<tile.obstacles.length; i++) {
-//             //console.log("Thor xPos" +thor.xPos);
-//             //console.log("xPos1: " + tile.obstacles[i].xPos1);
-//             //console.log("xPos2: " + tile.obstacles[i].xPos2);
-//         if ((thor.xPos >= (tile.obstacles[i].xPos1 -thor.dispSize) && (thor.xPos <= (tile.obstacles[i].xPos1 + tile.obstacles[i].xPos2))) &&
-//         (thor.yPos <= ((tile.obstacles[i].yPos1 + tile.obstacles[i].yPos2)) && (thor.yPos >= (tile.obstacles[i].yPos1 - thor.dispSize)))){
-//             //console.log("collision alert");
-//             return true;
-//         }
-//     }
-//     };
-// }
-
-
-
 // Note: Object is used here to determine an obstacle, item or character.
 // This is function is passed an array objects with xPos1, yPos1, xPos2, yPos2 co-ordinates and will iterate through
 // them and decide if Thor is going to hit them or not.
@@ -87,29 +66,18 @@ function hitDetection(mover, thingsToAvoid, tolerance, pointingDirection){
                     //recorded for use with button press activities (so Thor knows obstacle he is infront of)
                     thor.nextToID = thingsToAvoid[i].id;
                     thor.nextToType = thingsToAvoid[i].type;
-
-                    console.log("Obstacle next to ID: "+thor.nextToID);
-                    console.log("Obstacle next to Type: "+thor.nextToType);
                 }
 
                 else if (thingsToAvoid[i].type == "Item" && mover == thor){
                     //recorded for use with button press activities (so Thor knows what item is being picked up)
                     thor.nextToID = thingsToAvoid[i].id;
                     thor.nextToType = thingsToAvoid[i].type;
-                
-                    console.log("Item next to ID: "+thor.nextToID);
-                    console.log("Item next to Type: "+thor.nextToType);
                 }
 
                 else if (thingsToAvoid[i].type == "PuzzlePeice" && mover == thor){
                     thor.nextToID = thingsToAvoid[i].id;
                     thor.nextToType = thingsToAvoid[i].type;
-
-                    console.log("Puz next to ID: "+thor.nextToID);
-                    console.log("Puz next to Type: "+thor.nextToType);
                 }
-
-
                 else if (thingsToAvoid[i].type == "NPC" && mover == thor){
                     //Greet right away, no button press required
                     //Use 'None' in NPC constructor to have no greeting
@@ -117,13 +85,8 @@ function hitDetection(mover, thingsToAvoid, tolerance, pointingDirection){
                     //Recorded for use with button press activities (so the right NPC chat is invoked)
                     thor.nextToID = thingsToAvoid[i].id;
                     thor.nextToType = thingsToAvoid[i].type;
-
-                    console.log("NPC next to ID: "+thor.nextToID);
-                    console.log("NPC next to Type: "+thor.nextToType);
                 }
-
-         
-                   //This return is required by the thor_movement() function to determin if Thor can move or not
+                //This return is required by the thor_movement() function to determin if Thor can move or not
                 return true;
 
             }
