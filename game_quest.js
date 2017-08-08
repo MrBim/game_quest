@@ -61,11 +61,6 @@ thor.thorPicTwoS.src = 'assets/thor/thor_two_s.png';
 thor.thorPicOneW.src = 'assets/thor/thor_one_w.png';
 thor.thorPicTwoW.src = 'assets/thor/thor_two_w.png';
 
-// grahics for items
-var keyPic = new Image();
-keyPic.src = 'assets/items/key_sm.png';
-
-
 
 // ----------------------    Land of Functs ---------------------------------------------
 // clearCanvas() clears the canvas before each new frame.

@@ -18,7 +18,7 @@ var npcChatOK;
 */
 
 
-
+// should remove all references to width and height of npc's as they will all be 40 X 40 
 function NPC (id, name, xPos, yPos, width, height, colour, greeting, dialogueList, questItem) {
     this.type = "NPC";
     this.id = id;
@@ -31,7 +31,6 @@ function NPC (id, name, xPos, yPos, width, height, colour, greeting, dialogueLis
     this.greeting = greeting;
     this.convoStatus = "Initial";
     this.currentDialogue = dialogueList[0];
-    //this.currentDialogue = [{speaker:"Thor", speech:"Blah"}, {speaker:"npc", speech:"blah"} , {speaker:"Thor", speech:"MehMoh"}, {speaker:"npc", speech:"MehMoh"}];
     this.dialogueList = dialogueList;
     this.questItem = questItem;
     this.chatPosition = 0;
@@ -41,8 +40,7 @@ function NPC (id, name, xPos, yPos, width, height, colour, greeting, dialogueLis
             console.log(this.greeting + " I am " + this.name.toUpperCase());
         }
     };
-
-
+    // replace with graphic here
     this.draw = function() {
         ctx.beginPath();
         ctx.fillStyle=this.colour;
@@ -109,7 +107,6 @@ function npcButtonChat(){
 
                         //Console.log to be replaced once output destination is confirmed
                         underText1 = (thor.currentTile.npcs[i].name.toUpperCase() + ": " )
-
                         underText2 = (thor.currentTile.npcs[i].currentDialogue[thor.currentTile.npcs[i].chatPosition].speech);
                         underText3 = (thor.currentTile.npcs[i].currentDialogue[thor.currentTile.npcs[i].chatPosition].speech1);
                         underText4 = (thor.currentTile.npcs[i].currentDialogue[thor.currentTile.npcs[i].chatPosition].speech2);
@@ -120,6 +117,10 @@ function npcButtonChat(){
                         //Console.log to be replaced once output destination is confirmed
                         underText1 = ("THOR: ")
                         underText2 = (thor.currentTile.npcs[i].currentDialogue[thor.currentTile.npcs[i].chatPosition].speech);
+                        underText3 = (thor.currentTile.npcs[i].currentDialogue[thor.currentTile.npcs[i].chatPosition].speech1);
+                        underText4 = (thor.currentTile.npcs[i].currentDialogue[thor.currentTile.npcs[i].chatPosition].speech2);
+                        underText5 = "";
+                        underText6 = "";
                     }
                     //shift chat pointer +1 ready for next button press
                     thor.currentTile.npcs[i].chatPosition += 1;
