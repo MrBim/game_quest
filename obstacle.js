@@ -77,7 +77,7 @@ function hitDetection(mover, thingsToAvoid, tolerance, pointingDirection){
 
                 if ((thingsToAvoid[i].type == "enemy" && thingsToAvoid[i].alive && mover == thor
                     && hitDetection(thingsToAvoid[i],[thor])) ||  // make sure enemy can actually see thor, with no separation
-                     thingsToAvoid[i] == thor && mover.alive){
+                     (thingsToAvoid[i] == thor && mover.alive)) {
                     // space left for code to remove health from Thor, or whatever
                     // the following is just an example:
                     thor.hasBeenHit = true;
@@ -107,13 +107,13 @@ function hitDetection(mover, thingsToAvoid, tolerance, pointingDirection){
                 return true;
 
             }
-            else if (mover == thor){
-                //Resetting when not near anything to ensure correct detection
-                thor.nextToID = "nothing";
-                thor.nextToType = "nothing";
-                //if you've moved away from an NPC, reset the dialogue position to zero for that NPC
-                thingsToAvoid[i].chatPosition = 0;
-            }
+        }
+        else if (mover == thor){
+            //Resetting when not near anything to ensure correct detection
+            thor.nextToID = "nothing";
+            thor.nextToType = "nothing";
+            //if you've moved away from an NPC, reset the dialogue position to zero for that NPC
+            thingsToAvoid[i].chatPosition = 0;
         }
     }
 }
