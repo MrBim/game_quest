@@ -31,12 +31,7 @@ function NPC (id, name, xPos, yPos, width, height, colour, greeting, dialogueLis
     this.greeting = greeting;
     this.convoStatus = "Initial";
     this.currentDialogue = dialogueList[0];
-<<<<<<< HEAD
-=======
 
-    //this.currentDialogue = [{speaker:"Thor", speech:"Blah"}, {speaker:"npc", speech:"blah"} , {speaker:"Thor", speech:"MehMoh"}, {speaker:"npc", speech:"MehMoh"}];
-
->>>>>>> 358ebba80995163fb32608772eaef86cde816e50
     this.dialogueList = dialogueList;
     this.questItem = questItem;
     this.chatPosition = 0;
