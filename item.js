@@ -48,7 +48,6 @@ nothing else :-)
 
 function obtainItem() {
     if (itemObtainingOK) {
-
         //Is Thor next to an item?
         if (thor.nextToType == "Item") {
             //work out which item

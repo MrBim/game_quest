@@ -208,7 +208,28 @@ function thor_movement() {
             //if thor is hitting an object, set position to previous
             thor.yPos += thor.moveSize;
         }
+
+        //if Thors next move isn't going to hit anything, then set that he's next to nothing
+        else{
+            //Reset chat first so can see what NPC Thor was next to
+            //Looping through each NPC listed in the current tile
+            if (thor.currentTile.npcs){
+
+                for (var i=0; i<thor.currentTile.npcs.length; i++) {
+                    //If Thor next to any of them, if so refer to that NPC's dialogue
+                    if (thor.currentTile.npcs[i].id == thor.nextToID){
+
+                        thor.currentTile.npcs[i].chatPosition = 0;
+                    }
+                }
+            thor.nextToID = "nothing";
+            thor.nextToType = "nothing";                
+            }
+
+        }
         thor.walkAnimFrame += 1;
+
+
     }
     // down (s)
     if (keys[83]) {
@@ -219,7 +240,24 @@ function thor_movement() {
             //if thor is hitting an object, set position to previous
             thor.yPos -= thor.moveSize;
         }
+        //if Thors next move isn't going to hit anything, then set that he's next to nothing
+        else{
+            //Reset chat first so can see what NPC Thor was next to
+            //Looping through each NPC listed in the current tile
+            if (thor.currentTile.npcs){
 
+                for (var j=0; j<thor.currentTile.npcs.length; j++) {
+                    //If Thor next to any of them, if so refer to that NPC's dialogue
+                    if (thor.currentTile.npcs[j].id == thor.nextToID){
+
+                        thor.currentTile.npcs[j].chatPosition = 0;
+                    }
+                }
+            thor.nextToID = "nothing";
+            thor.nextToType = "nothing";                
+            }
+
+        }
         thor.walkAnimFrame += 1;
     }
     // left (a)
@@ -231,6 +269,24 @@ function thor_movement() {
             //if thor is hitting an object, set position to previous
             thor.xPos += thor.moveSize;
         }
+        //if Thors next move isn't going to hit anything, then set that he's next to nothing
+        else{
+            //Reset chat first so can see what NPC Thor was next to
+            //Looping through each NPC listed in the current tile
+            if (thor.currentTile.npcs){
+
+                for (var k=0; k<thor.currentTile.npcs.length; k++) {
+                    //If Thor next to any of them, if so refer to that NPC's dialogue
+                    if (thor.currentTile.npcs[k].id == thor.nextToID){
+
+                        thor.currentTile.npcs[k].chatPosition = 0;
+                    }
+                }
+            thor.nextToID = "nothing";
+            thor.nextToType = "nothing";                
+            }
+
+        }
         thor.walkAnimFrame += 1;
     }
     // right (d)
@@ -241,6 +297,24 @@ function thor_movement() {
         if (itCantGoThere(thor)) {
             //if thor is hitting an object, set position to previous
             thor.xPos -= thor.moveSize;
+        }
+        //if Thors next move isn't going to hit anything, then set that he's next to nothing
+        else{
+            //Reset chat first so can see what NPC Thor was next to
+            //Looping through each NPC listed in the current tile
+            if (thor.currentTile.npcs){
+
+                for (var m=0; m<thor.currentTile.npcs.length; m++) {
+                    //If Thor next to any of them, if so refer to that NPC's dialogue
+                    if (thor.currentTile.npcs[m].id == thor.nextToID){
+
+                        thor.currentTile.npcs[m].chatPosition = 0;
+                    }
+                }
+            thor.nextToID = "nothing";
+            thor.nextToType = "nothing";                
+            }
+
         }
         thor.walkAnimFrame += 1;
     }
@@ -273,7 +347,7 @@ function thor_walkThroughDoor() {
     for (var i=0; i<tile.doors.length; i++) {
         if (canIGoThroughDoor(thor.xPos, thor.yPos, thor.dispSize, tile.doors[i])) {
             // put in to test doors were being correctly recognised while debugging. I will leave it in for now.
-            console.log ("going through door with ID " + tile.doors[i].doorID);
+            //console.log ("going through door with ID " + tile.doors[i].doorID);
             //if this door is valid, check to see if its locked                
             if (tile.doors[i].hasOwnProperty("locked")) {
                 if (tile.doors[i].locked === true) {
