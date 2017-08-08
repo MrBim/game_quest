@@ -31,6 +31,12 @@ function NPC (id, name, xPos, yPos, width, height, colour, greeting, dialogueLis
     this.greeting = greeting;
     this.convoStatus = "Initial";
     this.currentDialogue = dialogueList[0];
+<<<<<<< HEAD
+=======
+
+    //this.currentDialogue = [{speaker:"Thor", speech:"Blah"}, {speaker:"npc", speech:"blah"} , {speaker:"Thor", speech:"MehMoh"}, {speaker:"npc", speech:"MehMoh"}];
+
+>>>>>>> 358ebba80995163fb32608772eaef86cde816e50
     this.dialogueList = dialogueList;
     this.questItem = questItem;
     this.chatPosition = 0;
@@ -87,6 +93,7 @@ function npcButtonChat(){
                 if (thor.currentTile.npcs[i].currentDialogue.length == thor.currentTile.npcs[i].chatPosition) {
 
                     //Indication to user that convo have finished
+
                     underText1 = (thor.currentTile.npcs[i].name.toUpperCase() + ":");
                     underText2 = "We have spoken enough,";
                     underText3 = "on with your Quest!";
@@ -102,6 +109,7 @@ function npcButtonChat(){
                         underText5 = "";
                         underText6 = "";
                     }
+
                     //Stop executing for loop as any additional loops
                     //are a waste after finding required NPC
                     break;
@@ -112,6 +120,7 @@ function npcButtonChat(){
                     if (thor.currentTile.npcs[i].currentDialogue[thor.currentTile.npcs[i].chatPosition].speaker.toUpperCase() == "NPC"){
 
                         //Console.log to be replaced once output destination is confirmed
+
                         underText1 = (thor.currentTile.npcs[i].name.toUpperCase() + ": " )
                         underText2 = (thor.currentTile.npcs[i].currentDialogue[thor.currentTile.npcs[i].chatPosition].speech);
                         underText3 = (thor.currentTile.npcs[i].currentDialogue[thor.currentTile.npcs[i].chatPosition].speech1);
