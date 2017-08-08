@@ -298,7 +298,7 @@ function thor_walkThroughDoor() {
     for (var i=0; i<tile.doors.length; i++) {
         if (canIGoThroughDoor(thor.xPos, thor.yPos, thor.dispSize, tile.doors[i])) {
             // put in to test doors were being correctly recognised while debugging. I will leave it in for now.
-            console.log ("going through door with ID " + tile.doors[i].doorID);
+            //console.log ("going through door with ID " + tile.doors[i].doorID);
             //if this door is valid, check to see if its locked                
             if (tile.doors[i].hasOwnProperty("locked")) {
                 if (tile.doors[i].locked === true) {
