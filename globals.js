@@ -51,6 +51,8 @@ var thor_next_to = "nothing";
 var keyPic = new Image();
 keyPic.src = 'assets/items/key_sm.png';
 
-// var spiderPic = new Image();
-// spiderPic.src = 'assets/spider/spider.png';
+var spiderPic = new Image();
+spiderPic.src = 'assets/spider/spider.png';
 
+var giantPic = new Image();
+giantPic.src = 'assets/giant/giant_one_s.png';
