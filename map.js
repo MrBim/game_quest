@@ -1,15 +1,14 @@
 // map definition code (first attempt!)
 
 
-/* going to create a simple square map for now, but hopefully easily extensible,
-without tying us into using a grid system for everything */
+// going to create a simple square map for now, but hopefully easily extensible,
+// without tying us into using a grid system for everything
 
-/* constructor for map tile objecst. Each is passed an array of doors, items and characters (in the form of objects)
-it also has an ID name (or perhaps number) which identifies it for the purposes of other code which needs
-to interact with it (eg doors leading to that room). 
-
-I am also adding a colour property, mainly to allow easy identification of rooms at this early stage. I imagine
-that in the final code it will be replaced by an image, or something */
+//  constructor for map tile objecst. Each is passed an array of doors, items and characters (in the form of objects)
+// it also has an ID name (or perhaps number) which identifies it for the purposes of other code which needs
+// to interact with it (eg doors leading to that room).
+// I am also adding a colour property, mainly to allow easy identification of rooms at this early stage. I imagine
+// that in the final code it will be replaced by an image, or something
 function MapTile (id, doors, items, npcs, obstacles, enemies, colour, wallColour) {
     this.id = id;
     this.doors = doors;
@@ -37,9 +36,7 @@ function MapTile (id, doors, items, npcs, obstacles, enemies, colour, wallColour
 the doors as lines for now), a colour in which to draw that line, a doorID (which only needs to be unique within
 each tile), and a "pointer" to another door (identified by mapTile and ID) to which it leads when the player walks
 through it. I imagine at this stage that pointer will be a 2-element array containing a mapTile id and a door ID
-
 It also has a "draw" method to display it on the screen.
-
 Only the doorID and pointer properties are really part of the logic here - the rest is a convenience for me to test
 these things out and should be easily able to be changed in accordance with what we want the roos/doors to look like*/
 function Door (doorID, colour, pointer) {
@@ -66,6 +63,9 @@ function NWallDoor(startPos, width) {
     this.right = this.startPos + this.width;
     this.top = 0;
     this.bottom = wallThickness;
+    this.xPos = this.startPos;
+    this.yPos = 0;
+    this.height = this.bottom;
 }
 
 NWallDoor.prototype = Object.create(Door.prototype);
@@ -81,6 +81,9 @@ function EWallDoor(startPos, height) {
     this.right = width;
     this.top = this.startPos;
     this.bottom = this.startPos + this.height;
+    this.xPos = this.left;
+    this.yPos = this.startPos;
+    this.width = wallThickness;
 }
 
 EWallDoor.prototype = Object.create(Door.prototype);
@@ -96,6 +99,9 @@ function SWallDoor(startPos, width) {
     this.right = this.startPos + this.width;
     this.top = height - wallThickness;
     this.bottom = height;
+    this.xPos = this.startPos;
+    this.yPos = this.top;
+    this.height = wallThickness;
 }
 
 SWallDoor.prototype = Object.create(Door.prototype);
@@ -111,6 +117,9 @@ function WWallDoor(startPos, height) {
     this.right = wallThickness;
     this.top = this.startPos;
     this.bottom = this.startPos + this.height;
+    this.xPos = this.left;
+    this.yPos = this.startPos;
+    this.width = this.right;
 }
 
 WWallDoor.prototype = Object.create(Door.prototype);
@@ -129,6 +138,10 @@ function CentreDoor(xPos1, yPos1, xPos2, yPos2, colour) {
     this.right = Math.max(this.xPos1, this.xPos2);
     this.top = Math.min(this.yPos1, this.yPos2);
     this.bottom = Math.max(this.yPos1, this.yPos2);
+    this.xPos = this.left;
+    this.yPos = this.top;
+    this.width = this.right - this.left;
+    this.height = this.bottom - this.top;
 }
 
 CentreDoor.prototype = Object.create(Door.prototype);
@@ -212,76 +225,69 @@ MapTile.prototype.getWallSegments = function() {
     return result;
 }
 
-<<<<<<< HEAD
-var swordPic = new Image();
-swordPic.src = 'assets/items/sword.png';
-=======
-/*
-	Game Objects
-	------------
 
-	For testing:
-    	Obstacles are Blue
+/*
+    Game Objects
+    ------------
+    For testing:
+        Obstacles are Blue
         Items are Yellow
-   		Characters are Black        
+        Characters are Black
 */
 
->>>>>>> b893d36981b4b369ff879223888ab281c0979a74
 
+
+
+var PuzzlePeice1_1 = new PuzzlePeice("puzOb2_1", 190,100,40,40, "#d85504", "#ffffff", ["#ffffff","#ddb89b","#e2a77a", "#e09257","#e0782a"]);
+var PuzzlePeice1_2 = new PuzzlePeice("puzOb2_2", 235,100,40,40, "#d85504", "#ffffff", ["#ffffff","#ddb89b","#e2a77a", "#e09257","#e0782a"]);
+var PuzzlePeice1_3 = new PuzzlePeice("puzOb2_3", 280,100,40,40, "#d85504", "#ffffff", ["#ffffff","#ddb89b","#e2a77a", "#e09257","#e0782a"]);
+
+var item1_1 = new Item("item1_1", "Magic Mushrooms");
+var item1_2 = new Item("item1_1", "Secret Squirrel");
+var powerUp1 = new Item("powerup", "Power Up 1", width-wallThickness-30, (height/2)-50, 30, 30, "yellow");
 var obstacle1_1 = new Obstacle("ob1_1", 50,180,40,40, "blue");
-var obstacle1_2 = new Obstacle("ob1_2", 90,90,60,60, "blue");
+var obstacle1_2 = new Obstacle("ob1_2", 90,90,60,60, "blue", item1_2);
 var obstacle1_3 = new Obstacle("ob1_3", 250,250,80, 80, "blue");
-var item1_1 = new Item("item1_1", "Magic Key", 350,350,40, 40, "Yellow");
-var item1_2 = new Item("item1_2", "Magic Potion1");
-var item1_3 = new Item("item1_3", "Magic Mushroom");
-var npc1_1 = new NPC("Wizard Dave", 550,550,40, 40, "black", "Greetings Thor", [{speaker:"Thor", speech:"Hello"}, {speaker:"npc", speech:"I have a magic potion for you, please take it"}], item1_2);
-var npc1_2 = new NPC("Grand Wizard Malcom", 450,450,40, 40, "black", "Hello Thor", [{speaker:"Thor", speech:"Warm Salutations to you"}, {speaker:"Npc", speech:"I have some magic mushrooms to make your quest more interesting, please take them"}], item1_3);
+var npc1_1 = new NPC("npc1_1","Grand Wizard Malcom", 450,450,40, 40, "black", "Hello Thor", [[{speaker:"Thor", speech:"Hello"}, {speaker:"Npc", speech:"I have some magic mushrooms", speech1: "to make your quest more interesting ", speech2: "please take them from me (I button)"}], [{speaker:"npc", speech:"I am not giving you any more magic mushrooms,", speech1: " this is a quest not a party", speech2: " go and solve the puzzle!"}, {speaker:"Thor", speech:"Meanie"}], []], item1_1);
+var npc1_2 = new NPC("npc1_2","Lazy Wizard Bert", 550,450,40, 40, "black", "Hello Thor", [[{speaker:"Thor", speech:"Hello"}, {speaker:"Npc", speech:"You MUST complete puzzle to obtain", speech1: "the key for the door so you can begin", speech2: "your quest! Use the P key"}, { speaker:"Npc", speech:"to change each brown puzzle element to white.", speech1:"Remember to come back to speak to me", speech2: "after you have completed the puzzle!"}, {speaker:"Thor", speech:"Oh, thanks, will do"}], [], [{speaker:"npc", speech:"I see you have completed the puzzle", speech1: "and have opened the door!", speech2: "Good luck on your quest dear boy"}, {speaker:"Thor", speech:"Who are you calling 'boy' sunshine?"}, {speaker:"npc", speech:"Oh,", speech1: "get on with your quest", speech2: "before I magic you into a donkey"}, {speaker:"Thor", speech:"Eeeek! I'll be off!"}]]);
+var key1_1 = new Item("key", "Magic Key 1");
 
-var obstacle2_1 = new Obstacle("ob2_1", 500,500,140,140, "blue");
-var obstacle2_2 = new Obstacle("ob2_2", 500,100,30,60, "blue");
-var item2_1 = new Item("item2_1", "Magic Glove", 250,250,40, 40, "Yellow");
-var item2_2 = new Item("item2_2", "Magic Boot");
-var npc2_1 = new NPC("Junior Wizard Colin", 450,450,40, 40, "black", "none", [{speaker: "npc", speech:"I have a magic boot which is essential for your quest"}, {speaker: "Thor", speech: "A boot? Seriously!?!"}, {speaker: "npc", speech:"Yes, be safe a take it with you"}], item2_2);
-var npc2_2 = new NPC("Advance Wizard Jeff", 350,450,40, 40, "black", "none", [{speaker: "npc", speech:"I'm not very chatty and have nothing for you"}, {speaker: "Thor", speech: "Oh!"}, {speaker: "npc", speech:"Try to take something"}]);
+var key2_1 = new Item("key", "Magic Key 1", 350,350,40, 40, "yellow");
+var npc2_1 = new NPC("npc2_1", "Junior Wizard Colin", 450,450,40, 40, "black", "Hello Thor", [[{speaker: "npc", speech:"To leave this room you will need the key up there (yellow block), this key opens the door in the current room, but sometimes they open doors in future rooms too!"}, {speaker: "Thor", speech:"Hmmm *strokes chin*, very interesting - I will remember that"}, {speaker: "Thor", speech:"Cheers Big Ears"}], [], [{speaker: "npc", speech:"You have the key, now on with your quest!"}, {speaker: "npc", speech:"And don't call me big ears!"}]]);
 
-var obstacle3_1 = new Obstacle("ob3_1", 0,0,40,40, "blue");
-var item3_1 = new Item("item3_1","Gold Trophy", 350,350,40, 40, "Yellow");
 
-<<<<<<< HEAD
-var tree2_1 = new Obstacle(100,50,40,40, "green");
-var tree2_2 = new Obstacle(300,300,50,50, "black");
-var rock2_1 = new Obstacle(500,500,70, 70, "blue");
-var sword = new Sword(500, 350, swordPic);
-=======
+var PuzzlePeice3_1 = new PuzzlePeice("puzOb2_1", 190,100,40,40, "#d85504", "#ffffff", ["#ffffff","#ddb89b","#e2a77a", "#e09257","#e0782a"]);
+var PuzzlePeice3_2 = new PuzzlePeice("puzOb2_2", 235,100,40,40, "#d85504", "#ffffff", ["#ffffff","#ddb89b","#e2a77a", "#e09257","#e0782a"]);
+var PuzzlePeice3_3 = new PuzzlePeice("puzOb2_3", 280,100,40,40, "#d85504", "#ffffff", ["#ffffff","#ddb89b","#e2a77a", "#e09257","#e0782a"]);
+var PuzzlePeice3_4 = new PuzzlePeice("puzOb2_4", 325,100,40,40, "#d85504", "#ffffff", ["#ffffff","#ddb89b","#e2a77a", "#e09257","#e0782a"]);
+var PuzzlePeice3_5 = new PuzzlePeice("puzOb2_5", 370,100,40,40, "#d85504", "#ffffff", ["#ffffff","#ddb89b","#e2a77a", "#e09257","#e0782a"]);
 
->>>>>>> b893d36981b4b369ff879223888ab281c0979a74
+var key3_1 = new Item("key", "Magic Key 2");
+var key3_2 = new Item("key", "Magic Key 3", 350,350,40, 40, "yellow");
+var npc3_1 = new NPC("npc3_1", "Wizard Bert", 450,450,40, 40, "black", "Hello Thor", [[{speaker: "npc", speech:"You need to complete the puzzle above for the key to the centre door (in the next room) to appear in the next room!"}, {speaker: "npc", speech:"To leave this room you will need the key I have, please take it"}], [{speaker: "npc", speech:"You have the key now, you can continue your quest"}, {speaker: "Thor", speech:"Smashing!"}]], key3_1);
+var obstacle3_1 = new Obstacle("ob3_1", 10,10,40,40, "red");
+var item3_1 = new Item("item3_1", "Item (could have been a key) Placed by Puzzle", 150,150,20, 20, "Yellow");
 // try to construct basic map. Will be square, but without doors in all the obvious places!
 // note that there are no items or characters for now!
 
 /* This first room is the top-left of the square - so it has an ID of "NW".
 It will just have a door to the East, connecting to room "NE" */
 
-var NWDoorE = new EWallDoor(30, 70);
+var NWDoorE = new EWallDoor(30, 80);
 NWDoorE.doorID = "NWDoorE";
 NWDoorE.pointer = ["NE", "NEDoorW"];
-<<<<<<< HEAD
-var NWTile = new MapTile("NW", [NWDoorE], [], [], [ sword, tree1_1, tree1_2, rock1_1, rock1_2, rock1_3, rock1_4, rock1_5, rock1_6],"#02b109", "black"); // honouring Bim's original choice of colour!
-=======
-var NWTile = new MapTile("NW", [NWDoorE], [item1_1], [npc1_1, npc1_2], [obstacle1_1, obstacle1_2, obstacle1_3], [xOscillator, randomMover], "#02b109", "black"); // honouring Bim's original choice of colour!
->>>>>>> b893d36981b4b369ff879223888ab281c0979a74
+var NWTile = new MapTile("NW", [NWDoorE], [key1_1, powerUp1], [npc1_1, npc1_2], [obstacle1_1, obstacle1_2, obstacle1_3], [xOscillator, randomMover], "#02b109", "black"); // honouring Bim's original choice of colour!
+
 
 // NE tile will have doors to the West and South
 var NEDoorW = new WWallDoor(30, 70);
 NEDoorW.doorID = "NEDoorW";
-NEDoorW.pointer = ["NW", "NWDoorE"]
+NEDoorW.pointer = ["NW", "NWDoorE"];
 var NEDoorS = new SWallDoor (width-120, 100);
 NEDoorS.doorID = "NEDoorS";
 NEDoorS.pointer = ["SE", "SEDoorN"];
-<<<<<<< HEAD
-var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [], [], [ sword, tree2_1, tree2_2, rock2_1], "red", "green"); //my own colour choices are more boring ;)
-=======
-var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [item2_1, item2_2], [npc2_1, npc2_2], [obstacle2_1, obstacle2_2], [triangulator], "red", "green"); //my own colour choices are more boring ;)
->>>>>>> b893d36981b4b369ff879223888ab281c0979a74
+var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [key2_1], [npc2_1], [], [], "red", "green"); //my own colour choices are more boring ;)
+
 
 // similary SE tile will have doors to North and West
 var SEDoorN = new NWallDoor(width-120, 100);
@@ -290,7 +296,7 @@ SEDoorN.pointer = ["NE", "NEDoorS"];
 var SEDoorW = new WWallDoor(height/2 - 100, 200);
 SEDoorW.doorID = "SEDoorW";
 SEDoorW.pointer = ["SW", "SWDoorE"];
-var SETile = new MapTile("SE", [SEDoorN, SEDoorW], [item3_1], [], [obstacle3_1], [itsFollowingMe], "blue", "yellow");
+var SETile = new MapTile("SE", [SEDoorN, SEDoorW], [], [npc3_1], [obstacle3_1], [], "blue", "yellow");
 
 // finally a SW tile with only a door to the East (the whole map is a bent path of 4 rooms, not a circuit)
 var SWDoorE = new EWallDoor(height/2 - 100, 200);
@@ -301,4 +307,52 @@ SWDoorE.pointer = ["SE", "SEDoorW"];
 var SWCentreDoor = new CentreDoor(width/2 - 20, 2*height/3, width/2 + 20, 3*height/4, "red");
 SWCentreDoor.doorID = "SWCentreDoor";
 SWCentreDoor.pointer = ["NW", "NWDoorE"];
-var SWTile = new MapTile("SW", [SWDoorE, SWCentreDoor], [], [], [], [funnyPath], "yellow", "hotpink");
+var SWTile = new MapTile("SW", [SWDoorE, SWCentreDoor], [], [], [], [funnyPath], "blue", "hotpink");
+
+
+//Adding in puzzles!
+
+//Adding a key to unlock door
+//1) define the key to unlock door
+//2) lock the door
+//Locks/Unlocks door on first screen
+key1_1.unlocks = NWDoorE;
+NWDoorE.locked = true;
+
+key2_1.unlocks = NEDoorS;
+NEDoorS.locked = true;
+
+key3_1.unlocks = SEDoorW;
+SEDoorW.locked = true;
+
+key3_2.unlocks = SWCentreDoor;
+SWCentreDoor.locked = true;
+
+
+//PUZZLE - changing NPC chat after puzzle completion
+//1) Put a new array of conversation in the NPC conversation array
+//2) Create the puzzle peices, then add them
+//3) Give the id of the NPC whos convo needs to change
+NWTile.PuzzlePeices = [PuzzlePeice1_1, PuzzlePeice1_2, PuzzlePeice1_3];
+NWTile.PuzzleComplete = false;
+NWTile.newChatNPC_id = "npc1_2";
+
+
+
+
+//PUZZLE - adding item after puzzle completion
+//1) Create the seperate puzzle pieces
+//2) Create the item to add
+//3) Add the seperate puzzle pieces into PuzzlePieces array
+//4) Set which map on which item is to appear
+//4) Assign item to be placed
+//NETile.PuzzlePeices = [PuzzlePeice2_1, PuzzlePeice2_2];
+
+SETile.PuzzlePeices = [PuzzlePeice3_1, PuzzlePeice3_2, PuzzlePeice3_3, PuzzlePeice3_4, PuzzlePeice3_5];
+SETile.PuzzleComplete = false;
+SETile.targetMapTile = SWTile;
+SETile.itemToPlace = key3_2;
+
+
+
+
