@@ -1,4 +1,3 @@
-
 var thor = {
     id: "Thor",
     health: 100,

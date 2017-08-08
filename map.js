@@ -248,8 +248,10 @@ var powerUp1 = new Item("powerup", "Power Up 1", width-wallThickness-30, (height
 var obstacle1_1 = new Obstacle("ob1_1", 50,180,40,40, "blue");
 var obstacle1_2 = new Obstacle("ob1_2", 90,90,60,60, "blue", item1_2);
 var obstacle1_3 = new Obstacle("ob1_3", 250,250,80, 80, "blue");
+
 var npc1_1 = new NPC("npc1_1","Grand Wizard Malcom", 450,450,40, 40, "black", "Hello Thor", [[{speaker:"Thor", speech:"Hello"}, {speaker:"Npc", speech:"I have some magic mushrooms", speech1: "to make your quest more interesting ", speech2: "please take them from me (I button)"}], [{speaker:"npc", speech:"I am not giving you any more magic mushrooms,", speech1: "this is a quest not a party", speech2: "go and solve the puzzle!"}, {speaker:"Thor", speech:"Meanie", speech1:" ", speech2:" "}], []], item1_1);
 var npc1_2 = new NPC("npc1_2","Lazy Wizard Bert", 550,450,40, 40, "black", "Hello Thor", [[{speaker:"Thor", speech:"Hello", speech1:" ", speech2:" "}, {speaker:"Npc", speech:"You MUST complete puzzle to obtain", speech1: "the key for the door so you can begin", speech2: "your quest! Use the P key"}, { speaker:"Npc", speech:"to change each brown puzzle element to", speech1:"white. Remember to come back to", speech2: "speak to me, after you have completed the puzzle!"}, {speaker:"Thor", speech:"Oh, thanks, will do", speech1:" ", speech2:" "}], [], [{speaker:"npc", speech:"I see you have completed the puzzle", speech1: "and have opened the door!", speech2: "Good luck on your quest dear boy"}, {speaker:"Thor", speech:"Who are you calling 'boy' sunshine?", speech1:" ", speech2:" "}, {speaker:"npc", speech:"Oh,", speech1: "get on with your quest", speech2: "before I magic you into a donkey"}, {speaker:"Thor", speech:"Eeeek! I'll be off!", speech1:" ", speech2:" "}]]);
+
 var key1_1 = new Item("key", "Magic Key 1");
 
 var key2_1 = new Item("key", "Magic Key 1", 350,350,40, 40, "yellow");
