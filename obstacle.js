@@ -55,6 +55,7 @@ function hitDetection(mover, thingsToAvoid, tolerance, pointingDirection){
     if (tolerance === undefined) {
         tolerance = 0;
     }
+
     for (var i=0; i<thingsToAvoid.length; i++) {
         // need to skip detection of an enemy against itself, or it will never move!
         // same for Thor hitting himself!
@@ -112,14 +113,15 @@ function hitDetection(mover, thingsToAvoid, tolerance, pointingDirection){
                 return true;
 
             }
+
+	        else if (mover.id == "Thor"){
+    	        //Resetting when not near anything to ensure correct detection
+        	    thor.nextToID = "nothing";
+            	thor.nextToType = "nothing";
+            	//if you've moved away from an NPC, reset the dialogue position to zero for that NPC
+            	thingsToAvoid[i].chatPosition = 0;
+        	}            
         }
-        else if (mover.id == "Thor"){
-            //Resetting when not near anything to ensure correct detection
-            thor.nextToID = "nothing";
-            thor.nextToType = "nothing";
-            //if you've moved away from an NPC, reset the dialogue position to zero for that NPC
-            thingsToAvoid[i].chatPosition = 0;
-        }
-        
+       
     }
 }

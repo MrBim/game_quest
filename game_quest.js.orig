@@ -272,6 +272,23 @@ go through the door. Hit detection is now done in the thor_walkThroughDoor funci
 hitDetection function, of course). Note that it still needs parameters x, y and size, because of the awkward
 "centre doors", where Thor's direction is irrelevant, and only his position counts*/
 function canIGoThroughDoor(x, y, size, door) {
+<<<<<<< HEAD
+
+    /*
+    console.log("Door Supplied: "+door.doorID);  
+    for (var h = 0; h < thor.currentTile.doors.length; h++) {
+        //check current door id against what 
+         console.log("tile.door in loop: "+thor.currentTile.doors[h].doorID);  
+        
+
+            //Is it  locked door, if so skip door entry
+
+        }
+    */
+
+    if (x < door.right - size + 30 && x > door.left - 30 && y < door.bottom - size + 30 && y > door.top - 30) {
+
+=======
     if (hitDetection(thor, [door], door instanceof CentreDoor ? 0 : 1-wallThickness) && 
         /* negative tolerance, to make sure you can only go through when you are right at the edge
         of the screen. Doesn't work well if applied to Centre Doors though! */
@@ -280,6 +297,7 @@ function canIGoThroughDoor(x, y, size, door) {
         || (thor.currentTile.southDoors.indexOf(door) > -1 && thor.isPointing == 3)
         || (thor.currentTile.eastDoors.indexOf(door) > -1 && thor.isPointing == 4)
         || (thor.currentTile.centreDoors.indexOf(door) > -1 && hitDetection(thor, [door])))) {
+>>>>>>> 58fe706973e97347200c05b3a87b8ec3af55a7fa
         return true;
     }
     return false;
@@ -335,11 +353,18 @@ function thor_walkThroughDoor() {
                         }
                         break;
                     }
+<<<<<<< HEAD
+                    break;
+                }
+            } else {
+                console.log("No door near or door locked!");
+=======
                     else {
                     // console.log("No door near or door locked!");
                     }
                 }    
             break;
+>>>>>>> 58fe706973e97347200c05b3a87b8ec3af55a7fa
             }
         }
     }
