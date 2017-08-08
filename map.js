@@ -233,20 +233,22 @@ var obstacle1_1 = new Obstacle("ob1_1", 50,180,40,40, "blue");
 var obstacle1_2 = new Obstacle("ob1_2", 90,90,60,60, "blue", item1_2);
 var obstacle1_3 = new Obstacle("ob1_3", 250,250,80, 80, "blue");
 var npc1_1 = new NPC("npc1_1","Grand Wizard Malcom", 450,450,40, 40, "black", "Hello Thor", [[{speaker:"Thor", speech:"Hello"}, {speaker:"Npc", speech:"I have some magic mushrooms to make your quest more interesting - please take them from me (I button)"}], [{speaker:"npc", speech:"I am not giving you any more magic mushrooms, this is a quest not a party - go and solve the puzzle!"}, {speaker:"Thor", speech:"Meanie"}], []], item1_1);
-var npc1_2 = new NPC("npc1_2","Lazy Wizard Bert", 500,450,40, 40, "black", "none", [[{speaker:"Thor", speech:"Hello"}, {speaker:"Npc", speech:"You MUST complete puzzle to obtain the key for the door so you can begin your quest! Use the P key to change each brown puzzle element to white. Remember to come back to speak to me after you have completed the puzzle!"}, {speaker:"Thor", speech:"Oh, thanks, will do"}], [], [{speaker:"npc", speech:"I see you have completed the puzzle and have opened the door! Good luck on your quest dear boy"}, {speaker:"Thor", speech:"Who are you calling 'boy' sunshine?"}, {speaker:"npc", speech:"Oh, get on with your quest before I magic you into a donkey"}, {speaker:"Thor", speech:"Eeeek! I'll be off!"}]]);
+var npc1_2 = new NPC("npc1_2","Lazy Wizard Bert", 550,450,40, 40, "black", "Hello Thor", [[{speaker:"Thor", speech:"Hello"}, {speaker:"Npc", speech:"You MUST complete puzzle to obtain the key for the door so you can begin your quest! Use the P key to change each brown puzzle element to white. Remember to come back to speak to me after you have completed the puzzle!"}, {speaker:"Thor", speech:"Oh, thanks, will do"}], [], [{speaker:"npc", speech:"I see you have completed the puzzle and have opened the door! Good luck on your quest dear boy"}, {speaker:"Thor", speech:"Who are you calling 'boy' sunshine?"}, {speaker:"npc", speech:"Oh, get on with your quest before I magic you into a donkey"}, {speaker:"Thor", speech:"Eeeek! I'll be off!"}]]);
 var key1_1 = new Item("key", "Magic Key 1");
 
 var key2_1 = new Item("key", "Magic Key 1", 350,350,40, 40, "yellow");
-var npc2_1 = new NPC("npc2_1", "Junior Wizard Colin", 450,450,40, 40, "black", "Hello Thor", [[{speaker: "npc", speech:"To leave this room you will need the key up there (yellow block), this key opens the door in the current room, but they can open doors in future rooms too!"}, {speaker: "Thor", speech:"Hmmm *strokes chin*, very interesting - I will remeber that"}, {speaker: "Thor", speech:"Cheers Big Ears"}], [], [{speaker: "npc", speech:"You have the key, now on with your quest!"}, {speaker: "npc", speech:"And don't call me big ears!"}]]);
+var npc2_1 = new NPC("npc2_1", "Junior Wizard Colin", 450,450,40, 40, "black", "Hello Thor", [[{speaker: "npc", speech:"To leave this room you will need the key up there (yellow block), this key opens the door in the current room, but sometimes they open doors in future rooms too!"}, {speaker: "Thor", speech:"Hmmm *strokes chin*, very interesting - I will remember that"}, {speaker: "Thor", speech:"Cheers Big Ears"}], [], [{speaker: "npc", speech:"You have the key, now on with your quest!"}, {speaker: "npc", speech:"And don't call me big ears!"}]]);
 
 
 var PuzzlePeice3_1 = new PuzzlePeice("puzOb2_1", 190,100,40,40, "#d85504", "#ffffff", ["#ffffff","#ddb89b","#e2a77a", "#e09257","#e0782a"]);
 var PuzzlePeice3_2 = new PuzzlePeice("puzOb2_2", 235,100,40,40, "#d85504", "#ffffff", ["#ffffff","#ddb89b","#e2a77a", "#e09257","#e0782a"]);
 var PuzzlePeice3_3 = new PuzzlePeice("puzOb2_3", 280,100,40,40, "#d85504", "#ffffff", ["#ffffff","#ddb89b","#e2a77a", "#e09257","#e0782a"]);
+var PuzzlePeice3_4 = new PuzzlePeice("puzOb2_4", 325,100,40,40, "#d85504", "#ffffff", ["#ffffff","#ddb89b","#e2a77a", "#e09257","#e0782a"]);
+var PuzzlePeice3_5 = new PuzzlePeice("puzOb2_5", 370,100,40,40, "#d85504", "#ffffff", ["#ffffff","#ddb89b","#e2a77a", "#e09257","#e0782a"]);
 
 var key3_1 = new Item("key", "Magic Key 2");
 var key3_2 = new Item("key", "Magic Key 3", 350,350,40, 40, "yellow");
-var npc3_1 = new NPC("npc3_1", "Wizard Bert", 450,450,40, 40, "black", "Hello Thor", [[{speaker: "npc", speech:"To leave this room you will need the key I have, please take it"}, {speaker: "npc", speech:"But be aware that you need to complete the puzzle above for the key to the centre door (in the next room) to appear in the next room!"}], [{speaker: "npc", speech:"You have the key now, you can continue your quest"}, {speaker: "Thor", speech:"Smashing!"}]], key3_1);
+var npc3_1 = new NPC("npc3_1", "Wizard Bert", 450,450,40, 40, "black", "Hello Thor", [[{speaker: "npc", speech:"You need to complete the puzzle above for the key to the centre door (in the next room) to appear in the next room!"}, {speaker: "npc", speech:"To leave this room you will need the key I have, please take it"}], [{speaker: "npc", speech:"You have the key now, you can continue your quest"}, {speaker: "Thor", speech:"Smashing!"}]], key3_1);
 var obstacle3_1 = new Obstacle("ob3_1", 10,10,40,40, "red");
 var item3_1 = new Item("item3_1", "Item (could have been a key) Placed by Puzzle", 150,150,20, 20, "Yellow");
 // try to construct basic map. Will be square, but without doors in all the obvious places!
@@ -330,7 +332,7 @@ NWTile.newChatNPC_id = "npc1_2";
 //4) Assign item to be placed
 //NETile.PuzzlePeices = [PuzzlePeice2_1, PuzzlePeice2_2];
 
-SETile.PuzzlePeices = [PuzzlePeice3_1, PuzzlePeice3_2, PuzzlePeice3_3];
+SETile.PuzzlePeices = [PuzzlePeice3_1, PuzzlePeice3_2, PuzzlePeice3_3, PuzzlePeice3_4, PuzzlePeice3_5];
 SETile.PuzzleComplete = false;
 SETile.targetMapTile = SWTile;
 SETile.itemToPlace = key3_2;

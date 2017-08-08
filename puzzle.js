@@ -87,7 +87,7 @@ function checkPuzzle() {
 
                         if (puzzleCompleted) {
                             thor.currentTile.PuzzleComplete = true;
-                            console.log("PUZZLE COMPLETED! - KICKING OFF SUPPLIED PUZZLE FUNCTION!");
+                            //console.log("PUZZLE COMPLETED! - KICKING OFF SUPPLIED PUZZLE FUNCTION!");
 
                             //Wall alert flash to let player know puzzle complete
                             var backgroundAlert = thor.currentTile.colour;
