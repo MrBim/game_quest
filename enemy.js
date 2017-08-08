@@ -4,23 +4,28 @@
 //This holds what thor is next to, based on the last directional button push
 //So if he is next to two things, one above and one to side, and up was last
 //button pressed, it'll hold the id of the 'thing' above
-var thor_next_to = "nothing";
+// var thor_next_to = "nothing";
 
 
-// canvas variables
-var width = 1000;
-var height = 700;
-var heightTwo = 200;
-// canvas
-var canvas = document.getElementById("canvas");
-var ctx = canvas.getContext("2d");
+var spiderPic = new Image();
+spiderPic.src = 'assets/spider/spider.png';
 
-// new globalvar for wall thickness:
-var wallThickness = 30;
+var giantPic = new Image();
+giantPic.src = 'assets/giant/giant_one_s.png';
+// // canvas variables
+// var width = 1000;
+// var height = 700;
+// var heightTwo = 200;
+// // canvas
+// var canvas = document.getElementById("canvas");
+// var ctx = canvas.getContext("2d");
+
+// // new globalvar for wall thickness:
+// var wallThickness = 30;
 
 
-// worldMap is an array which will contain all the individual mapTile objects
-var worldMap = [];
+// // worldMap is an array which will contain all the individual mapTile objects
+// var worldMap = [];
 
 /*
        Enemy constructor:
@@ -54,7 +59,35 @@ function Enemy (id, startXPos, startYPos, width, height, colour, speed, move, he
     this.startHealth = health;
     this.alive = true;
 }
-
+function picEnemy (id, startXPos, startYPos, width, height, sprite, speed, move, health) {
+    this.type = "enemy";
+    this.id = id;
+    this.startXPos = startXPos;
+    this.startYPos = startYPos;
+    this.xPos = startXPos;
+    this.yPos = startYPos;
+    this.width = width;
+    this.height = height;
+    this.sprite = sprite;
+    this.draw = function() {
+        ctx.beginPath();
+        if (this.hasBeenHit) {
+            ctx.fillStyle = "red";
+            this.hasBeenHit = false;
+            ctx.rect(this.xPos,this.yPos,this.width,this.height);
+            ctx.fill();
+        }
+        else {
+             ctx.drawImage(this.sprite, this.xPos, this.yPos, this.height, this.width);
+             ctx.closePath();
+        }
+    };
+    this.speed = speed;
+    this.move = move;
+    this.health = health;
+    this.startHealth = health;
+    this.alive = true;
+}
 function moveTowardsThor() {
     var xDiff = thor.xPos - this.xPos;
     var yDiff = thor.yPos - this.yPos;
@@ -148,11 +181,15 @@ function randomMovement(stability) {
     }
 }
 
-var itsFollowingMe = new Enemy("follower", wallThickness, height-wallThickness-50, 10, 40, "hotpink", 2, moveTowardsThor, 10);
-var xOscillator = new Enemy("x-oscillator", wallThickness, wallThickness, 50, 50, "magenta", 4, fixedPath([[wallThickness,
+var itsFollowingMe = new Enemy("follower", wallThickness, height-wallThickness-50, 40, 40, "hotpink", 2, moveTowardsThor, 10);
+
+var xOscillator = new picEnemy("x-oscillator", wallThickness, wallThickness, 40, 40, giantPic, 4, fixedPath([[wallThickness,
     wallThickness], [width-50, wallThickness]]), 4);
-var triangulator = new Enemy("triangulator", 50, 80, 20, 20, "lightsteelblue", 2, fixedPath([[50,80], [280,400], [650,220]]), 6);
-var funnyPath = new Enemy("funnyShape", wallThickness, wallThickness, 80, 80, "#21abd2", 5,
+
+var triangulator = new Enemy("triangulator", 50, 80, 40, 40, "lightsteelblue", 2, fixedPath([[50,80], [280,400], [650,220]]), 6);
+
+var funnyPath = new Enemy("funnyShape", wallThickness, wallThickness, 40, 40, "#21abd2", 5,
                             fixedPath([[wallThickness,wallThickness], [width-wallThickness-80,wallThickness],
                             [width-wallThickness-80,height*2/3], [width/2, wallThickness], [width/4, 400]]), 5);
-var randomMover = new Enemy("random", (width-80)/2, (height-20)/2, 20, 20, "white", 3, randomMovement(10), 2);
+
+var randomMover = new picEnemy("random", 800, 500, 40, 40, spiderPic, 3, randomMovement(10), 2);

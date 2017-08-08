@@ -1,20 +1,3 @@
-var lowerCanvas = document.getElementById("lowerCanvas");
-var ctz = lowerCanvas.getContext("2d");
-
-// event listeners
-document.body.addEventListener("keydown", function(e) {
-    keys[e.keyCode] = true;
-});
-document.body.addEventListener("keyup", function(e) {
-    keys[e.keyCode] = false;
-});
-
-// keyboard array (stores key value)
-var keys = [];
-
-// game elements
-var hasRun = false; // used to set init values on first itteration of game loop
-
 var thor = {
     id: "Thor",
     health: 100,
@@ -77,11 +60,6 @@ thor.thorPicTwoS.src = 'assets/thor/thor_two_s.png';
 thor.thorPicOneW.src = 'assets/thor/thor_one_w.png';
 thor.thorPicTwoW.src = 'assets/thor/thor_two_w.png';
 
-// grahics for items
-var keyPic = new Image();
-keyPic.src = 'assets/items/key_sm.png';
-
-
 
 // ----------------------    Land of Functs ---------------------------------------------
 // clearCanvas() clears the canvas before each new frame.
@@ -130,9 +108,7 @@ function drawBackground() {
         }
     }
 
-
     //now draw the enemies
-
     for (var i = 0; i < tile.enemies.length; i++) {
         if (tile.enemies[i].alive) {
             tile.enemies[i].draw();
@@ -146,7 +122,6 @@ function drawBackground() {
         ctx.rect(lightning.positions[i].xPos, lightning.positions[i].yPos, lightning.size, lightning.size);
         ctx.fill();
     };
-
 }
 
 function drawunderparts() {
@@ -161,16 +136,24 @@ function drawunderparts() {
 
     ctz.fillStyle = "#000";
     if (thor.health <= 0) {
-        ctz.font = "100px Arial";
-        ctz.fillText("Sorry, you're DEAD!!!", 10, 100);
+        ctz.font = "25px Arial";
+        ctz.fillText("Sorry, you're DEAD!!!", 20, 100);
         ctz.fill;
         quit();
-    } else {
+    } 
+    else {
 
         ctz.fillStyle = "#f00"
-        ctz.fillRect(((width / 2) + 10), 10, ((((width / 2) - 20) / 100) * thor.health), 10);
+        ctz.fillRect(((width / 2) + 10), 10, ((((width / 2) - 20) / 100) * thor.health), 20);
+        ctz.fillStyle = "#000"
+        ctz.font = "25px Arial";
+        ctz.fillText(underText1, 10, 30);
+        ctz.fillText(underText2, 10, 55);
+        ctz.fillText(underText3, 10, 80);
+        ctz.fillText(underText4, 10, 105);
+        ctz.fillText(underText5, 10, 130);
+        ctz.fillText(underText6, 10, 155);
         ctz.fill;
-
     }
 }
 // "new" functions to simplify hit-detection code:
@@ -184,7 +167,8 @@ function itCantGoThere(mover) {
             hitDetection(mover, [thor]) ||
             hitDetection(mover, thor.currentTile.PuzzlePeices));
 
-    } else {
+    }
+    else {
 
         return (hitDetection(mover, thor.currentTile.obstacles) ||
             hitDetection(mover, thor.currentTile.items) ||
@@ -211,14 +195,12 @@ function stayOnScreen(mover) {
     }
 }
 
-
 // this is mostly still here because
 //i wanted to keep the example of how i was moving the main dude and regestering that keys had been pressed
 function thor_movement() {
     // up (w)
     if (keys[87]) {
         thor.isPointing = 1;
-
         thor.yPos -= thor.moveSize;
 
         //Feeding in the current tiles Obstacles, Items, Characters array
@@ -226,6 +208,7 @@ function thor_movement() {
             //if thor is hitting an object, set position to previous
             thor.yPos += thor.moveSize;
         }
+
         //if Thors next move isn't going to hit anything, then set that he's next to nothing
         else{
             //Reset chat first so can see what NPC Thor was next to
@@ -357,12 +340,6 @@ function canIGoThroughDoor(x, y, size, door) {
     return false;
 }
 
-
-
-
-
-
-
 function thor_walkThroughDoor() {
     var tile = thor.currentTile;
     var doorLocked = false;
@@ -417,12 +394,6 @@ function thor_walkThroughDoor() {
     }
 }
 
-//function drawPlayer() { // draw player as a square
-//ctx.fillStyle = "#000000";
-//ctx.fillRect(thor.xPos, thor.yPos,thor.dispSize,thor.dispSize);
-//ctx.fill();
-// }
-
 function drawPlayer() {
     var thorPicOne
     var thorPicTwo
@@ -457,8 +428,6 @@ function drawPlayer() {
     } // draw player from a .png (40px,40px)
 }
 
-
-
 function enemyMovement() {
     for (var i = 0; i < thor.currentTile.enemies.length; i++) {
         var enemy = thor.currentTile.enemies[i];
@@ -479,7 +448,6 @@ function enemyMovement() {
         stayOnScreen(enemy);
     }
 }
-
 
 /* there are 2 possible ways of implementing the limit on lightning bolts:
 1) not allow a new one to be fired until enough old ones have disappeared naturally by hitting something
@@ -594,7 +562,6 @@ function thor_healthCheck() {
 function quit() {
     hasRun = false;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
 }
 
 function stopMusic() {
