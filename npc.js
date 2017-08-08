@@ -38,6 +38,12 @@ function NPC (id, name, xPos, yPos, width, height, colour, greeting, dialogueLis
     this.greet = function(){
         if (this.greeting.toUpperCase() != "NONE"){
             console.log(this.greeting + " I am " + this.name.toUpperCase());
+            underText1 = (this.greeting );
+            underText2 = ( " I am " + this.name.toUpperCase());
+            underText3 = "";
+            underText4 = "";
+            underText5 = "";
+            underText6 = "";
         }
     };
     // replace with graphic here

@@ -109,9 +109,7 @@ function drawBackground() {
         }
     }
 
-
     //now draw the enemies
-
     for (var i = 0; i < tile.enemies.length; i++) {
         if (tile.enemies[i].alive) {
             tile.enemies[i].draw();
@@ -125,7 +123,6 @@ function drawBackground() {
         ctx.rect(lightning.positions[i].xPos, lightning.positions[i].yPos, lightning.size, lightning.size);
         ctx.fill();
     };
-
 }
 
 function drawunderparts() {
@@ -144,7 +141,8 @@ function drawunderparts() {
         ctz.fillText("Sorry, you're DEAD!!!", 20, 100);
         ctz.fill;
         quit();
-    } else {
+    } 
+    else {
 
         ctz.fillStyle = "#f00"
         ctz.fillRect(((width / 2) + 10), 10, ((((width / 2) - 20) / 100) * thor.health), 20);
@@ -157,7 +155,6 @@ function drawunderparts() {
         ctz.fillText(underText5, 10, 130);
         ctz.fillText(underText6, 10, 155);
         ctz.fill;
-
     }
 }
 // "new" functions to simplify hit-detection code:
@@ -171,7 +168,8 @@ function itCantGoThere(mover) {
             hitDetection(mover, [thor]) ||
             hitDetection(mover, thor.currentTile.PuzzlePeices));
 
-    } else {
+    }
+    else {
 
         return (hitDetection(mover, thor.currentTile.obstacles) ||
             hitDetection(mover, thor.currentTile.items) ||
@@ -198,14 +196,12 @@ function stayOnScreen(mover) {
     }
 }
 
-
 // this is mostly still here because
 //i wanted to keep the example of how i was moving the main dude and regestering that keys had been pressed
 function thor_movement() {
     // up (w)
     if (keys[87]) {
         thor.isPointing = 1;
-
         thor.yPos -= thor.moveSize;
 
         //Feeding in the current tiles Obstacles, Items, Characters array
@@ -213,7 +209,6 @@ function thor_movement() {
             //if thor is hitting an object, set position to previous
             thor.yPos += thor.moveSize;
         }
-
         thor.walkAnimFrame += 1;
     }
     // down (s)
@@ -272,12 +267,6 @@ function canIGoThroughDoor(x, y, size, door) {
     return false;
 }
 
-
-
-
-
-
-
 function thor_walkThroughDoor() {
     var tile = thor.currentTile;
     var doorLocked = false;
@@ -332,12 +321,6 @@ function thor_walkThroughDoor() {
     }
 }
 
-//function drawPlayer() { // draw player as a square
-//ctx.fillStyle = "#000000";
-//ctx.fillRect(thor.xPos, thor.yPos,thor.dispSize,thor.dispSize);
-//ctx.fill();
-// }
-
 function drawPlayer() {
     var thorPicOne
     var thorPicTwo
@@ -372,8 +355,6 @@ function drawPlayer() {
     } // draw player from a .png (40px,40px)
 }
 
-
-
 function enemyMovement() {
     for (var i = 0; i < thor.currentTile.enemies.length; i++) {
         var enemy = thor.currentTile.enemies[i];
@@ -394,7 +375,6 @@ function enemyMovement() {
         stayOnScreen(enemy);
     }
 }
-
 
 /* there are 2 possible ways of implementing the limit on lightning bolts:
 1) not allow a new one to be fired until enough old ones have disappeared naturally by hitting something
@@ -509,7 +489,6 @@ function thor_healthCheck() {
 function quit() {
     hasRun = false;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
 }
 
 function stopMusic() {
