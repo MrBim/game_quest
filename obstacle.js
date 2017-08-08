@@ -6,7 +6,6 @@
     // It also contains a draw function to draw the rectangle invoked via the drawBackground() function.
 
 
-
 function Obstacle (id, xPos, yPos, width, height, colour, questItem) {
     this.type = "Obstacle";
     this.id = id;
@@ -56,6 +55,7 @@ function hitDetection(mover, thingsToAvoid, tolerance, pointingDirection){
     if (tolerance === undefined) {
         tolerance = 0;
     }
+
     for (var i=0; i<thingsToAvoid.length; i++) {
         // need to skip detection of an enemy against itself, or it will never move!
         // same for Thor hitting himself!
@@ -68,7 +68,7 @@ function hitDetection(mover, thingsToAvoid, tolerance, pointingDirection){
             mover.yPos - tolerance < (thingsToAvoid[i].yPos + thingsToAvoid[i].height) &&
             mover.yPos + tolerance > (thingsToAvoid[i].yPos - mover.height)) {
 
-            // check you're pointing in the right direction (needed for thor's sword, if nothing else):
+	        // check you're pointing in the right direction (needed for thor's sword, if nothing else):
             if (pointingDirection === undefined || // but only if a direction is given!
                 (pointingDirection == 1 && thingsToAvoid[i].yPos <= mover.yPos) ||
                 (pointingDirection == 2 && thingsToAvoid[i].xPos <= mover.xPos) ||
@@ -80,6 +80,7 @@ function hitDetection(mover, thingsToAvoid, tolerance, pointingDirection){
                     // space left for code to remove health from Thor, or whatever
                     // the following is just an example:
                     thor.hasBeenHit = true;
+
                 }
 
                 else if (thingsToAvoid[i].type == "Obstacle" && mover == thor){
@@ -94,6 +95,12 @@ function hitDetection(mover, thingsToAvoid, tolerance, pointingDirection){
                     thor.nextToType = thingsToAvoid[i].type;
                 }
 
+                else if (thingsToAvoid[i].type == "PuzzlePeice" && mover == thor){
+                    thor.nextToID = thingsToAvoid[i].id;
+                    thor.nextToType = thingsToAvoid[i].type;
+                }
+
+
                 else if (thingsToAvoid[i].type == "NPC" && mover == thor){
                     //Greet right away, no button press required
                     //Use 'None' in NPC constructor to have no greeting
@@ -106,13 +113,15 @@ function hitDetection(mover, thingsToAvoid, tolerance, pointingDirection){
                 return true;
 
             }
-            else if (mover == thor){
-                //Resetting when not near anything to ensure correct detection
-                thor.nextToID = "nothing";
-                thor.nextToType = "nothing";
-                //if you've moved away from an NPC, reset the dialogue position to zero for that NPC
-                thingsToAvoid[i].chatPosition = 0;
-            }
+
+	        else if (mover.id == "Thor"){
+    	        //Resetting when not near anything to ensure correct detection
+        	    thor.nextToID = "nothing";
+            	thor.nextToType = "nothing";
+            	//if you've moved away from an NPC, reset the dialogue position to zero for that NPC
+            	thingsToAvoid[i].chatPosition = 0;
+        	}            
         }
+       
     }
 }
