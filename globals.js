@@ -4,10 +4,23 @@
 //var floorGreen = ;
 var wallGrey = "#f4f4f4";
 
-
 // lower canvas
 var lowerCanvas = document.getElementById("lowerCanvas");
 var ctz = lowerCanvas.getContext("2d");
+
+// canvas variables
+var width = 1000;
+var height = 700;
+var heightTwo = 200;
+// canvas
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+
+// new globalvar for wall thickness:
+var wallThickness = 30;
+
+// worldMap is an array which will contain all the individual mapTile objects
+var worldMap = [];
 
 // event listeners
 document.body.addEventListener("keydown", function(e) {
@@ -31,7 +44,7 @@ var underText4 = "";
 var underText5 = "";
 var underText6 = "";
 
-
+var thor_next_to = "nothing";
 
 
 // grahics for items

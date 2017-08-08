@@ -4,23 +4,23 @@
 //This holds what thor is next to, based on the last directional button push
 //So if he is next to two things, one above and one to side, and up was last
 //button pressed, it'll hold the id of the 'thing' above
-var thor_next_to = "nothing";
+// var thor_next_to = "nothing";
 
 
-// canvas variables
-var width = 1000;
-var height = 700;
-var heightTwo = 200;
-// canvas
-var canvas = document.getElementById("canvas");
-var ctx = canvas.getContext("2d");
+// // canvas variables
+// var width = 1000;
+// var height = 700;
+// var heightTwo = 200;
+// // canvas
+// var canvas = document.getElementById("canvas");
+// var ctx = canvas.getContext("2d");
 
-// new globalvar for wall thickness:
-var wallThickness = 30;
+// // new globalvar for wall thickness:
+// var wallThickness = 30;
 
 
-// worldMap is an array which will contain all the individual mapTile objects
-var worldMap = [];
+// // worldMap is an array which will contain all the individual mapTile objects
+// var worldMap = [];
 
 /*
        Enemy constructor:

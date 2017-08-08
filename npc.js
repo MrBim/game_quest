@@ -116,7 +116,7 @@ function npcButtonChat(){
                         underText2 = (thor.currentTile.npcs[i].currentDialogue[thor.currentTile.npcs[i].chatPosition].speech);
                         underText3 = (thor.currentTile.npcs[i].currentDialogue[thor.currentTile.npcs[i].chatPosition].speech1);
                         underText4 = (thor.currentTile.npcs[i].currentDialogue[thor.currentTile.npcs[i].chatPosition].speech2);
-                        underText5 = "";
+                        underText5 = (thor.currentTile.npcs[i].currentDialogue[thor.currentTile.npcs[i].chatPosition].speech3);
                         underText6 = "";
                     }
                     else{
@@ -125,7 +125,7 @@ function npcButtonChat(){
                         underText2 = (thor.currentTile.npcs[i].currentDialogue[thor.currentTile.npcs[i].chatPosition].speech);
                         underText3 = (thor.currentTile.npcs[i].currentDialogue[thor.currentTile.npcs[i].chatPosition].speech1);
                         underText4 = (thor.currentTile.npcs[i].currentDialogue[thor.currentTile.npcs[i].chatPosition].speech2);
-                        underText5 = "";
+                        underText5 = (thor.currentTile.npcs[i].currentDialogue[thor.currentTile.npcs[i].chatPosition].speech3);
                         underText6 = "";
                     }
                     //shift chat pointer +1 ready for next button press

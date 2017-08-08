@@ -59,11 +59,23 @@ function obtainItem() {
                     if (thor.nextToID == "powerup") {
                         thor.health = 100;
                         console.log("Yummy powerup!");
+
+                        underText1 = "Yummy powerup!";
+                        underText2 = "";
+                        underText3 = "";
+                        underText4 = "";
+                        underText5 = "";
+                        underText6 = "";
                     } else {
                         //add it to Thors inventory
                         thor.items.push(thor.currentTile.items[i]);
                         console.log(thor.currentTile.items[i].name + ": added to Thors inventory");
-
+                        underText1 = (thor.currentTile.items[i].name + ": added to Thors inventory");
+                        underText2 = "";
+                        underText3 = "";
+                        underText4 = "";
+                        underText5 = "";
+                        underText6 = "";
                         //change NPC chat if required, loop through each and update a required
                         for (var k = 0; k < thor.currentTile.npcs.length; k++) {
                             if (typeof thor.currentTile.npcs[k].dialogueList[1] !== 'undefined') {
@@ -100,13 +112,23 @@ function obtainItem() {
 
                     if (thor.currentTile.npcs[j].questItem === undefined) {
                         console.log(thor.currentTile.npcs[j].name.toUpperCase() + ": Sorry, nothing to give you, onwards with your quest!");
-
+                        underText1 = (thor.currentTile.npcs[j].name.toUpperCase() + ": Sorry, nothing to give you, onwards with your quest!");
+                        underText2 = "";
+                        underText3 = "";
+                        underText4 = "";
+                        underText5 = "";
+                        underText6 = "";
                         //NPC - nothing to give convo
                     } else if (thor.items.indexOf(thor.currentTile.npcs[j].questItem) == -1) {
                         //if Thor doesn't already have item, add the whole object
                         thor.items.push(thor.currentTile.npcs[j].questItem);
                         console.log(thor.currentTile.npcs[j].questItem.name + ": added to Thors inventory");
-
+                        underText1 = (thor.currentTile.npcs[j].questItem.name + ": added to Thors inventory");
+                        underText2 = "";
+                        underText3 = "";
+                        underText4 = "";
+                        underText5 = "";
+                        underText6 = "";
                       	if (thor.currentTile.npcs[j].questItem.id == "key") {
             					//console.log("State 1: " + thor.currentTile.npcs[j].questItem.id);            					
 	                            thor.currentTile.npcs[j].questItem.unlocks.locked = false;
@@ -148,6 +170,12 @@ function obtainItem() {
                     */
                 } else {
                     console.log(thor.currentTile.npcs[j].questItem.name + ": already in Thors inventory");
+                    underText1 = (thor.currentTile.npcs[j].questItem.name + ": already in Thors inventory");
+                    underText2 = "";
+                    underText3 = "";
+                    underText4 = "";
+                    underText5 = "";
+                    underText6 = "";
                 }
 
                 //No need to complete redundent cycles of for loop
@@ -175,8 +203,20 @@ function obtainItem() {
                     //if Thor doesn't already have item, add the whole object
                     thor.items.push(replacementObstacleArray[m].questItem);
                     console.log(replacementObstacleArray[m].questItem.name + ": added to Thors inventory");
+                    underText1 = (replacementObstacleArray[m].questItem.name + ": added to Thors inventory");
+                    underText2 = "";
+                    underText3 = "";
+                    underText4 = "";
+                    underText5 = "";
+                    underText6 = "";
                 } else {
                     console.log(replacementObstacleArray[m].questItem.name + ": already in Thors inventory");
+                    underText1 = (replacementObstacleArray[m].questItem.name + ": already in Thors inventory");
+                    underText2 = "";
+                    underText3 = "";
+                    underText4 = "";
+                    underText5 = "";
+                    underText6 = "";
                 }
 
                 //No need to complete redundent cycles of for loop
