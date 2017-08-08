@@ -64,12 +64,17 @@ function obtainItem() {
                         thor.items.push(thor.currentTile.items[i]);
                         console.log(thor.currentTile.items[i].name + ": added to Thors inventory");
 
+                        //change NPC chat if required, loop through each and update a required
+                        for (var k = 0; k < thor.currentTile.npcs.length; k++) {
+                            if (typeof thor.currentTile.npcs[k].dialogueList[1] !== 'undefined') {
+                                thor.currentTile.npcs[k].currentDialogue = thor.currentTile.npcs[k].dialogueList[2];
+                                thor.currentTile.npcs[k].chatPosition = 0;
+                            }
+                        }
                         //if its a key, unlock door key is for
-                        if (thor.currentTile.items[i].id == "key"){
+                        if (thor.currentTile.items[i].id == "key") {
                             thor.currentTile.items[i].unlocks.locked = false;
                         }
-
-
                     }
 
                     //remove it from the current tile
@@ -102,6 +107,28 @@ function obtainItem() {
                         thor.items.push(thor.currentTile.npcs[j].questItem);
                         console.log(thor.currentTile.npcs[j].questItem.name + ": added to Thors inventory");
 
+                      	if (thor.currentTile.npcs[j].questItem.id == "key") {
+            					//console.log("State 1: " + thor.currentTile.npcs[j].questItem.id);            					
+	                            thor.currentTile.npcs[j].questItem.unlocks.locked = false;
+            					//console.log("State 2: " + thor.currentTile.items[m].unlocks.locked);	                            
+	                        }
+ 
+
+/*
+          				console.log("current tile id: " +thor.currentTile.id + " length: " + thor.currentTile.items.length);
+                        //if thor is being given a key, unlock door{
+            			for (var m = 0; m < thor.currentTile.items.length; m++) {                        	
+            				console.log("All items: " + thor.currentTile.items[m].id);
+                        	if (thor.currentTile.items[m].id == "key") {
+            					console.log("State 1: " + thor.currentTile.items[m].unlocks.locked);
+	                            thor.currentTile.items[m].unlocks.locked = false;
+            					console.log("State 2: " + thor.currentTile.items[m].unlocks.locked);	                            
+	                        }
+                        }
+*/
+
+
+
                         //Updating the NPC's conversation array based on
                         if (thor.currentTile.npcs[j].convoStatus == "Initial") {
                             //Make sure the NPC has a secondary conversation set up, if so use it
@@ -114,61 +141,61 @@ function obtainItem() {
                                 thor.currentTile.npcs[j].convoStatus = "Given";
                             }
                         }
-                        /*
-                        else if (convoStatus == "Given" && thor.currentTile.npcs[i].id == <specificNPC> ){
-                         Specific use cases for setting NPC conversation can be put in here
-                        }
-                        */
-                    } else {
-                        console.log(thor.currentTile.npcs[j].questItem.name + ": already in Thors inventory");
+                    /*
+                    else if (convoStatus == "Given" && thor.currentTile.npcs[i].id == <specificNPC> ){
+                     Specific use cases for setting NPC conversation can be put in here
                     }
-
-                    //No need to complete redundent cycles of for loop
-                    break;
+                    */
+                } else {
+                    console.log(thor.currentTile.npcs[j].questItem.name + ": already in Thors inventory");
                 }
-            }
-        } else if (thor.nextToType == "Obstacle") {
-            //Work out which obstacle
-            //The Obstacle array contains wall obstacles as well as game obstacles
-            //Need to filter out the wall obstacles
-            var replacementObstacleArray = [];
-            for (var a = 0; a < thor.currentTile.obstacles.length; a++) {
-                if (thor.currentTile.obstacles[a].id != "wall") {
-                    replacementObstacleArray.push(thor.currentTile.obstacles[a]);
-                }
-            }
-            for (var m = 0; m < replacementObstacleArray.length; m++) {
 
-                //find the npc within the currentTile.items array
-                if (replacementObstacleArray[m].id == thor.nextToID) {
-                    //does the obstacle have a questItem
-                    if (replacementObstacleArray[m].questItem === undefined) {
-                        console.log("I'm a mere obstacle, move along!");
-                    } else if (thor.items.indexOf(replacementObstacleArray[m].questItem) == -1) {
-                        //if Thor doesn't already have item, add the whole object
-                        thor.items.push(replacementObstacleArray[m].questItem);
-                        console.log(replacementObstacleArray[m].questItem.name + ": added to Thors inventory");
-                    } else {
-                        console.log(replacementObstacleArray[m].questItem.name + ": already in Thors inventory");
-                    }
-
-                    //No need to complete redundent cycles of for loop
-                    break;
-                }
+                //No need to complete redundent cycles of for loop
+                break;
             }
         }
-
-        //Not near anything? Then just list inventory.
-        else {
-            //As the thor items is  list of objects, need to iterate through and add names to a new array to be output
-
-            var thorInventoryOutput = [];
-            for (var k = 0; k < thor.items.length; k++) {
-                thorInventoryOutput.push(thor.items[k].name);
+    } else if (thor.nextToType == "Obstacle") {
+        //Work out which obstacle
+        //The Obstacle array contains wall obstacles as well as game obstacles
+        //Need to filter out the wall obstacles
+        var replacementObstacleArray = [];
+        for (var a = 0; a < thor.currentTile.obstacles.length; a++) {
+            if (thor.currentTile.obstacles[a].id != "wall") {
+                replacementObstacleArray.push(thor.currentTile.obstacles[a]);
             }
-            console.log("Thor's Swag Bag: " + thorInventoryOutput);
+        }
+        for (var m = 0; m < replacementObstacleArray.length; m++) {
 
+            //find the npc within the currentTile.items array
+            if (replacementObstacleArray[m].id == thor.nextToID) {
+                //does the obstacle have a questItem
+                if (replacementObstacleArray[m].questItem === undefined) {
+                    console.log("I'm a mere obstacle, move along!");
+                } else if (thor.items.indexOf(replacementObstacleArray[m].questItem) == -1) {
+                    //if Thor doesn't already have item, add the whole object
+                    thor.items.push(replacementObstacleArray[m].questItem);
+                    console.log(replacementObstacleArray[m].questItem.name + ": added to Thors inventory");
+                } else {
+                    console.log(replacementObstacleArray[m].questItem.name + ": already in Thors inventory");
+                }
+
+                //No need to complete redundent cycles of for loop
+                break;
+            }
         }
     }
-    itemObtainingOK = false;
+
+    //Not near anything? Then just list inventory.
+    else {
+        //As the thor items is  list of objects, need to iterate through and add names to a new array to be output
+
+        var thorInventoryOutput = [];
+        for (var k = 0; k < thor.items.length; k++) {
+            thorInventoryOutput.push(thor.items[k].name);
+        }
+        console.log("Thor's Swag Bag: " + thorInventoryOutput);
+
+    }
+}
+itemObtainingOK = false;
 }

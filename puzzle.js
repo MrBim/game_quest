@@ -114,7 +114,7 @@ function checkPuzzle() {
                                 }
                             }                            
                            
-                            //Is key being handed over? Then unlock the door on the tile
+                            //Is key being issued? Then unlock the door on the given tile
                             for (var m = 0; m < thor.currentTile.items.length; m++) {
                                //if its a key, unlock door key is for
                                if (thor.currentTile.items[m].id == "key") {
