@@ -49,11 +49,15 @@ nothing else :-)
 function obtainItem() {
     if (itemObtainingOK) {
 
+        console.log("Item triggered");
+        console.log("thor.nextToType: " +thor.nextToType);
         //Is Thor next to an item?
         if (thor.nextToType == "Item") {
             //work out which item
             for (var i = 0; i < thor.currentTile.items.length; i++) {
                 //find the item within the currentTile.items array
+                console.log("thor.currentTile.items[i].id: " + thor.currentTile.items[i].id)
+                console.log("thor.nextToID: " +thor.nextToID);
                 if (thor.currentTile.items[i].id == thor.nextToID) {
                     // increase health to 100 if powerup taken
                     if (thor.nextToID == "powerup") {

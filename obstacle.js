@@ -50,26 +50,22 @@ function Obstacle(id, xPos, yPos, width, height, colour, questItem) {
 // tracking of individual objects, this may or may not be useful going forwards.
 // Couldn't think of a better word than 'things' to encapsulate obstacles, items and characters, lol - if you do, please update below!
 
-function hitDetection(mover, thingsToAvoid, tolerance, pointingDirection) {
+function hitDetection(mover, thingsToAvoid, tolerance, pointingDirection){
     if (tolerance === undefined) {
         tolerance = 0;
     }
-
-    for (var i = 0; i < thingsToAvoid.length; i++) {
+    for (var i=0; i<thingsToAvoid.length; i++) {
         // need to skip detection of an enemy against itself, or it will never move!
         // same for Thor hitting himself!
-
-
         if (thingsToAvoid[i] == mover) {
             continue;
         }
+
 
         if (mover.xPos + tolerance > (thingsToAvoid[i].xPos - mover.width) &&
             mover.xPos - tolerance < (thingsToAvoid[i].xPos + thingsToAvoid[i].width) &&
             mover.yPos - tolerance < (thingsToAvoid[i].yPos + thingsToAvoid[i].height) &&
             mover.yPos + tolerance > (thingsToAvoid[i].yPos - mover.height)) {
-
-            console.log("triggered");
 
             // check you're pointing in the right direction (needed for thor's sword, if nothing else):
             if (pointingDirection === undefined || // but only if a direction is given!
@@ -80,76 +76,58 @@ function hitDetection(mover, thingsToAvoid, tolerance, pointingDirection) {
 
 
                 if ((thingsToAvoid[i].type == "enemy" && thingsToAvoid[i].alive && mover == thor) ||
-                    thingsToAvoid[i] == thor && mover.alive) {
+                     thingsToAvoid[i] == thor && mover.alive){
                     // space left for code to remove health from Thor, or whatever
                     // the following is just an example:
                     thor.hasBeenHit = true;
 
-                } else if (thingsToAvoid[i].type == "Obstacle" && mover == thor) {
+                }
+
+                else if (thingsToAvoid[i].type == "Obstacle" && mover == thor){
                     //recorded for use with button press activities (so Thor knows obstacle he is infront of)
                     thor.nextToID = thingsToAvoid[i].id;
                     thor.nextToType = thingsToAvoid[i].type;
 
-                    //console.log("Obs - Thor next to ID: " + thor.nextToID);
-                    //console.log("Obs - Thor next to Type: " + thor.nextToType);
+                    console.log("Obstacle next to ID: "+thor.nextToID);
+                    console.log("Obstacle next to Type: "+thor.nextToType);
+                }
 
-                } else if (thingsToAvoid[i].type == "Item" && mover == thor) {
+                else if (thingsToAvoid[i].type == "Item" && mover == thor){
                     //recorded for use with button press activities (so Thor knows what item is being picked up)
                     thor.nextToID = thingsToAvoid[i].id;
                     thor.nextToType = thingsToAvoid[i].type;
+                
+                    console.log("Item next to ID: "+thor.nextToID);
+                    console.log("Item next to Type: "+thor.nextToType);
+                }
 
-                    //console.log("Item - Thor next to ID: " + thor.nextToID);
-                    //console.log("Item - Thor next to Type: " + thor.nextToType);
-
-                } else if (thingsToAvoid[i].type == "PuzzlePeice" && mover == thor) {
+                else if (thingsToAvoid[i].type == "PuzzlePeice" && mover == thor){
                     thor.nextToID = thingsToAvoid[i].id;
                     thor.nextToType = thingsToAvoid[i].type;
 
-                    //console.log("Puz - Thor next to ID: " + thor.nextToID);
-                    //console.log("Puz - Thor next to Type: " + thor.nextToType);
+                    console.log("Puz next to ID: "+thor.nextToID);
+                    console.log("Puz next to Type: "+thor.nextToType);
+                }
 
-                } else if (thingsToAvoid[i].type == "NPC" && mover == thor) {
+
+                else if (thingsToAvoid[i].type == "NPC" && mover == thor){
                     //Greet right away, no button press required
                     //Use 'None' in NPC constructor to have no greeting
                     thingsToAvoid[i].greet();
                     //Recorded for use with button press activities (so the right NPC chat is invoked)
                     thor.nextToID = thingsToAvoid[i].id;
                     thor.nextToType = thingsToAvoid[i].type;
-                    //console.log("NPC - Thor next to ID: " + thor.nextToID);
-                    //console.log("NPC - Thor next to Type: " + thor.nextToType);
-                }
-                else if (mover == thor){
-                	console.log("inner else triggered");
-                       thor.nextToID = "nothing";
-	                  thor.nextToType = "nothing";
 
+                    console.log("NPC next to ID: "+thor.nextToID);
+                    console.log("NPC next to Type: "+thor.nextToType);
                 }
 
-                //This return is required by the thor_movement() function to determin if Thor can move or not
+         
+                   //This return is required by the thor_movement() function to determin if Thor can move or not
+                return true;
 
-            } else {
-                if (thingsToAvoid[i].type == "Obstacle" ||
-                    thingsToAvoid[i].type == "Item" ||
-                    thingsToAvoid[i].type == "PuzzlePeice" ||
-                    thingsToAvoid[i].type == "NPC") {
-                    thor.nextToID = thingsToAvoid[i].id;
-                    thor.nextToType = thingsToAvoid[i].type;
-                    console.log("hitting outside of facing, but set");
-                } else {
-                    //Resetting when not next to anything
-                    thor.nextToID = "nothing";
-                    thor.nextToType = "nothing";
-                    //if you've moved away from an NPC, reset the dialogue position to zero for that NPC
-                    thingsToAvoid[i].chatPosition = 0;
-                    console.log("hitting outside of facing, RESET");
-                }
             }
-        console.log("Thor next to ID: " + thor.nextToID);
-        console.log("Thor next to Type: " + thor.nextToType);
-
-
-           return true;
-
         }
+
     }
 }

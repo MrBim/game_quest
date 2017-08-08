@@ -226,8 +226,15 @@ function thor_movement() {
             //if thor is hitting an object, set position to previous
             thor.yPos += thor.moveSize;
         }
+        //if Thors next move isn't going to hit anything, then set that he's next to nothing
+        else{
+            thor.nextToID = "nothing";
+            thor.nextToType = "nothing";
+        }
 
         thor.walkAnimFrame += 1;
+
+
     }
     // down (s)
     if (keys[83]) {
@@ -238,7 +245,11 @@ function thor_movement() {
             //if thor is hitting an object, set position to previous
             thor.yPos -= thor.moveSize;
         }
-
+        //if Thors next move isn't going to hit anything, then set that he's next to nothing
+        else{
+            thor.nextToID = "nothing";
+            thor.nextToType = "nothing";
+        }
         thor.walkAnimFrame += 1;
     }
     // left (a)
@@ -249,6 +260,11 @@ function thor_movement() {
         if (itCantGoThere(thor)) {
             //if thor is hitting an object, set position to previous
             thor.xPos += thor.moveSize;
+        }
+        //if Thors next move isn't going to hit anything, then set that he's next to nothing
+        else{
+            thor.nextToID = "nothing";
+            thor.nextToType = "nothing";
         }
         thor.walkAnimFrame += 1;
     }
@@ -261,6 +277,11 @@ function thor_movement() {
             //if thor is hitting an object, set position to previous
             thor.xPos -= thor.moveSize;
         }
+        //if Thors next move isn't going to hit anything, then set that he's next to nothing
+        else{
+            thor.nextToID = "nothing";
+            thor.nextToType = "nothing";
+        }        
         thor.walkAnimFrame += 1;
     }
 
