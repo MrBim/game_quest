@@ -63,6 +63,9 @@ function NWallDoor(startPos, width) {
     this.right = this.startPos + this.width;
     this.top = 0;
     this.bottom = wallThickness;
+    this.xPos = this.startPos;
+    this.yPos = 0;
+    this.height = this.bottom;
 }
 
 NWallDoor.prototype = Object.create(Door.prototype);
@@ -78,6 +81,9 @@ function EWallDoor(startPos, height) {
     this.right = width;
     this.top = this.startPos;
     this.bottom = this.startPos + this.height;
+    this.xPos = this.left;
+    this.yPos = this.startPos;
+    this.width = wallThickness;
 }
 
 EWallDoor.prototype = Object.create(Door.prototype);
@@ -93,6 +99,9 @@ function SWallDoor(startPos, width) {
     this.right = this.startPos + this.width;
     this.top = height - wallThickness;
     this.bottom = height;
+    this.xPos = this.startPos;
+    this.yPos = this.top;
+    this.height = wallThickness;
 }
 
 SWallDoor.prototype = Object.create(Door.prototype);
@@ -108,6 +117,9 @@ function WWallDoor(startPos, height) {
     this.right = wallThickness;
     this.top = this.startPos;
     this.bottom = this.startPos + this.height;
+    this.xPos = this.left;
+    this.yPos = this.startPos;
+    this.width = this.right;
 }
 
 WWallDoor.prototype = Object.create(Door.prototype);
@@ -126,6 +138,10 @@ function CentreDoor(xPos1, yPos1, xPos2, yPos2, colour) {
     this.right = Math.max(this.xPos1, this.xPos2);
     this.top = Math.min(this.yPos1, this.yPos2);
     this.bottom = Math.max(this.yPos1, this.yPos2);
+    this.xPos = this.left;
+    this.yPos = this.top;
+    this.width = this.right - this.left;
+    this.height = this.bottom - this.top;
 }
 
 CentreDoor.prototype = Object.create(Door.prototype);
