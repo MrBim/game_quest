@@ -282,6 +282,19 @@ door will usually be at the edge. This both avoids special cases, and enables th
 which are not on the edge (eg. to go into a house)
 Expect the behaviour to need plenty of tweaking later! */
 function canIGoThroughDoor(x, y, size, door) {
+
+    /*
+    console.log("Door Supplied: "+door.doorID);  
+    for (var h = 0; h < thor.currentTile.doors.length; h++) {
+        //check current door id against what 
+         console.log("tile.door in loop: "+thor.currentTile.doors[h].doorID);  
+        
+
+            //Is it  locked door, if so skip door entry
+
+        }
+    */
+
     if (x < door.right - size + 30 && x > door.left - 30 && y < door.bottom - size + 30 && y > door.top - 30) {
 
         return true;
@@ -347,7 +360,7 @@ function thor_walkThroughDoor() {
                     break;
                 }
             } else {
-               // console.log("No door near or door locked!");
+                console.log("No door near or door locked!");
             }
         }
         movingThroughDoor = false;
