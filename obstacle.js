@@ -36,7 +36,10 @@ function hitDetection(mover, thingsToAvoid, tolerance, pointingDirection){
     for (var i=0; i<thingsToAvoid.length; i++) {
         // need to skip detection of an enemy against itself, or it will never move!
         // same for Thor hitting himself!
-        if (thingsToAvoid[i] == mover) {
+        // note that we are checking the id, rather than the entire object - this is to alllow for
+        // the "test enemies" used for enemy hit detection (in the enemyMovement function in the main
+        // js file)
+        if (thingsToAvoid[i].id == mover.id) {
             continue;
         }
 

@@ -65,7 +65,7 @@ function NWallDoor(startPos, width) {
     this.bottom = wallThickness;
     this.xPos = this.startPos;
     this.yPos = 0;
-    this.height = this.bottom;
+    this.height = wallThickness;
 }
 
 NWallDoor.prototype = Object.create(Door.prototype);
@@ -81,7 +81,7 @@ function EWallDoor(startPos, height) {
     this.right = width;
     this.top = this.startPos;
     this.bottom = this.startPos + this.height;
-    this.xPos = this.left;
+    this.xPos = width - wallThickness;
     this.yPos = this.startPos;
     this.width = wallThickness;
 }
@@ -100,7 +100,7 @@ function SWallDoor(startPos, width) {
     this.top = height - wallThickness;
     this.bottom = height;
     this.xPos = this.startPos;
-    this.yPos = this.top;
+    this.yPos = height - wallThickness;
     this.height = wallThickness;
 }
 
@@ -117,9 +117,9 @@ function WWallDoor(startPos, height) {
     this.right = wallThickness;
     this.top = this.startPos;
     this.bottom = this.startPos + this.height;
-    this.xPos = this.left;
+    this.xPos = 0;
     this.yPos = this.startPos;
-    this.width = this.right;
+    this.width = wallThickness;
 }
 
 WWallDoor.prototype = Object.create(Door.prototype);
@@ -138,10 +138,10 @@ function CentreDoor(xPos1, yPos1, xPos2, yPos2, colour) {
     this.right = Math.max(this.xPos1, this.xPos2);
     this.top = Math.min(this.yPos1, this.yPos2);
     this.bottom = Math.max(this.yPos1, this.yPos2);
-    this.xPos = this.left;
-    this.yPos = this.top;
-    this.width = this.right - this.left;
-    this.height = this.bottom - this.top;
+    this.xPos = Math.min(this.xPos1, this.xPos2);
+    this.yPos = Math.min(this.yPos1, this.yPos2);
+    this.width = Math.max(this.xPos1, this.xPos2) - this.xPos;
+    this.height = Math.max(this.yPos1, this.yPos2) - this.yPos;
 }
 
 CentreDoor.prototype = Object.create(Door.prototype);
@@ -298,7 +298,7 @@ SEDoorN.pointer = ["NE", "NEDoorS"];
 var SEDoorW = new WWallDoor(height/2 - 100, 200);
 SEDoorW.doorID = "SEDoorW";
 SEDoorW.pointer = ["SW", "SWDoorE"];
-var SETile = new MapTile("SE", [SEDoorN, SEDoorW], [], [npc3_1], [obstacle3_1], [], "blue", "yellow");
+var SETile = new MapTile("SE", [SEDoorN, SEDoorW], [], [npc3_1], [obstacle3_1], [itsFollowingMe], "blue", "yellow");
 
 // finally a SW tile with only a door to the East (the whole map is a bent path of 4 rooms, not a circuit)
 var SWDoorE = new EWallDoor(height/2 - 100, 200);
