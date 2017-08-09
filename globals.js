@@ -46,10 +46,22 @@ var underText6 = "";
 
 var thor_next_to = "nothing";
 
-
+// graphics for obstacles
+var bushPic = new Image(); 
+bushPic.src = 'assets/obstacles/bush.png';
 // grahics for items
+
+var liconPic = new Image(); //lightening icon for health bar
+liconPic.src = 'assets/items/lightening.png';
+
 var keyPic = new Image(); //key
 keyPic.src = 'assets/items/key_sm.png';
+
+var mushPic = new Image(); //mushrooms
+mushPic.src = 'assets/items/mushroom.png';
+
+var ssPic = new Image(); //secret squiril
+ssPic.src = 'assets/items/squiril.png';
 
 var heartPic = new Image(); //heart for power up
 heartPic.src = 'assets/items/heart.png';

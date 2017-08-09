@@ -142,9 +142,16 @@ function drawunderparts() {
         quit();
     } 
     else {
-
-        ctz.fillStyle = "#f00"
+        // health bar
+        ctz.fillStyle = "#f00" 
         ctz.fillRect(((width / 2) + 10), 10, ((((width / 2) - 20) / 100) * thor.health), 20);
+        // lightening bolt on health bar 
+        if (thor.health == 100){
+            ctz.beginPath();
+            ctz.drawImage(liconPic, 960, 5, 30, 30);
+            ctz.closePath();
+        }
+        // text for all the talking
         ctz.fillStyle = "#000"
         ctz.font = "25px Arial";
         ctz.fillText(underText1, 10, 30);
@@ -155,7 +162,19 @@ function drawunderparts() {
         ctz.fillText(underText6, 10, 155);
         ctz.fill;
     }
+    // inventory
+    ctz.beginPath();
+    for(var i =0; i < thor.items.length; i++){
+        if (i < 5){
+            ctz.drawImage(thor.items[i].sprite,((500 + (i * 88)) + 10), 40, 70, 70);
+        }
+        else{
+             ctz.drawImage(thor.items[i].sprite, 120,((i * 88) + 10), 70, 70);
+        }  
+    }
+    ctz.closePath();
 }
+
 // "new" functions to simplify hit-detection code:
 function itCantGoThere(mover) {
 
