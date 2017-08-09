@@ -154,6 +154,25 @@ function drawunderparts() {
         // text for all the talking
         ctz.fillStyle = "#000"
         ctz.font = "25px Arial";
+        if (underText1 == undefined){
+            underText1 = " ";
+        }
+        if (underText2 == undefined){
+            underText2 = " ";
+        }
+        if (underText3 == undefined){
+            underText3 = " ";
+        }
+        if (underText4 == undefined){
+            underText4 = " ";
+        }
+        if (underText5 == undefined){
+            underText5 = " ";
+        }
+        if (underText6 == undefined){
+            underText6 = " ";
+        }
+
         ctz.fillText(underText1, 10, 30);
         ctz.fillText(underText2, 10, 55);
         ctz.fillText(underText3, 10, 80);
