@@ -46,13 +46,33 @@ var underText6 = "";
 
 var thor_next_to = "nothing";
 
-
+// graphics for obstacles
+var bushPic = new Image(); 
+bushPic.src = 'assets/obstacles/bush.png';
 // grahics for items
-var keyPic = new Image();
+
+var liconPic = new Image(); //lightening icon for health bar
+liconPic.src = 'assets/items/lightening.png';
+
+var keyPic = new Image(); //key
 keyPic.src = 'assets/items/key_sm.png';
 
-var spiderPic = new Image();
+var mushPic = new Image(); //mushrooms
+mushPic.src = 'assets/items/mushroom.png';
+
+var ssPic = new Image(); //secret squiril
+ssPic.src = 'assets/items/squiril.png';
+
+var heartPic = new Image(); //heart for power up
+heartPic.src = 'assets/items/heart.png';
+
+var spiderPic = new Image(); //spider
 spiderPic.src = 'assets/spider/spider.png';
 
-var giantPic = new Image();
+var giantPic = new Image(); //ice Giant currently looking down (s) giants are not currently animated but ther is the graphics to do it 
 giantPic.src = 'assets/giant/giant_one_s.png';
+
+
+// graphics for NPC's
+var npcPic = new Image(); //  
+npcPic.src = 'assets/npc/wiz1.png';

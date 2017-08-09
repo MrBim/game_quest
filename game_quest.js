@@ -142,11 +142,37 @@ function drawunderparts() {
         quit();
     } 
     else {
-
-        ctz.fillStyle = "#f00"
+        // health bar
+        ctz.fillStyle = "#f00" 
         ctz.fillRect(((width / 2) + 10), 10, ((((width / 2) - 20) / 100) * thor.health), 20);
+        // lightening bolt on health bar 
+        if (thor.health == 100){
+            ctz.beginPath();
+            ctz.drawImage(liconPic, 960, 5, 30, 30);
+            ctz.closePath();
+        }
+        // text for all the talking
         ctz.fillStyle = "#000"
         ctz.font = "25px Arial";
+        if (underText1 == undefined){
+            underText1 = " ";
+        }
+        if (underText2 == undefined){
+            underText2 = " ";
+        }
+        if (underText3 == undefined){
+            underText3 = " ";
+        }
+        if (underText4 == undefined){
+            underText4 = " ";
+        }
+        if (underText5 == undefined){
+            underText5 = " ";
+        }
+        if (underText6 == undefined){
+            underText6 = " ";
+        }
+
         ctz.fillText(underText1, 10, 30);
         ctz.fillText(underText2, 10, 55);
         ctz.fillText(underText3, 10, 80);
@@ -155,7 +181,19 @@ function drawunderparts() {
         ctz.fillText(underText6, 10, 155);
         ctz.fill;
     }
+    // inventory
+    ctz.beginPath();
+    for(var i =0; i < thor.items.length; i++){
+        if (i < 5){
+            ctz.drawImage(thor.items[i].sprite,((500 + (i * 88)) + 10), 40, 70, 70);
+        }
+        else{
+             ctz.drawImage(thor.items[i].sprite, 120,((i * 88) + 10), 70, 70);
+        }  
+    }
+    ctz.closePath();
 }
+
 // "new" functions to simplify hit-detection code:
 function itCantGoThere(mover) {
 
@@ -583,7 +621,7 @@ function quit() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-function stopMusic() {
+function stopMusic() { // should really put the music back in shouldnt i (it is now an mp3 in the assets folder)
     gameMusic.pause();
 }
 

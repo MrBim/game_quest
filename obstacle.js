@@ -21,7 +21,21 @@ function Obstacle(id, xPos, yPos, width, height, colour, questItem) {
         ctx.fill();
     };
 }
-
+function picObstacle(id, sprite, xPos, yPos, width, height, questItem) {
+    this.type = "Obstacle";
+    this.id = id;
+    this.sprite = sprite;
+    this.xPos = xPos;
+    this.yPos = yPos;
+    this.width = width;
+    this.height = height;
+    this.questItem = questItem;
+    this.draw = function() {
+        ctx.beginPath();
+        ctx.drawImage(this.sprite, this.xPos, this.yPos, this.height, this.width);
+        ctx.closePath();
+    };
+}
 // Note: Object is used here to determine an obstacle, item or character.
 // This is function is passed an array objects with xPos1, yPos1, xPos2, yPos2 co-ordinates and will iterate through
 // them and decide if Thor is going to hit them or not.
