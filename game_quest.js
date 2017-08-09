@@ -435,8 +435,27 @@ function enemyMovement() {
         var currentYPos = enemy.yPos;
         enemy.move();
         if (itCantGoThere(enemy)) {
-            enemy.xPos = currentXPos;
-            enemy.yPos = currentYPos;
+            // try moving individually in both x and y-dirs, to see if that position is OK:
+            let testEnemyX = {
+                id: enemy.id,
+                xPos: enemy.xPos,
+                yPos: currentYPos,
+                width: enemy.width,
+                height: enemy.height
+            };
+            let testEnemyY = {
+                id: enemy.id,
+                xPos: currentXPos,
+                yPos: enemy.yPos,
+                width: enemy.width,
+                height: enemy.height
+            };
+            if (itCantGoThere(testEnemyX)) {
+                enemy.xPos = currentXPos;
+            }
+            if (itCantGoThere(testEnemyY)) {
+                enemy.yPos = currentYPos;
+            }
             // hacky way to try to allow randomly-moving enemies to instantly "try again"
             // when they've hit an obstacle.
             if (enemy.timeInSameDir) {
