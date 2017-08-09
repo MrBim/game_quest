@@ -244,7 +244,7 @@ var PuzzlePeice1_3 = new PuzzlePeice("puzOb2_3", 280,100,40,40, "#d85504", "#fff
 
 var item1_1 = new Item("item1_1", "Magic Mushrooms");
 var item1_2 = new Item("item1_1", "Secret Squirrel");
-var powerUp1 = new Item("powerup", "Power Up 1", width-wallThickness-30, (height/2)-50, 30, 30, "yellow");
+var powerUp1 = new picItem("powerup", "Power Up 1", heartPic, width-wallThickness-30, (height/2)-50, 30, 30, "yellow");
 var obstacle1_1 = new Obstacle("ob1_1", 50,180,40,40, "blue");
 var obstacle1_2 = new Obstacle("ob1_2", 90,90,60,60, "blue", item1_2);
 var obstacle1_3 = new Obstacle("ob1_3", 250,250,80, 80, "blue");

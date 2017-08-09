@@ -48,11 +48,19 @@ var thor_next_to = "nothing";
 
 
 // grahics for items
-var keyPic = new Image();
+var keyPic = new Image(); //key
 keyPic.src = 'assets/items/key_sm.png';
 
-var spiderPic = new Image();
+var heartPic = new Image(); //heart for power up
+heartPic.src = 'assets/items/heart.png';
+
+var spiderPic = new Image(); //spider
 spiderPic.src = 'assets/spider/spider.png';
 
-var giantPic = new Image();
+var giantPic = new Image(); //ice Giant currently looking down (s) giants are not currently animated but ther is the graphics to do it 
 giantPic.src = 'assets/giant/giant_one_s.png';
+
+
+// graphics for NPC's
+var npcPic = new Image(); //  
+npcPic.src = 'assets/npc/wiz1.png';

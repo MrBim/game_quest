@@ -583,7 +583,7 @@ function quit() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-function stopMusic() {
+function stopMusic() { // should really put the music back in shouldnt i (it is now an mp3 in the assets folder)
     gameMusic.pause();
 }
 

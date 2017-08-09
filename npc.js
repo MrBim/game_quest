@@ -50,9 +50,12 @@ function NPC (id, name, xPos, yPos, width, height, colour, greeting, dialogueLis
     // replace with graphic here
     this.draw = function() {
         ctx.beginPath();
-        ctx.fillStyle=this.colour;
-        ctx.rect(this.xPos,this.yPos,this.width,this.height);
-        ctx.fill();
+        // ctx.fillStyle=this.colour;
+        // ctx.rect(this.xPos,this.yPos,this.width,this.height);
+        // ctx.fill();
+
+        ctx.drawImage(npcPic, this.xPos, this.yPos, this.height, this.width);
+        ctx.closePath();
     };
 }
 

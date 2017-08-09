@@ -26,6 +26,23 @@ function Item(id, name, xPos, yPos, width, height, colour) {
         ctx.fill();
     };
 }
+function picItem(id, name, sprite, xPos, yPos, width, height, colour) {
+    this.type = "Item";
+    this.id = id;
+    this.name = name;
+    this.sprite = sprite;
+    this.xPos = xPos;
+    this.yPos = yPos;
+    this.width = width;
+    this.height = height;
+    this.colour = colour;
+    this.draw = function() {
+        ctx.beginPath();
+        ctx.drawImage(this.sprite, this.xPos, this.yPos, this.height, this.width);
+        ctx.closePath();
+    };
+}
+
 
 document.body.addEventListener("keydown", function(e) {
     //Using the I 'item' key
