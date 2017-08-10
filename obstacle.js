@@ -32,7 +32,7 @@ function picObstacle(id, sprite, xPos, yPos, width, height, questItem) {
     this.questItem = questItem;
     this.draw = function() {
         ctx.beginPath();
-        ctx.drawImage(this.sprite, this.xPos, this.yPos, this.height, this.width);
+        ctx.drawImage(this.sprite, this.xPos, this.yPos, this.width, this.height);
         ctx.closePath();
     };
 }
