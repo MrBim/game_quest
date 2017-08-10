@@ -29,7 +29,7 @@ var thor = {
     thorPicTwoW: new Image(),
 
     // need to know starting location
-    currentTile: NWTile,
+    currentTile: startTile,
 
     // set properties to force lightning to not be able to be fired continuously (the value below means approx.
     // 4 bolts per second can be fired) - and enable it to be fired right at the start if needed
