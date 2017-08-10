@@ -182,13 +182,25 @@ function drawunderparts() {
         ctz.fill;
     }
     // inventory
-    ctz.beginPath();
+   
     for(var i =0; i < thor.items.length; i++){
-        if (i < 5){
-            ctz.drawImage(thor.items[i].sprite,((500 + (i * 88)) + 10), 40, 70, 70);
+        if (i < 10){
+            ctz.fillStyle = "#750";
+            ctz.fillRect(((510 + (i * 49)) + 10), 40, 39, 39);
         }
         else{
-             ctz.drawImage(thor.items[i].sprite, 120,((i * 88) + 10), 70, 70);
+            ctz.fillStyle = "#750";
+             ctz.fillRect((510 + (i * 49)), 90, 39, 39);
+        }  
+    }
+
+    ctz.beginPath();
+    for(var i =0; i < thor.items.length; i++){
+        if (i < 10){
+            ctz.drawImage(thor.items[i].sprite,((510 + (i * 49)) + 10), 40, 39, 39);
+        }
+        else{
+             ctz.drawImage(thor.items[i].sprite, 120,(510 + (i * 49) + 10), 39, 39);
         }  
     }
     ctz.closePath();

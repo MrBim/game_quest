@@ -267,7 +267,7 @@ var PuzzlePeice3_5 = new PuzzlePeice("puzOb2_5", 370,100,40,40, "#d85504", "#fff
 var key3_1 = new picItem("key", "Magic Key 2", keyPic);
 var key3_2 = new picItem("key", "Magic Key 3", keyPic, 350,350,40, 40, "yellow");
 var npc3_1 = new NPC("npc3_1", "Wizard Bert", 450,450,40, 40, "black", "Hello Thor", [[{speaker: "npc", speech:"You need to complete the puzzle above for the key to the centre door (in the next room) to appear in the next room!"}, {speaker: "npc", speech:"To leave this room you will need the key I have, please take it"}], [{speaker: "npc", speech:"You have the key now, you can continue your quest"}, {speaker: "Thor", speech:"Smashing!"}]], key3_1);
-var obstacle3_1 = new picObstacle("ob3_1", bushPic, 10,10,40,40, "red");
+var obstacle3_1 = new picObstacle("ob3_1", bushPic, 30,30,40,40, "red");
 var item3_1 = new Item("item3_1", "Item (could have been a key) Placed by Puzzle", 150,150,20, 20, "Yellow");
 
 /* This first room is the top-left of the square - so it has an ID of "NW".
