@@ -78,7 +78,7 @@ function picEnemy (id, startXPos, startYPos, width, height, sprite, speed, move,
             ctx.fill();
         }
         else {
-             ctx.drawImage(this.sprite, this.xPos, this.yPos, this.height, this.width);
+             ctx.drawImage(this.sprite, this.xPos, this.yPos, this.width, this.height);
              ctx.closePath();
         }
     };

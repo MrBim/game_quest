@@ -38,7 +38,7 @@ function picItem(id, name, sprite, xPos, yPos, width, height, colour) {
     this.colour = colour;
     this.draw = function() {
         ctx.beginPath();
-        ctx.drawImage(this.sprite, this.xPos, this.yPos, this.height, this.width);
+        ctx.drawImage(this.sprite, this.xPos, this.yPos, this.width, this.height);
         ctx.closePath();
     };
 }

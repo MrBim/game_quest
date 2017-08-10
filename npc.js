@@ -54,7 +54,7 @@ function NPC (id, name, xPos, yPos, width, height, colour, greeting, dialogueLis
         // ctx.rect(this.xPos,this.yPos,this.width,this.height);
         // ctx.fill();
 
-        ctx.drawImage(npcPic, this.xPos, this.yPos, this.height, this.width);
+        ctx.drawImage(npcPic, this.xPos, this.yPos, this.width, this.height);
         ctx.closePath();
     };
 }
