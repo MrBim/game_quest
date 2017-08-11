@@ -371,9 +371,10 @@ var startTileLockedDoor = new EWallDoor((height-100)/2, 100);
 // insert "pointer" for this door when I put in that room!
 startTileLockedDoor.locked = true;
 var helpfulGuy = new NPC("wizardGuy", "Just a wizard", 300, 500, 40, 40, "black",
-    "Oh? are you Thor? Don't mind me, I'm just a wizard", [{speaker: "Thor", speech: "Come again?"},
-    {speaker: "Npc", speech: "Oh, nothing. You'll notice that there are a few locked doors around - but I think there's something you should be able to do to get through them."},
-    {speaker: "Thor", speech: "Well, thanks your help I guess..."}, {speaker: "Npc", speech: "Don't mention it."}]);
+    "Don't mind me.", [[{speaker: "Thor", speech: "Come again?"},
+    {speaker: "Npc", speech: "Oh, nothing. You'll notice that there are", speech1: "a few locked doors around - ",
+    speech2: "but I think there's something you should", speech3: "be able to do to get through them."},
+    {speaker: "Thor", speech: "Well, thanks your help I guess..."}, {speaker: "Npc", speech: "Don't mention it."}]]);
 var startTile = new MapTile("startingTile", [startTileNorthDoor1, startTileNorthDoor2, startTileLockedDoor], [],
     [helpfulGuy], [], [], "black", "white");
 
@@ -391,4 +392,5 @@ twinRoomDoor2.pointer = ["startingTile", "startTileNorthDoor2"];
 var dividingWall = new Obstacle("wall", (width-80)/2, wallThickness, 80, height-2*wallThickness, "#666");
 // items: a key, behind the locked door!
 var startKey = new picItem("startKey", "startKey", keyPic, width-wallThickness-270, (height-40)/2, 40, 40);
+startKey.unlocks = startTileLockedDoor;
 var twinRoom = new MapTile("twinRoom", [twinRoomDoor1, twinRoomDoor2], [startKey], [], [dividingWall], [], "brown", "white");
