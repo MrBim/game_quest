@@ -13,13 +13,11 @@ In a bid to create a faithful replication of an 80's game, quirks which were com
 Over to Bim our creative genius to explain ;-)
 
 
-
 ## How can I play?
-The Arrow keys to move the mighty Thor around the map.
-
-A (Action) - This enables the player to pick up items they're next too, take items from Non-Playable Characters (NPC's) when offered and interact with puzzle pieces.
-S (Speech) - This enables the player to see the dialogue between Thor and NPC's.
-D (Death!) - This enables Thor to unleash his anger on those who displease him! Either through his lightening bolts or sword.
+- The Arrow keys to move the mighty Thor around the map.
+- A (Action): This enables the player to pick up items they're next too, take items from Non-Playable Characters (NPC's) when offered and interact with - puzzle pieces.
+- S (Speech): This enables the player to see the dialogue between Thor and NPC's.
+- D (Death!): This enables Thor to unleash his anger on those who displease him! Either through his lightening bolts or sword.
 
 
 ## Beta Release
@@ -46,7 +44,7 @@ Once this is complete the next step will be a code review, after which the first
  	- Enemies which move directly towards Thor
  	- Enemies which move randomly
 
-###Functionality to be implemented:
+### Functionality to be implemented:
  - Full Landscape Graphics
  - Full Inventory Graphics
 
