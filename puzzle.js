@@ -30,7 +30,7 @@ function PuzzlePeice(id, xPos, yPos, width, height, colour, puzzleCompleteVal, p
     this.puzzleCompleteVal = puzzleCompleteVal;
     this.allPossibleVals = puzzleValRange;
     this.puzzleSuccess = false;
-    this.puzzlePointer = Math.floor((Math.random() * (this.allPossibleVals.length - 1)) + 0);
+    this.puzzlePointer = Math.floor(Math.random() * (this.allPossibleVals.length));
     this.draw = function() {
         ctx.beginPath();
         ctx.fillStyle = this.colour;
@@ -59,7 +59,7 @@ if Thor is facing a puzzle button (ie, to check if puzzle complete).....
 function checkPuzzle() {
     if (puzzlingOK) {
         //Is Thor next to an puzzle Obstacle?
-        if (thor.nextToType == "PuzzlePeice" && thor.currentTile.PuzzleComplete === false) {
+        if (thor.nextToType == "PuzzlePeice" && !thor.currentTile.PuzzleComplete) {
             //work out which obstacle
             for (var i = 0; i < thor.currentTile.PuzzlePeices.length; i++) {
                 //find the item within the currentTile.items array
@@ -132,7 +132,7 @@ function checkPuzzle() {
                         thor.currentTile.PuzzlePeices[i].puzzlePointer += 1;
 
                         //Ensure the pointer doesn't get incremented beyond array length
-                        if (thor.currentTile.PuzzlePeices[i].puzzlePointer == (thor.currentTile.PuzzlePeices[i].allPossibleVals.length - 1)) {
+                        if (thor.currentTile.PuzzlePeices[i].puzzlePointer == (thor.currentTile.PuzzlePeices[i].allPossibleVals.length)) {
                             thor.currentTile.PuzzlePeices[i].puzzlePointer = 0;
                         }
                     }
