@@ -444,4 +444,17 @@ mazeDoorW.pointer = ["startingTile", "startTileLockedDoor"];
 var mazeDoorE = new EWallDoor((height-100)/2, 100);
 mazeDoorE.doorID = "mazeDoorE";
 mazeDoorE.pointer = []; // empty for now, just to avoid errors being thrown. Will fill in later when I have a tile to go to!
-var maze = new MapTile("maze", [mazeDoorW, mazeDoorE], [], [], [], [], "black", "white");
+// items: will need a powerup to make sure lightning is able to be fired!
+var mazePowerUp = new picItem("powerup", "mazePowerUp", heartPic, 50, 400, 40, 40);
+// obstacles (a lot!):
+// first actual maze walls
+var wall1N = new Obstacle("mazeWall1N", 200, wallThickness, wallThickness, height/2-wallThickness, "white");
+var wall1S = new Obstacle("mazeWall1S", 200, height/2, wallThickness, height/2-wallThickness, "white");
+// now the "switches" at the top;
+var switch1 = new Obstacle("switch1", 75, wallThickness, 20, 20, "red");
+switch1.action = function() {
+    wall1N.height = (wall1N.height==height/2-wallThickness ? height/2-wallThickness-30 : height/2-wallThickness);
+    wall1S.yPos = (wall1S.yPos==height/2 ? height/2+30 : height/2);
+    wall1S.height = (wall1S.height==height/2-wallThickness ? height/2-wallThickness-30 : height/2-wallThickness);
+}
+var maze = new MapTile("maze", [mazeDoorW, mazeDoorE], [mazePowerUp], [], [wall1N, wall1S, switch1], [], "black", "white");

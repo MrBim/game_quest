@@ -79,13 +79,13 @@ function hitDetection(mover, thingsToAvoid, tolerance, pointingDirection){
 
                 }
 
-                else if (thingsToAvoid[i].type == "Obstacle" && mover == thor){
+                else if (thingsToAvoid[i].type == "Obstacle" && (mover == thor || lightning.positions.indexOf(mover)!=-1)){
                     //recorded for use with button press activities (so Thor knows obstacle he is infront of)
                     thor.nextToID = thingsToAvoid[i].id;
                     thor.nextToType = thingsToAvoid[i].type;
                     // do the action associated with the obstacle, if it has one and thor is pressing the interact button:
-                    if (keys[73] && thor.thingsToAvoid[i].action) {
-                        thor.thingsToAvoid[i].action();
+                    if ((lightning.positions.indexOf(mover)!=-1) && thingsToAvoid[i].action) {
+                        thingsToAvoid[i].action();
                     }
                 }
 
@@ -114,4 +114,16 @@ function hitDetection(mover, thingsToAvoid, tolerance, pointingDirection){
         }
 
     }
+}
+
+function obstacleInteract() {
+    if (obstacleInteraction && thor.nextToType == "Obstacle") {
+        // cycle through obstacles to find which one he's next to and interactable with:
+        for (var i=0; i<thor.currentTile.obstacles.length; i++) {
+            if (thor.currentTile.obstacles[i].id==thor.nextToID && thor.currentTile.obstacles[i].action) {
+                thor.currentTile.obstacles[i].action();
+            }
+        }
+    }
+    obstacleInteraction = false;
 }

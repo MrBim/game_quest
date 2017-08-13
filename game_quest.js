@@ -663,6 +663,7 @@ function gameLoop() {
     thor_healthCheck();
     // words();
     obtainItem();
+    obstacleInteract();
     //To enable diaglogue with NPC's on key press (C)
     npcButtonChat();
     thor.lightningFrameCount++;
