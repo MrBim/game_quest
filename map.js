@@ -235,125 +235,6 @@ MapTile.prototype.getWallSegments = function() {
         Characters are Black
 */
 
-
-
-
-// var PuzzlePeice1_1 = new PuzzlePeice("puzOb2_1", 190,100,40,40, "#d85504", "#ffffff", ["#ffffff","#ddb89b","#e2a77a", "#e09257","#e0782a"]);
-// var PuzzlePeice1_2 = new PuzzlePeice("puzOb2_2", 235,100,40,40, "#d85504", "#ffffff", ["#ffffff","#ddb89b","#e2a77a", "#e09257","#e0782a"]);
-// var PuzzlePeice1_3 = new PuzzlePeice("puzOb2_3", 280,100,40,40, "#d85504", "#ffffff", ["#ffffff","#ddb89b","#e2a77a", "#e09257","#e0782a"]);
-
-// var item1_1 = new picItem("item1_1", "Magic Mushrooms", mushPic);
-// var item1_2 = new picItem("item1_1", "Secret Squirrel", ssPic); // -------------------------
-// var powerUp1 = new picItem("powerup", "Power Up 1", heartPic, width-wallThickness-30, (height/2)-50, 30, 30, "yellow");
-// var obstacle1_1 = new picObstacle("ob1_1", bushPic, 50,180,40,40);
-// var obstacle1_2 = new picObstacle("ob1_2", bushPic, 90,90,60,60, item1_2);
-// var obstacle1_3 = new picObstacle("ob1_3", bushPic, 250,250,80, 80);
-
-// var npc1_1 = new NPC("npc1_1","Grand Wizard Malcom", 450,450,40, 40, "black", "Hello Thor", [[{speaker:"Thor", speech:"Hello", speech1:" ", speech2:" ", speech3:" " }, {speaker:"Npc", speech:"I have some magic mushrooms", speech1: "to make your quest more interesting ", speech2: "please take them from me (I button)", speech3:" "}], [{speaker:"npc", speech:"I am not giving you any more magic mushrooms,", speech1: "this is a quest not a party", speech2: "go and solve the puzzle!", speech3:" "}, {speaker:"Thor", speech:"Meanie", speech1:" ", speech2:" ", speech3:" "}], []], item1_1);
-// var npc1_2 = new NPC("npc1_2","Lazy Wizard Bert", 550,450,40, 40, "black", "Hello Thor", [[{speaker:"Thor", speech:"Hello", speech1:" ", speech2:" ", speech3:" "}, {speaker:"Npc", speech:"You MUST complete puzzle to obtain", speech1: "the key for the door so you can begin", speech2: "your quest! Use the P key", speech3:" "}, { speaker:"Npc", speech:"to change each brown puzzle element to", speech1:"white. Remember to come back to", speech2: "speak to me, after you have completed", speech3:"the puzzle!"}, {speaker:"Thor", speech:"Oh, thanks, will do", speech1:" ", speech2:" ", speech3:" "}], [], [{speaker:"npc", speech:"I see you have completed the puzzle", speech1: "and have opened the door!", speech2: "Good luck on your quest dear boy", speech3:" "}, {speaker:"Thor", speech:"Who are you calling 'boy' sunshine?", speech1:" ", speech2:" ", speech3:" "}, {speaker:"npc", speech:"Oh,", speech1: "get on with your quest", speech2: "before I magic you into a donkey", speech3:" "}, {speaker:"Thor", speech:"Eeeek! I'll be off!", speech1:" ", speech2:" ", speech3:" "}]]);
-
-// var key1_1 = new picItem("key", "Magic Key 1",keyPic);
-
-// var key2_1 = new picItem("key", "Magic Key 1",keyPic, 350,350,40, 40, "yellow");
-// var npc2_1 = new NPC("npc2_1", "Junior Wizard Colin", 450,450,40, 40, "black", "Hello Thor", [[{speaker: "npc", speech:"To leave this room you will need the key up there (yellow block), this key opens the door in the current room, but sometimes they open doors in future rooms too!"}, {speaker: "Thor", speech:"Hmmm *strokes chin*, very interesting - I will remember that"}, {speaker: "Thor", speech:"Cheers Big Ears"}], [], [{speaker: "npc", speech:"You have the key, now on with your quest!"}, {speaker: "npc", speech:"And don't call me big ears!"}]]);
-
-
-// var PuzzlePeice3_1 = new PuzzlePeice("puzOb2_1", 190,100,40,40, "#d85504", "#ffffff", ["#ffffff","#ddb89b","#e2a77a", "#e09257","#e0782a"]);
-// var PuzzlePeice3_2 = new PuzzlePeice("puzOb2_2", 235,100,40,40, "#d85504", "#ffffff", ["#ffffff","#ddb89b","#e2a77a", "#e09257","#e0782a"]);
-// var PuzzlePeice3_3 = new PuzzlePeice("puzOb2_3", 280,100,40,40, "#d85504", "#ffffff", ["#ffffff","#ddb89b","#e2a77a", "#e09257","#e0782a"]);
-// var PuzzlePeice3_4 = new PuzzlePeice("puzOb2_4", 325,100,40,40, "#d85504", "#ffffff", ["#ffffff","#ddb89b","#e2a77a", "#e09257","#e0782a"]);
-// var PuzzlePeice3_5 = new PuzzlePeice("puzOb2_5", 370,100,40,40, "#d85504", "#ffffff", ["#ffffff","#ddb89b","#e2a77a", "#e09257","#e0782a"]);
-
-// var key3_1 = new picItem("key", "Magic Key 2", keyPic);
-// var key3_2 = new picItem("key", "Magic Key 3", keyPic, 350,350,40, 40, "yellow");
-// var npc3_1 = new NPC("npc3_1", "Wizard Bert", 450,450,40, 40, "black", "Hello Thor", [[{speaker: "npc", speech:"You need to complete the puzzle above for the key to the centre door (in the next room) to appear in the next room!"}, {speaker: "npc", speech:"To leave this room you will need the key I have, please take it"}], [{speaker: "npc", speech:"You have the key now, you can continue your quest"}, {speaker: "Thor", speech:"Smashing!"}]], key3_1);
-// var obstacle3_1 = new picObstacle("ob3_1", bushPic, 30,30,40,40, "red");
-// var item3_1 = new Item("item3_1", "Item (could have been a key) Placed by Puzzle", 150,150,20, 20, "Yellow");
-
-/* This first room is the top-left of the square - so it has an ID of "NW".
-It will just have a door to the East, connecting to room "NE" */
-
-// var NWDoorE = new EWallDoor(30, 80);
-// NWDoorE.doorID = "NWDoorE";
-// NWDoorE.pointer = ["NE", "NEDoorW"];
-// var NWTile = new MapTile("NW", [NWDoorE], [key1_1, powerUp1], [npc1_1, npc1_2], [obstacle1_1, obstacle1_2, obstacle1_3], [xOscillator, randomMover], "#02b109", "black"); // honouring Bim's original choice of colour!
-
-
-// NE tile will have doors to the West and South
-// var NEDoorW = new WWallDoor(30, 70);
-// NEDoorW.doorID = "NEDoorW";
-// NEDoorW.pointer = ["NW", "NWDoorE"];
-// var NEDoorS = new SWallDoor (width-120, 100);
-// NEDoorS.doorID = "NEDoorS";
-// NEDoorS.pointer = ["SE", "SEDoorN"];
-// var NETile = new MapTile("NE", [NEDoorW, NEDoorS], [key2_1], [npc2_1], [], [], "red", "green"); //my own colour choices are more boring ;)
-
-
-// similary SE tile will have doors to North and West
-// var SEDoorN = new NWallDoor(width-120, 100);
-// SEDoorN.doorID = "SEDoorN";
-// SEDoorN.pointer = ["NE", "NEDoorS"];
-// var SEDoorW = new WWallDoor(height/2 - 100, 200);
-// SEDoorW.doorID = "SEDoorW";
-// SEDoorW.pointer = ["SW", "SWDoorE"];
-// var SETile = new MapTile("SE", [SEDoorN, SEDoorW], [], [npc3_1], [obstacle3_1], [itsFollowingMe], "blue", "yellow");
-
-// finally a SW tile with only a door to the East (the whole map is a bent path of 4 rooms, not a circuit)
-// var SWDoorE = new EWallDoor(height/2 - 100, 200);
-// SWDoorE.doorID = "SWDoorE";
-// SWDoorE.pointer = ["SE", "SEDoorW"];
-// let's add a centre door to this tile, for some fun and to see if it works. It will take the player back to the
-// first (NW) tile,
-// var SWCentreDoor = new CentreDoor(width/2 - 20, 2*height/3, width/2 + 20, 3*height/4, "red");
-// SWCentreDoor.doorID = "SWCentreDoor";
-// SWCentreDoor.pointer = ["NW", "NWDoorE"];
-// var SWTile = new MapTile("SW", [SWDoorE, SWCentreDoor], [], [], [], [funnyPath], "blue", "hotpink");
-
-
-//Adding in puzzles!
-
-//Adding a key to unlock door
-//1) define the key to unlock door
-//2) lock the door
-//Locks/Unlocks door on first screen
-// key1_1.unlocks = NWDoorE;
-// NWDoorE.locked = true;
-
-// key2_1.unlocks = NEDoorS;
-// NEDoorS.locked = true;
-
-// key3_1.unlocks = SEDoorW;
-// SEDoorW.locked = true;
-
-// key3_2.unlocks = SWCentreDoor;
-// SWCentreDoor.locked = true;
-
-
-//PUZZLE - changing NPC chat after puzzle completion
-//1) Put a new array of conversation in the NPC conversation array
-//2) Create the puzzle peices, then add them
-//3) Give the id of the NPC whos convo needs to change
-// NWTile.PuzzlePeices = [PuzzlePeice1_1, PuzzlePeice1_2, PuzzlePeice1_3];
-// NWTile.PuzzleComplete = false;
-// NWTile.newChatNPC_id = "npc1_2";
-
-
-
-
-//PUZZLE - adding item after puzzle completion
-//1) Create the seperate puzzle pieces
-//2) Create the item to add
-//3) Add the seperate puzzle pieces into PuzzlePieces array
-//4) Set which map on which item is to appear
-//4) Assign item to be placed
-//NETile.PuzzlePeices = [PuzzlePeice2_1, PuzzlePeice2_2];
-
-// SETile.PuzzlePeices = [PuzzlePeice3_1, PuzzlePeice3_2, PuzzlePeice3_3, PuzzlePeice3_4, PuzzlePeice3_5];
-// SETile.PuzzleComplete = false;
-// SETile.targetMapTile = SWTile;
-// SETile.itemToPlace = key3_2;
-
-
 // ACTUAL prototype map starts construction here!
 
 // generate random colours in order to randomise first puzzle colours (means the player always has to
@@ -448,13 +329,35 @@ mazeDoorE.pointer = []; // empty for now, just to avoid errors being thrown. Wil
 var mazePowerUp = new picItem("powerup", "mazePowerUp", heartPic, 50, 400, 40, 40);
 // obstacles (a lot!):
 // first actual maze walls
-var wall1N = new Obstacle("mazeWall1N", 200, wallThickness, wallThickness, height/2-wallThickness, "white");
+var wall1N = new Obstacle("mazeWall1N", 200, wallThickness+31, wallThickness, height/2-wallThickness-31, "white");
 var wall1S = new Obstacle("mazeWall1S", 200, height/2, wallThickness, height/2-wallThickness, "white");
-// now the "switches" at the top;
-var switch1 = new Obstacle("switch1", 75, wallThickness, 20, 20, "red");
+var wall2N = new Obstacle("mazeWall2N", 400, wallThickness+31, wallThickness, 89-wallThickness, "white");
+var wall2S = new Obstacle("mazeWall2S", 400, 120, wallThickness, height-wallThickness-220, "white");
+var wall3W = new Obstacle("mazeWall3W", 231+wallThickness, height-wallThickness-100, 69-wallThickness/2, wallThickness, "white");
+var wall3E = new Obstacle("mazeWall3E", 300+wallThickness/2, height-wallThickness-100, width-360-3*wallThickness/2, wallThickness, "white");
+var wall4 = new Obstacle("mazeWall4", 400+wallThickness, 150, width-400-2*wallThickness, wallThickness, "white");
+var wall5W = new Obstacle("mazeWall5W", 400+wallThickness, 450, width/2-230-wallThickness, wallThickness, "white");
+var wall5E = new Obstacle("mazeWall5E", 230+width/2, 450, width/2-230-wallThickness, wallThickness, "white");
+// now the "switches" which open and close the gaps in the walls;
+var switch1 = new Obstacle("switch1", (200-wallThickness)/2-10, wallThickness, 20, 20, "red");
+var switch2 = new Obstacle("switch2", 200+wallThickness, 150, 20, 20, "red");
+var switch3 = new Obstacle("switch3", 400+wallThickness, 450+wallThickness, 20, 20, "red");
 switch1.action = function() {
-    wall1N.height = (wall1N.height==height/2-wallThickness ? height/2-wallThickness-30 : height/2-wallThickness);
+    wall1N.height = (wall1N.height==height/2-wallThickness-31 ? height/2-wallThickness-60 : height/2-wallThickness-31);
     wall1S.yPos = (wall1S.yPos==height/2 ? height/2+30 : height/2);
     wall1S.height = (wall1S.height==height/2-wallThickness ? height/2-wallThickness-30 : height/2-wallThickness);
+    wall5W.width = (wall5W.width==width/2-230-wallThickness ? width/2-200/wallThickness : width/2-230-wallThickness);
+    wall5E.xPos = (wall5E.xPos==230+width/2 ? 200+width/2 : 230+width/2);
+    wall5E.width = (wall5E.width==width/2-230-wallThickness ? width/2-200-wallThickness : width/2-230-wallThickness);
+};
+switch2.action = function() {
+    wall3W.width = (wall3W.width==69-wallThickness/2 ? 39-wallThickness/2 : 69-wallThickness/2);
+    wall3E.xPos = (wall3E.xPos==300+wallThickness/2 ? 330+wallThickness/2 : 300+wallThickness/2);
+    wall3E.width = (wall3E.width==width-360-3*wallThickness/2 ? width-330-3*wallThickness/2 : width-360-3*wallThickness/2);
+};
+switch3.action = function() {
+    wall2N.height = (wall2N.height==89-wallThickness ? 59-wallThickness : 89-wallThickness);
+    wall2S.yPos = (wall2S.yPos==120 ? 150 : 120);
+    wall2S.height = (wall2S.height==height-wallThickness-220 ? height-wallThickness-250 : height-wallThickness-220);
 }
-var maze = new MapTile("maze", [mazeDoorW, mazeDoorE], [mazePowerUp], [], [wall1N, wall1S, switch1], [], "black", "white");
+var maze = new MapTile("maze", [mazeDoorW, mazeDoorE], [mazePowerUp], [], [wall1N, wall1S, wall2N, wall2S, wall3W, wall3E, wall4, wall5W, wall5E, switch1, switch2, switch3], [], "black", "white");
