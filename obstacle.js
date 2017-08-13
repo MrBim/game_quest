@@ -83,6 +83,10 @@ function hitDetection(mover, thingsToAvoid, tolerance, pointingDirection){
                     //recorded for use with button press activities (so Thor knows obstacle he is infront of)
                     thor.nextToID = thingsToAvoid[i].id;
                     thor.nextToType = thingsToAvoid[i].type;
+                    // do the action associated with the obstacle, if it has one and thor is pressing the interact button:
+                    if (keys[73] && thor.thingsToAvoid[i].action) {
+                        thor.thingsToAvoid[i].action();
+                    }
                 }
 
                 else if (thingsToAvoid[i].type == "Item" && mover == thor){

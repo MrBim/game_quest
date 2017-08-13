@@ -356,6 +356,13 @@ It will just have a door to the East, connecting to room "NE" */
 
 // ACTUAL prototype map starts construction here!
 
+// generate random colours in order to randomise first puzzle colours (means the player always has to
+// look and can't just always know the answer :) 
+var randColNW = ["red", "yellow", "green", "blue"][Math.floor(Math.random()*4)];
+var randColNE = ["red", "yellow", "green", "blue"][Math.floor(Math.random()*4)];
+var randColSW = ["red", "yellow", "green", "blue"][Math.floor(Math.random()*4)];
+var randColSE = ["red", "yellow", "green", "blue"][Math.floor(Math.random()*4)];
+
 // first room has one puzzle, one NPC, and 3 exits. 2 to the North which lead into the same room, and one to the East
 // which is locked.
 
@@ -368,7 +375,8 @@ startTileNorthDoor2.doorID = "startTileNorthDoor2";
 startTileNorthDoor2.locked = true;
 startTileNorthDoor2.pointer = ["twinRoom", "twinRoomDoor2"];
 var startTileLockedDoor = new EWallDoor((height-100)/2, 100);
-// insert "pointer" for this door when I put in that room!
+startTileLockedDoor.doorID = "startTileLockedDoor";
+startTileLockedDoor.pointer = ["maze", "mazeDoorW"];
 startTileLockedDoor.locked = true;
 var helpfulGuy = new NPC("wizardGuy", "Just a wizard", 300, 500, 40, 40, "black",
     "Don't mind me.", [[{speaker: "Thor", speech: "Come again?"},
@@ -394,13 +402,13 @@ var helpfulGuy = new NPC("wizardGuy", "Just a wizard", 300, 500, 40, 40, "black"
 // This is a bit lame as a puzzle, but is the best I can come up with right now, based on the current code :)
 var ghostKey = new Item("key", "key");
 ghostKey.unlocks = startTileNorthDoor2;
-var redPuzzlePiece = new PuzzlePeice("red", wallThickness, wallThickness, 40, 40, "brown", "red", ["red", "yellow", "green", "blue"]);
-var yellowPuzzlePiece = new PuzzlePeice("yellow", width-wallThickness-40, wallThickness, 40, 40, "brown", "yellow", ["red", "yellow", "green", "blue"]);
-var greenPuzzlePiece = new PuzzlePeice("green", wallThickness, height-wallThickness-40, 40, 40, "brown", "green", ["red", "yellow", "green", "blue"]);
-var bluePuzzlePiece = new PuzzlePeice("blue", width-wallThickness-40, height-wallThickness-40, 40, 40, "brown", "blue", ["red", "yellow", "green", "blue"]);
+var NWPuzzlePiece = new PuzzlePeice("NW", wallThickness, wallThickness, 40, 40, "brown", randColNW, ["red", "yellow", "green", "blue"]);
+var NEPuzzlePiece = new PuzzlePeice("NE", width-wallThickness-40, wallThickness, 40, 40, "brown", randColNE, ["red", "yellow", "green", "blue"]);
+var SWPuzzlePiece = new PuzzlePeice("SW", wallThickness, height-wallThickness-40, 40, 40, "brown", randColSW, ["red", "yellow", "green", "blue"]);
+var SEPuzzlePiece = new PuzzlePeice("SE", width-wallThickness-40, height-wallThickness-40, 40, 40, "brown", randColSE, ["red", "yellow", "green", "blue"]);
 var startTile = new MapTile("startingTile", [startTileNorthDoor1, startTileNorthDoor2, startTileLockedDoor], [ghostKey],
     [helpfulGuy], [], [], "black", "white");
-startTile.PuzzlePeices = [redPuzzlePiece, yellowPuzzlePiece, greenPuzzlePiece, bluePuzzlePiece];
+startTile.PuzzlePeices = [NWPuzzlePiece, NEPuzzlePiece, SWPuzzlePiece, SEPuzzlePiece];
 
 // room to the North of start Tile - I call it the "twin room" because it is really 2 rooms in one, with a huge
 // obstacle right down the middle!
@@ -415,14 +423,25 @@ twinRoomDoor2.pointer = ["startingTile", "startTileNorthDoor2"];
 // the all-important full-length obstacle!
 var dividingWall = new Obstacle("wall", (width-80)/2, wallThickness, 80, height-2*wallThickness, "white");
 // items: a key, behind the locked door!
-var startKey = new picItem("startKey", "key", keyPic, width-wallThickness-270, (height-40)/2, 40, 40);
+var startKey = new picItem("key", "Key", keyPic, width-wallThickness-270, (height-40)/2, 40, 40);
+startKey.unlocks = startTileLockedDoor;
 // obstacles - which code for the puzzle solution in the first tile:
-var redPuzzleKey = new Obstacle("redPuzzleKey", (width+80)/2, wallThickness, 20, 20, "red");
-var yellowPuzzleKey = new Obstacle("yellowPuzzleKey", width-wallThickness-20, wallThickness, 20, 20, "yellow");
-var greenPuzzleKey = new Obstacle("greenPuzzleKey", (width+80)/2, height-wallThickness-20, 20, 20, "green");
-var bluePuzzleKey = new Obstacle("bluePuzzleKey", width-wallThickness-20, height-wallThickness-20, 20, 20, "blue");
+var NWPuzzleKey = new Obstacle("NWPuzzleKey", (width+80)/2, wallThickness, 20, 20, randColNW);
+var NEPuzzleKey = new Obstacle("NEPuzzleKey", width-wallThickness-20, wallThickness, 20, 20, randColNE);
+var SWPuzzleKey = new Obstacle("SWPuzzleKey", (width+80)/2, height-wallThickness-20, 20, 20, randColSW);
+var SEPuzzleKey = new Obstacle("SEPuzzleKey", width-wallThickness-20, height-wallThickness-20, 20, 20, randColSE);
 startKey.unlocks = startTileLockedDoor;
 // enemies:
 var giant1 = new picEnemy("giant", 200, 200, 40, 40, giantPic, 2, moveTowardsThor, 4);
 var spider1 = new picEnemy("spider", 800, 300, 40, 40, spiderPic, 5, randomMovement(10), 8);
-var twinRoom = new MapTile("twinRoom", [twinRoomDoor1, twinRoomDoor2], [startKey], [], [dividingWall, redPuzzleKey, yellowPuzzleKey, greenPuzzleKey, bluePuzzleKey], [giant1, spider1], "brown", "white");
+var twinRoom = new MapTile("twinRoom", [twinRoomDoor1, twinRoomDoor2], [startKey], [], [dividingWall, NWPuzzleKey, NEPuzzleKey, SWPuzzleKey, SEPuzzleKey], [giant1, spider1], "brown", "white");
+
+// third room. Going to try playing about with some "switches". (Basically obstacles that you can interact with)
+// they will change the position of other obstacles, so that you can 
+var mazeDoorW = new WWallDoor((height-100)/2, 100);
+mazeDoorW.doorID = "mazeDoorW";
+mazeDoorW.pointer = ["startingTile", "startTileLockedDoor"];
+var mazeDoorE = new EWallDoor((height-100)/2, 100);
+mazeDoorE.doorID = "mazeDoorE";
+mazeDoorE.pointer = []; // empty for now, just to avoid errors being thrown. Will fill in later when I have a tile to go to!
+var maze = new MapTile("maze", [mazeDoorW, mazeDoorE], [], [], [], [], "black", "white");
