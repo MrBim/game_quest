@@ -324,7 +324,7 @@ mazeDoorW.doorID = "mazeDoorW";
 mazeDoorW.pointer = ["startingTile", "startTileLockedDoor"];
 var mazeDoorE = new EWallDoor((height-100)/2, 100);
 mazeDoorE.doorID = "mazeDoorE";
-mazeDoorE.pointer = []; // empty for now, just to avoid errors being thrown. Will fill in later when I have a tile to go to!
+mazeDoorE.pointer = ["enemies", "enemiesWestDoor"]; // empty for now, just to avoid errors being thrown. Will fill in later when I have a tile to go to!
 // items: will need a powerup to make sure lightning is able to be fired!
 var mazePowerUp = new picItem("powerup", "mazePowerUp", heartPic, 280, 400, 40, 40);
 // obstacles (a lot!):
@@ -362,3 +362,26 @@ switch3.action = function() {
     wall2S.height = (wall2S.height==height-wallThickness-220 ? height-wallThickness-250 : height-wallThickness-220);
 }
 var maze = new MapTile("maze", [mazeDoorW, mazeDoorE], [mazePowerUp], [], [wall1N, wall1S, wall2N, wall2S, wall3W, wall3E, wall4, wall5W, wall5E, wall6, switch1, switch2, switch3], [], "black", "white");
+
+// 4th tile (final one for prototype): consists of several enemies, mostly giants who follow you, and have a ton of
+// health. The way to get past is to hide behind conveniently placed obstacles. There will be some spiders too!
+// only one door:
+var enemyDoorW = new WWallDoor((height-100)/2, 100);
+enemyDoorW.doorID = "enemiesWestDoor";
+enemyDoorW.pointer = ["maze", "mazeDoorE"];
+// npc just to tell you that you've finished!
+var finishConfirm = new NPC("finishGuy", "A wise old wizard", width-wallThickness-40, (height-40)/2, 40, 40, "black", "Greetings Thor.", 
+    [[{speaker: "NPC", speech: "You have completed this simple short", speech1: "adventure!"},
+    {speaker: "Thor", speech: "Thanks, wizardy wise dude!"},
+    {speaker: "NPC", speech: "Be sure to check out the full game,", speech1:"when those lazy developers finally make it."}]]);
+// enemies!! One super-giant in each corner, and one really annoying spider!
+var NWGiant = new picEnemy("NWgiant", wallThickness+10, wallThickness+10, 40, 40, giantPic, 3, moveTowardsThor, 20);
+var NEGiant = new picEnemy("NEgiant", width-wallThickness-50, wallThickness+10, 40, 40, giantPic, 3, moveTowardsThor, 20);
+var SWGiant = new picEnemy("SWgiant", wallThickness+10, height-wallThickness-50, 40, 40, giantPic, 3, moveTowardsThor, 20);
+var SEGiant = new picEnemy("SEgiant", width-wallThickness-50, height-wallThickness-50, 40, 40, giantPic, 3, moveTowardsThor, 20);
+var spider2 = new picEnemy("spider2", (width-40)/2, (height-40)/2, 40, 40, spiderPic, 5, randomMovement(5), 10);
+// all-important obstacles!
+// first a couple of walls to "shield" you right by the entrance
+var shieldWall1 = new Obstacle("shieldWall1", wallThickness, (height-100)/2-wallThickness, 100, wallThickness, "white");
+var shieldWall2 = new Obstacle("shieldWall2", wallThickness, (height+100)/2, 100, wallThickness, "white");
+var enemyTile = new MapTile("enemies", [enemyDoorW], [], [finishConfirm], [shieldWall1, shieldWall2], [NWGiant, NEGiant, SWGiant, SEGiant, spider2], "black", "white");
