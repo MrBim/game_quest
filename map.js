@@ -326,7 +326,7 @@ var mazeDoorE = new EWallDoor((height-100)/2, 100);
 mazeDoorE.doorID = "mazeDoorE";
 mazeDoorE.pointer = []; // empty for now, just to avoid errors being thrown. Will fill in later when I have a tile to go to!
 // items: will need a powerup to make sure lightning is able to be fired!
-var mazePowerUp = new picItem("powerup", "mazePowerUp", heartPic, 50, 400, 40, 40);
+var mazePowerUp = new picItem("powerup", "mazePowerUp", heartPic, 280, 400, 40, 40);
 // obstacles (a lot!):
 // first actual maze walls
 var wall1N = new Obstacle("mazeWall1N", 200, wallThickness+31, wallThickness, height/2-wallThickness-31, "white");
@@ -338,6 +338,7 @@ var wall3E = new Obstacle("mazeWall3E", 300+wallThickness/2, height-wallThicknes
 var wall4 = new Obstacle("mazeWall4", 400+wallThickness, 150, width-400-2*wallThickness, wallThickness, "white");
 var wall5W = new Obstacle("mazeWall5W", 400+wallThickness, 450, width/2-230-wallThickness, wallThickness, "white");
 var wall5E = new Obstacle("mazeWall5E", 230+width/2, 450, width/2-230-wallThickness, wallThickness, "white");
+var wall6 = new Obstacle("mazeWall6", 200+wallThickness, wallThickness+31, 200-wallThickness, wallThickness, "white");
 // now the "switches" which open and close the gaps in the walls;
 var switch1 = new Obstacle("switch1", (200-wallThickness)/2-10, wallThickness, 20, 20, "red");
 var switch2 = new Obstacle("switch2", 200+wallThickness, 150, 20, 20, "red");
@@ -356,8 +357,8 @@ switch2.action = function() {
     wall3E.width = (wall3E.width==width-360-3*wallThickness/2 ? width-330-3*wallThickness/2 : width-360-3*wallThickness/2);
 };
 switch3.action = function() {
-    wall2N.height = (wall2N.height==89-wallThickness ? 59-wallThickness : 89-wallThickness);
+    wall2N.height = (wall2N.height==89-wallThickness ? wallThickness : 89-wallThickness);
     wall2S.yPos = (wall2S.yPos==120 ? 150 : 120);
     wall2S.height = (wall2S.height==height-wallThickness-220 ? height-wallThickness-250 : height-wallThickness-220);
 }
-var maze = new MapTile("maze", [mazeDoorW, mazeDoorE], [mazePowerUp], [], [wall1N, wall1S, wall2N, wall2S, wall3W, wall3E, wall4, wall5W, wall5E, switch1, switch2, switch3], [], "black", "white");
+var maze = new MapTile("maze", [mazeDoorW, mazeDoorE], [mazePowerUp], [], [wall1N, wall1S, wall2N, wall2S, wall3W, wall3E, wall4, wall5W, wall5E, wall6, switch1, switch2, switch3], [], "black", "white");
