@@ -318,15 +318,15 @@ var spider1 = new picEnemy("spider", 800, 300, 40, 40, spiderPic, 5, randomMovem
 var twinRoom = new MapTile("twinRoom", [twinRoomDoor1, twinRoomDoor2], [startKey], [], [dividingWall, NWPuzzleKey, NEPuzzleKey, SWPuzzleKey, SEPuzzleKey], [giant1, spider1], "brown", "white");
 
 // third room. Going to try playing about with some "switches". (Basically obstacles that you can interact with)
-// they will change the position of other obstacles, so that you can 
+// they will change the position of other obstacles, allowing you to progress to different parts of the tile
 var mazeDoorW = new WWallDoor((height-100)/2, 100);
 mazeDoorW.doorID = "mazeDoorW";
 mazeDoorW.pointer = ["startingTile", "startTileLockedDoor"];
 var mazeDoorE = new EWallDoor((height-100)/2, 100);
 mazeDoorE.doorID = "mazeDoorE";
-mazeDoorE.pointer = ["enemies", "enemiesWestDoor"]; // empty for now, just to avoid errors being thrown. Will fill in later when I have a tile to go to!
+mazeDoorE.pointer = ["enemies", "enemiesWestDoor"];
 // items: will need a powerup to make sure lightning is able to be fired!
-var mazePowerUp = new picItem("powerup", "mazePowerUp", heartPic, 280, 400, 40, 40);
+var mazePowerUp = new picItem("powerup", "mazePowerUp", heartPic, width/2-80, height-80, 40, 40);
 // obstacles (a lot!):
 // first actual maze walls
 var wall1N = new Obstacle("mazeWall1N", 200, wallThickness+31, wallThickness, height/2-wallThickness-31, "white");
@@ -375,13 +375,23 @@ var finishConfirm = new NPC("finishGuy", "A wise old wizard", width-wallThicknes
     {speaker: "Thor", speech: "Thanks, wizardy wise dude!"},
     {speaker: "NPC", speech: "Be sure to check out the full game,", speech1:"when those lazy developers finally make it."}]]);
 // enemies!! One super-giant in each corner, and one really annoying spider!
-var NWGiant = new picEnemy("NWgiant", wallThickness+10, wallThickness+10, 40, 40, giantPic, 3, moveTowardsThor, 20);
-var NEGiant = new picEnemy("NEgiant", width-wallThickness-50, wallThickness+10, 40, 40, giantPic, 3, moveTowardsThor, 20);
-var SWGiant = new picEnemy("SWgiant", wallThickness+10, height-wallThickness-50, 40, 40, giantPic, 3, moveTowardsThor, 20);
-var SEGiant = new picEnemy("SEgiant", width-wallThickness-50, height-wallThickness-50, 40, 40, giantPic, 3, moveTowardsThor, 20);
-var spider2 = new picEnemy("spider2", (width-40)/2, (height-40)/2, 40, 40, spiderPic, 5, randomMovement(5), 10);
+var NWGiant = new picEnemy("NWgiant", wallThickness+10, wallThickness+10, 40, 40, giantPic, 2., moveTowardsThor, 20);
+var NEGiant = new picEnemy("NEgiant", width-wallThickness-50, wallThickness+10, 40, 40, giantPic, 2.8, moveTowardsThor, 20);
+var SWGiant = new picEnemy("SWgiant", wallThickness+10, height-wallThickness-50, 40, 40, giantPic, 2.8, moveTowardsThor, 20);
+var SEGiant = new picEnemy("SEgiant", width-wallThickness-50, height-wallThickness-50, 40, 40, giantPic, 2.8, moveTowardsThor, 20);
+var spider2 = new picEnemy("spider2", 150+wallThickness, (height-40)/2, 40, 40, spiderPic, 5, randomMovement(5), 10);
 // all-important obstacles!
 // first a couple of walls to "shield" you right by the entrance
 var shieldWall1 = new Obstacle("shieldWall1", wallThickness, (height-100)/2-wallThickness, 100, wallThickness, "white");
 var shieldWall2 = new Obstacle("shieldWall2", wallThickness, (height+100)/2, 100, wallThickness, "white");
-var enemyTile = new MapTile("enemies", [enemyDoorW], [], [finishConfirm], [shieldWall1, shieldWall2], [NWGiant, NEGiant, SWGiant, SEGiant, spider2], "black", "white");
+var SWHidingPlaceHorizontal = new Obstacle("SWHidingPlaceHorizontal", wallThickness+200, (height+150)/2, 200, wallThickness, "white");
+var SWHidingPlaceVertical = new Obstacle("SWHidingPlaceVertical", wallThickness+200, (height+150)/2+wallThickness, wallThickness, 150, "white");
+var SEHidingPlaceHorizontal = new Obstacle("SEHidingPlaceHorizontal", width-wallThickness-300, (height+150)/2, 200, wallThickness, "white");
+var SEHidingPlaceVertical = new Obstacle("SEHidingPlaceVertical", width-2*wallThickness-100, (height+150)/2+wallThickness, wallThickness, 150, "white");
+var NWHidingPlaceHorizontal = new Obstacle("NWHidingPlaceHorizontal", wallThickness+200, (height-150)/2-wallThickness, 200, wallThickness, "white");
+var NWHidingPlaceVertical = new Obstacle("NWHidingPlaceVertical", wallThickness+200, (height-450)/2, wallThickness, 150, "white");
+var NEHidingPlaceHorizontal = new Obstacle("NEHidingPlaceHorizontal", width-wallThickness-300, (height-150)/2-wallThickness, 200, wallThickness, "white");
+var NEHidingPlaceVertical = new Obstacle("NEHidingPlaceVertical", width-2*wallThickness-100, (height-450)/2, wallThickness, 150, "white");
+var CentreVertical = new Obstacle("CentreVertical", (width-wallThickness)/2, (height-300)/2, wallThickness, 300, "white");
+var CentreHorizontal = new Obstacle("CentreHorizontal", (width-300)/2, (height-wallThickness)/2, 300, wallThickness, "white");
+var enemyTile = new MapTile("enemies", [enemyDoorW], [], [finishConfirm], [shieldWall1, shieldWall2,  SWHidingPlaceHorizontal, SWHidingPlaceVertical, SEHidingPlaceHorizontal, SEHidingPlaceVertical, NWHidingPlaceHorizontal, NWHidingPlaceVertical, NEHidingPlaceHorizontal, NEHidingPlaceVertical, CentreVertical, CentreHorizontal], [NWGiant, NEGiant, SWGiant, SEGiant, spider2], "black", "white");
