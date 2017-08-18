@@ -26,6 +26,7 @@ function Item(id, name, xPos, yPos, width, height, colour) {
         ctx.fill();
     };
 }
+
 function picItem(id, name, sprite, xPos, yPos, width, height, colour) {
     this.type = "Item";
     this.id = id;
@@ -45,8 +46,8 @@ function picItem(id, name, sprite, xPos, yPos, width, height, colour) {
 
 
 document.body.addEventListener("keydown", function(e) {
-    //Using the I 'item' key
-    if (e.keyCode == 73) {
+    //Using the A key
+    if (e.keyCode == 65) {
         itemObtainingOK = true;
         obstacleInteraction = true;
     }
@@ -146,25 +147,25 @@ function obtainItem() {
                         underText4 = "";
                         underText5 = "";
                         underText6 = "";
-                      	if (thor.currentTile.npcs[j].questItem.id == "key") {
-            					//console.log("State 1: " + thor.currentTile.npcs[j].questItem.id);            					
-	                            thor.currentTile.npcs[j].questItem.unlocks.locked = false;
-            					//console.log("State 2: " + thor.currentTile.items[m].unlocks.locked);	                            
-	                        }
- 
-
-/*
-          				console.log("current tile id: " +thor.currentTile.id + " length: " + thor.currentTile.items.length);
-                        //if thor is being given a key, unlock door{
-            			for (var m = 0; m < thor.currentTile.items.length; m++) {                        	
-            				console.log("All items: " + thor.currentTile.items[m].id);
-                        	if (thor.currentTile.items[m].id == "key") {
-            					console.log("State 1: " + thor.currentTile.items[m].unlocks.locked);
-	                            thor.currentTile.items[m].unlocks.locked = false;
-            					console.log("State 2: " + thor.currentTile.items[m].unlocks.locked);	                            
-	                        }
+                        if (thor.currentTile.npcs[j].questItem.id == "key") {
+                            //console.log("State 1: " + thor.currentTile.npcs[j].questItem.id);            					
+                            thor.currentTile.npcs[j].questItem.unlocks.locked = false;
+                            //console.log("State 2: " + thor.currentTile.items[m].unlocks.locked);	                            
                         }
-*/
+
+
+                        /*
+                                  				console.log("current tile id: " +thor.currentTile.id + " length: " + thor.currentTile.items.length);
+                                                //if thor is being given a key, unlock door{
+                                    			for (var m = 0; m < thor.currentTile.items.length; m++) {                        	
+                                    				console.log("All items: " + thor.currentTile.items[m].id);
+                                                	if (thor.currentTile.items[m].id == "key") {
+                                    					console.log("State 1: " + thor.currentTile.items[m].unlocks.locked);
+                        	                            thor.currentTile.items[m].unlocks.locked = false;
+                                    					console.log("State 2: " + thor.currentTile.items[m].unlocks.locked);	                            
+                        	                        }
+                                                }
+                        */
 
 
 
@@ -180,79 +181,163 @@ function obtainItem() {
                                 thor.currentTile.npcs[j].convoStatus = "Given";
                             }
                         }
-                    /*
-                    else if (convoStatus == "Given" && thor.currentTile.npcs[i].id == <specificNPC> ){
-                     Specific use cases for setting NPC conversation can be put in here
+                        /*
+                        else if (convoStatus == "Given" && thor.currentTile.npcs[i].id == <specificNPC> ){
+                         Specific use cases for setting NPC conversation can be put in here
+                        }
+                        */
+                    } else {
+                        console.log(thor.currentTile.npcs[j].questItem.name + ": already in Thors inventory");
+                        underText1 = (thor.currentTile.npcs[j].questItem.name + ": already in Thors inventory");
+                        underText2 = "";
+                        underText3 = "";
+                        underText4 = "";
+                        underText5 = "";
+                        underText6 = "";
                     }
-                    */
-                } else {
-                    console.log(thor.currentTile.npcs[j].questItem.name + ": already in Thors inventory");
-                    underText1 = (thor.currentTile.npcs[j].questItem.name + ": already in Thors inventory");
-                    underText2 = "";
-                    underText3 = "";
-                    underText4 = "";
-                    underText5 = "";
-                    underText6 = "";
-                }
 
-                //No need to complete redundent cycles of for loop
-                break;
+                    //No need to complete redundent cycles of for loop
+                    break;
+                }
+            }
+        } else if (thor.nextToType == "Obstacle") {
+            //Work out which obstacle
+            //The Obstacle array contains wall obstacles as well as game obstacles
+            //Need to filter out the wall obstacles
+            var replacementObstacleArray = [];
+            for (var a = 0; a < thor.currentTile.obstacles.length; a++) {
+                if (thor.currentTile.obstacles[a].id != "wall") {
+                    replacementObstacleArray.push(thor.currentTile.obstacles[a]);
+                }
+            }
+            for (var m = 0; m < replacementObstacleArray.length; m++) {
+
+                //find the npc within the currentTile.items array
+                if (replacementObstacleArray[m].id == thor.nextToID) {
+                    //does the obstacle have a questItem
+                    if (replacementObstacleArray[m].questItem === undefined) {
+                        console.log("I'm a mere obstacle, move along!");
+                    } else if (thor.items.indexOf(replacementObstacleArray[m].questItem) == -1) {
+                        //if Thor doesn't already have item, add the whole object
+                        thor.items.push(replacementObstacleArray[m].questItem);
+                        console.log(replacementObstacleArray[m].questItem.name + ": added to Thors inventory");
+                        underText1 = (replacementObstacleArray[m].questItem.name + ": added to Thors inventory");
+                        underText2 = "";
+                        underText3 = "";
+                        underText4 = "";
+                        underText5 = "";
+                        underText6 = "";
+                    } else {
+                        console.log(replacementObstacleArray[m].questItem.name + ": already in Thors inventory");
+                        underText1 = (replacementObstacleArray[m].questItem.name + ": already in Thors inventory");
+                        underText2 = "";
+                        underText3 = "";
+                        underText4 = "";
+                        underText5 = "";
+                        underText6 = "";
+                    }
+
+                    //No need to complete redundent cycles of for loop
+                    break;
+                }
+            }
+        } else if (thor.nextToType == "PuzzlePeice") {
+
+            if (thor.nextToType == "PuzzlePeice" && thor.currentTile.PuzzleComplete === false) {
+                //work out which obstacle
+                for (var i = 0; i < thor.currentTile.PuzzlePeices.length; i++) {
+                    //find the item within the currentTile.items array
+                    if (thor.currentTile.PuzzlePeices[i].id == thor.nextToID) {
+
+                        //If a colour is defined in original instantiation of object, it is assumed colour is to be cycled
+                        if (thor.currentTile.PuzzlePeices[i].colour != undefined) {
+                            thor.currentTile.PuzzlePeices[i].colour = thor.currentTile.PuzzlePeices[i].allPossibleVals[thor.currentTile.PuzzlePeices[i].puzzlePointer];
+                        } else if (1 === 0) {
+                            //A deliberate false above as this is just a placeholder for expected future code.
+                            //This is the code to cater for cycling images if puzzle obstacle instantiated with an image.
+                        }
+
+
+                        if (thor.currentTile.PuzzlePeices[i].puzzleCompleteVal == thor.currentTile.PuzzlePeices[i].allPossibleVals[thor.currentTile.PuzzlePeices[i].puzzlePointer]) {
+                            thor.currentTile.PuzzlePeices[i].puzzleSuccess = true;
+                            //Now go over all of the title puzzle items, if they are all set correctly then perform action!
+                            var puzzleCompleted = true;
+                            for (var j = 0; j < thor.currentTile.PuzzlePeices.length; j++) {
+                                if (thor.currentTile.PuzzlePeices[j].puzzleSuccess === false) {
+                                    puzzleCompleted = false;
+                                }
+                            }
+
+
+                            if (puzzleCompleted) {
+                                thor.currentTile.PuzzleComplete = true;
+                                //console.log("PUZZLE COMPLETED! - KICKING OFF SUPPLIED PUZZLE FUNCTION!");
+
+                                //Wall alert flash to let player know puzzle complete
+                                var backgroundAlert = thor.currentTile.colour;
+                                thor.currentTile.colour = "#ffff";
+                                window.setTimeout(function() {
+                                    thor.currentTile.colour = backgroundAlert;
+                                }, 250);
+
+                                //Is an item being placed?
+                                if (thor.currentTile.hasOwnProperty("itemToPlace")) {
+                                    thor.currentTile.targetMapTile.items.push(thor.currentTile.itemToPlace);
+
+
+                                }
+                                //Does NPC chat need to be updated?
+                                if (thor.currentTile.hasOwnProperty("newChatNPC_id")) {
+                                    //find out which NPC
+                                    for (var k = 0; k < thor.currentTile.npcs.length; k++) {
+                                        if (thor.currentTile.npcs[k].id == thor.currentTile.newChatNPC_id) {
+                                            thor.currentTile.npcs[k].currentDialogue = thor.currentTile.npcs[k].dialogueList[2];
+                                            //start any new dialogue from beginning, irrispective of where last one finished
+                                            thor.currentTile.npcs[k].chatPosition = 0;
+                                        }
+                                    }
+                                }
+
+                                //Is key being issued? Then unlock the door on the given tile
+                                for (var m = 0; m < thor.currentTile.items.length; m++) {
+                                    //if its a key, unlock door key is for
+                                    if (thor.currentTile.items[m].id == "key") {
+                                        thor.currentTile.items[m].unlocks.locked = false;
+                                    }
+                                }
+                            }
+                        } else {
+                            //ensure that value is correct is used if user cycles past correct value
+                            thor.currentTile.PuzzlePeices[i].puzzleSuccess = false;
+                        }
+
+                        //If the puzzle is complete then don't let obstacles cycle through anymore
+                        if (!thor.currentTile.PuzzleComplete) {
+                            thor.currentTile.PuzzlePeices[i].puzzlePointer += 1;
+
+                            //Ensure the pointer doesn't get incremented beyond array length
+                            if (thor.currentTile.PuzzlePeices[i].puzzlePointer == (thor.currentTile.PuzzlePeices[i].allPossibleVals.length - 1)) {
+                                thor.currentTile.PuzzlePeices[i].puzzlePointer = 0;
+                            }
+                        }
+
+                        //No need to complete redundent cycles of for loop
+                        break;
+                    }
+                }
             }
         }
-    } else if (thor.nextToType == "Obstacle") {
-        //Work out which obstacle
-        //The Obstacle array contains wall obstacles as well as game obstacles
-        //Need to filter out the wall obstacles
-        var replacementObstacleArray = [];
-        for (var a = 0; a < thor.currentTile.obstacles.length; a++) {
-            if (thor.currentTile.obstacles[a].id != "wall") {
-                replacementObstacleArray.push(thor.currentTile.obstacles[a]);
-            }
-        }
-        for (var m = 0; m < replacementObstacleArray.length; m++) {
+        //Not near anything? Then just list inventory.
+        else {
+            //As the thor items is  list of objects, need to iterate through and add names to a new array to be output
 
-            //find the npc within the currentTile.items array
-            if (replacementObstacleArray[m].id == thor.nextToID) {
-                //does the obstacle have a questItem
-                if (replacementObstacleArray[m].questItem === undefined) {
-                    console.log("I'm a mere obstacle, move along!");
-                } else if (thor.items.indexOf(replacementObstacleArray[m].questItem) == -1) {
-                    //if Thor doesn't already have item, add the whole object
-                    thor.items.push(replacementObstacleArray[m].questItem);
-                    console.log(replacementObstacleArray[m].questItem.name + ": added to Thors inventory");
-                    underText1 = (replacementObstacleArray[m].questItem.name + ": added to Thors inventory");
-                    underText2 = "";
-                    underText3 = "";
-                    underText4 = "";
-                    underText5 = "";
-                    underText6 = "";
-                } else {
-                    console.log(replacementObstacleArray[m].questItem.name + ": already in Thors inventory");
-                    underText1 = (replacementObstacleArray[m].questItem.name + ": already in Thors inventory");
-                    underText2 = "";
-                    underText3 = "";
-                    underText4 = "";
-                    underText5 = "";
-                    underText6 = "";
-                }
-
-                //No need to complete redundent cycles of for loop
-                break;
+            var thorInventoryOutput = [];
+            for (var k = 0; k < thor.items.length; k++) {
+                thorInventoryOutput.push(thor.items[k].name);
             }
+            console.log("Thor's Swag Bag: " + thorInventoryOutput);
+
         }
     }
-
-    //Not near anything? Then just list inventory.
-    else {
-        //As the thor items is  list of objects, need to iterate through and add names to a new array to be output
-
-        var thorInventoryOutput = [];
-        for (var k = 0; k < thor.items.length; k++) {
-            thorInventoryOutput.push(thor.items[k].name);
-        }
-        console.log("Thor's Swag Bag: " + thorInventoryOutput);
-
-    }
-}
-itemObtainingOK = false;
+    itemObtainingOK = false;
 }

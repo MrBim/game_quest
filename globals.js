@@ -25,6 +25,13 @@ var worldMap = [];
 // event listeners
 document.body.addEventListener("keydown", function(e) {
     keys[e.keyCode] = true;
+    //Prevents arrow keys moving the page in the browser window
+        if (e.keyCode == 38 || e.keyCode == 40 || e.keyCode == 37 || e.keyCode == 39){
+    	event.preventDefault();
+    }
+
+
+
 });
 document.body.addEventListener("keyup", function(e) {
     keys[e.keyCode] = false;

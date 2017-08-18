@@ -1,8 +1,3 @@
-//Variable to limit key press to one function execution per key press
-//Can have multiple executions for one button press otherwise (keyboard quirk)
-var puzzlingOK;
-
-
 /*
  set obstacles to random colour value taken from the arrays of blues
 
@@ -38,7 +33,6 @@ function PuzzlePeice(id, xPos, yPos, width, height, colour, puzzleCompleteVal, p
         ctx.fill();
     };
 }
-
 
 document.body.addEventListener("keydown", function(e) {
     //Using the P 'Puzzle' key

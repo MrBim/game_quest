@@ -251,7 +251,7 @@ function stayOnScreen(mover) {
 //i wanted to keep the example of how i was moving the main dude and regestering that keys had been pressed
 function thor_movement() {
     // up (w)
-    if (keys[87]) {
+    if (keys[38]) {
         thor.isPointing = 1;
         thor.yPos -= thor.moveSize;
 
@@ -284,7 +284,7 @@ function thor_movement() {
 
     }
     // down (s)
-    if (keys[83]) {
+    if (keys[40]) {
         thor.isPointing = 3;
         thor.yPos += thor.moveSize;
         //Feeding in the current tiles Obstacles, Items, Characters array
@@ -313,7 +313,7 @@ function thor_movement() {
         thor.walkAnimFrame += 1;
     }
     // left (a)
-    if (keys[65]) {
+    if (keys[37]) {
         thor.isPointing = 2;
         thor.xPos -= thor.moveSize;
         //Feeding in the current tiles Obstacles, Items, Characters array
@@ -342,7 +342,7 @@ function thor_movement() {
         thor.walkAnimFrame += 1;
     }
     // right (d)
-    if (keys[68]) {
+    if (keys[39]) {
         thor.isPointing = 4;
         thor.xPos += thor.moveSize;
         //Feeding in the current tiles Obstacles, Items, Characters array
@@ -526,7 +526,7 @@ function enemyMovement() {
 I think I prefer 2), so this is what is below. To remove 2) and enable 1), simply remove the comment markers in the
 3rd "if" statemenet below, and comment out the 3-line "if" block around the lightning.positions.shift() statement */
 function violence() {
-    if (keys[86]) { // V for violence, why not?
+    if (keys[68]) {     //D button
         if (thor.health == 100) {
             if (thor.lightningFrameCount >= thor.lightningFrameLimit
                 /*&& lightning.positions.length < thor.maxLightningCount*/
@@ -670,8 +670,7 @@ function gameLoop() {
     npcButtonChat();
     thor.lightningFrameCount++;
     thor.swordFrameCount++;
-    checkPuzzle();
-
+ 
     requestAnimationFrame(gameLoop);
 
     // 'q' for quit
