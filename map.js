@@ -375,7 +375,7 @@ var enemyDoorE = new EWallDoor((height-100)/2, 100);
 enemyDoorE.doorID = "enemiesEastDoor";
 enemyDoorE.pointer = ["final", "finalDoor"];
 // enemies!! One super-giant in each corner, and one really annoying spider!
-var NWGiant = new picEnemy("NWgiant", wallThickness+10, wallThickness+10, 40, 40, giantPic, 2., moveTowardsThor, 20);
+var NWGiant = new picEnemy("NWgiant", wallThickness+10, wallThickness+10, 40, 40, giantPic, 2.8, moveTowardsThor, 20);
 var NEGiant = new picEnemy("NEgiant", width-wallThickness-50, wallThickness+10, 40, 40, giantPic, 2.8, moveTowardsThor, 20);
 var SWGiant = new picEnemy("SWgiant", wallThickness+10, height-wallThickness-50, 40, 40, giantPic, 2.8, moveTowardsThor, 20);
 var SEGiant = new picEnemy("SEgiant", width-wallThickness-50, height-wallThickness-50, 40, 40, giantPic, 2.8, moveTowardsThor, 20);
