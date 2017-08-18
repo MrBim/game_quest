@@ -250,7 +250,7 @@ function stayOnScreen(mover) {
 // this is mostly still here because
 //i wanted to keep the example of how i was moving the main dude and regestering that keys had been pressed
 function thor_movement() {
-    // up (w)
+    // up arrow
     if (keys[38]) {
         thor.isPointing = 1;
         thor.yPos -= thor.moveSize;
@@ -283,7 +283,7 @@ function thor_movement() {
 
 
     }
-    // down (s)
+    // down arrow
     if (keys[40]) {
         thor.isPointing = 3;
         thor.yPos += thor.moveSize;
@@ -312,7 +312,7 @@ function thor_movement() {
         }
         thor.walkAnimFrame += 1;
     }
-    // left (a)
+    // left arrow
     if (keys[37]) {
         thor.isPointing = 2;
         thor.xPos -= thor.moveSize;
@@ -341,7 +341,7 @@ function thor_movement() {
         }
         thor.walkAnimFrame += 1;
     }
-    // right (d)
+    // right arrow
     if (keys[39]) {
         thor.isPointing = 4;
         thor.xPos += thor.moveSize;
