@@ -1,6 +1,6 @@
 //Variable to limit key press to one function execution per key press
 //Can have multiple executions for one button press otherwise (keyboard quirk)
-var itemObtainingOK;
+var itemObtainingOK, obstacleInteraction;
 
 
 //    Item constructor
@@ -49,6 +49,7 @@ document.body.addEventListener("keydown", function(e) {
     //Using the A key
     if (e.keyCode == 65) {
         itemObtainingOK = true;
+        obstacleInteraction = true;
     }
 });
 

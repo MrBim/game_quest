@@ -29,7 +29,7 @@ var thor = {
     thorPicTwoW: new Image(),
 
     // need to know starting location
-    currentTile: NWTile,
+    currentTile: startTile,
 
     // set properties to force lightning to not be able to be fired continuously (the value below means approx.
     // 4 bolts per second can be fired) - and enable it to be fired right at the start if needed
@@ -210,21 +210,23 @@ function drawunderparts() {
 function itCantGoThere(mover) {
 
     if (thor.currentTile.hasOwnProperty("PuzzlePeices")) {
-        return (hitDetection(mover, thor.currentTile.obstacles) ||
+        // changed to check for thor first - which matters in cases where enemies are hitting each other as well as thor.
+        // This way ensures thor does lose health!
+        return (hitDetection(mover, [thor]) ||
+            hitDetection(mover, thor.currentTile.obstacles) ||
             hitDetection(mover, thor.currentTile.items) ||
             hitDetection(mover, thor.currentTile.npcs) ||
             hitDetection(mover, thor.currentTile.enemies.filter(enemy => enemy.alive)) ||
-            hitDetection(mover, [thor]) ||
             hitDetection(mover, thor.currentTile.PuzzlePeices));
 
     }
     else {
 
-        return (hitDetection(mover, thor.currentTile.obstacles) ||
+        return (hitDetection(mover, [thor]) ||
+            hitDetection(mover, thor.currentTile.obstacles) ||
             hitDetection(mover, thor.currentTile.items) ||
             hitDetection(mover, thor.currentTile.npcs) ||
-            hitDetection(mover, thor.currentTile.enemies.filter(enemy => enemy.alive)) ||
-            hitDetection(mover, [thor]));
+            hitDetection(mover, thor.currentTile.enemies.filter(enemy => enemy.alive)));
     }
 }
 
@@ -663,6 +665,7 @@ function gameLoop() {
     thor_healthCheck();
     // words();
     obtainItem();
+    obstacleInteract();
     //To enable diaglogue with NPC's on key press (C)
     npcButtonChat();
     thor.lightningFrameCount++;

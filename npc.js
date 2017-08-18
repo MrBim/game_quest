@@ -86,6 +86,13 @@ function npcButtonChat(){
 
             //If Thor next to any of them, if so refer to that NPC's dialogue
             if (thor.currentTile.npcs[i].id == thor.nextToID){
+                // use correct dialogue based on if Thor has wanted item:
+                if (thor.items.indexOf(thor.currentTile.npcs[i].wanted) != -1) {
+                    thor.currentTile.npcs[i].currentDialogue = thor.currentTile.npcs[i].dialogueList[1];
+                }
+                else {
+                    thor.currentTile.npcs[i].currentDialogue = thor.currentTile.npcs[i].dialogueList[0];
+                }
 
                 //check to see NPC's dialogue has been used up for this exchange
                 if (thor.currentTile.npcs[i].currentDialogue.length == thor.currentTile.npcs[i].chatPosition) {
