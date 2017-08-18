@@ -342,7 +342,9 @@ var wall6 = new Obstacle("mazeWall6", 200+wallThickness, wallThickness+31, 200-w
 // now the "switches" which open and close the gaps in the walls;
 var switch1 = new Obstacle("switch1", (200-wallThickness)/2-10, wallThickness, 20, 20, "red");
 var switch2 = new Obstacle("switch2", 200+wallThickness, 150, 20, 20, "red");
-var switch3 = new Obstacle("switch3", 400+wallThickness, 450+wallThickness, 20, 20, "red");
+// silver Wand, hidden "behind" the 3rd switch!
+var secretSquirrel = new picItem("secretSquirrel", "secret squirrel", ssPic); // no position/size needed because it's not on the map to be drawn
+var switch3 = new Obstacle("switch3", 400+wallThickness, 450+wallThickness, 20, 20, "red", secretSquirrel);
 switch1.action = function() {
     wall1N.height = (wall1N.height==height/2-wallThickness-31 ? height/2-wallThickness-60 : height/2-wallThickness-31);
     wall1S.yPos = (wall1S.yPos==height/2 ? height/2+30 : height/2);
@@ -363,17 +365,15 @@ switch3.action = function() {
 }
 var maze = new MapTile("maze", [mazeDoorW, mazeDoorE], [mazePowerUp], [], [wall1N, wall1S, wall2N, wall2S, wall3W, wall3E, wall4, wall5W, wall5E, wall6, switch1, switch2, switch3], [], "black", "white");
 
-// 4th tile (final one for prototype): consists of several enemies, mostly giants who follow you, and have a ton of
+// 4th tile (final "real" tyle for prototype): consists of several enemies, mostly giants who follow you, and have a ton of
 // health. The way to get past is to hide behind conveniently placed obstacles. There will be some spiders too!
-// only one door:
+// 2 doors once again:
 var enemyDoorW = new WWallDoor((height-100)/2, 100);
 enemyDoorW.doorID = "enemiesWestDoor";
 enemyDoorW.pointer = ["maze", "mazeDoorE"];
-// npc just to tell you that you've finished!
-var finishConfirm = new NPC("finishGuy", "A wise old wizard", width-wallThickness-40, (height-40)/2, 40, 40, "black", "Greetings Thor.", 
-    [[{speaker: "NPC", speech: "You have completed this simple short", speech1: "adventure!"},
-    {speaker: "Thor", speech: "Thanks, wizardy wise dude!"},
-    {speaker: "NPC", speech: "Be sure to check out the full game,", speech1:"when those lazy developers finally make it."}]]);
+var enemyDoorE = new EWallDoor((height-100)/2, 100);
+enemyDoorE.doorID = "enemiesEastDoor";
+enemyDoorE.pointer = ["final", "finalDoor"];
 // enemies!! One super-giant in each corner, and one really annoying spider!
 var NWGiant = new picEnemy("NWgiant", wallThickness+10, wallThickness+10, 40, 40, giantPic, 2., moveTowardsThor, 20);
 var NEGiant = new picEnemy("NEgiant", width-wallThickness-50, wallThickness+10, 40, 40, giantPic, 2.8, moveTowardsThor, 20);
@@ -394,4 +394,31 @@ var NEHidingPlaceHorizontal = new Obstacle("NEHidingPlaceHorizontal", width-wall
 var NEHidingPlaceVertical = new Obstacle("NEHidingPlaceVertical", width-2*wallThickness-100, (height-450)/2, wallThickness, 150, "white");
 var CentreVertical = new Obstacle("CentreVertical", (width-wallThickness)/2, (height-300)/2, wallThickness, 300, "white");
 var CentreHorizontal = new Obstacle("CentreHorizontal", (width-300)/2, (height-wallThickness)/2, 300, wallThickness, "white");
-var enemyTile = new MapTile("enemies", [enemyDoorW], [], [finishConfirm], [shieldWall1, shieldWall2,  SWHidingPlaceHorizontal, SWHidingPlaceVertical, SEHidingPlaceHorizontal, SEHidingPlaceVertical, NWHidingPlaceHorizontal, NWHidingPlaceVertical, NEHidingPlaceHorizontal, NEHidingPlaceVertical, CentreVertical, CentreHorizontal], [NWGiant, NEGiant, SWGiant, SEGiant, spider2], "black", "white");
+var enemyTile = new MapTile("enemies", [enemyDoorW, enemyDoorE], [], [], [shieldWall1, shieldWall2,  SWHidingPlaceHorizontal, SWHidingPlaceVertical, SEHidingPlaceHorizontal, SEHidingPlaceVertical, NWHidingPlaceHorizontal, NWHidingPlaceVertical, NEHidingPlaceHorizontal, NEHidingPlaceVertical, CentreVertical, CentreHorizontal], [NWGiant, NEGiant, SWGiant, SEGiant, spider2], "black", "white");
+// NB Silver Wand as a "hidden" item does not need to be added to the items array of the tile object!
+
+// now final tile:
+var finalDoor = new WWallDoor((height-100)/2, 100);
+finalDoor.doorID = "finalDoor";
+finalDoor.pointer = ["enemies", "enemiesEastDoor"];
+// npc just to tell you that you've finished (once you've found his silver wand)!
+var finishConfirm = new NPC("finishGuy", "A wise old wizard", (width-40)/2, (height-40)/2, 40, 40, "black", "Greetings Thor.", 
+    [[{speaker: "NPC", speech: "So you must be Thor. I was beginning to", speech1: "wonder if you'd ever make it here!"},
+    {speaker: "Thor", speech: "Don't be cheeky! I've already threated", speech1: "to kill one cheeky wizard today..."},
+    {speaker: "NPC", speech: "Sorry. You have after all nearly", speech1: "completed this introductory adventure!"},
+    {speaker: "Thor", speech: "Hold on - whadda you mean, nearly??", speech1: "I thought if I got to you that was it?"},
+    {speaker: "NPC", speech: "Oh, it is! So have you got my secret", speech1: "squirrel for me? The priceless one I lost", speech2: "somewhere around here?"},
+    {speaker: "Thor", speech: "Such cheek, I should kill you right here!"},
+    {speaker: "Thor", speech: "Oh. But then I won't get that golden", speech1: "crown that I've been doing this adventure", speech2: "for."},
+    {speaker: "NPC", speech: "Quite right. Only I can magic it up for", speech1: "you."},
+    {speaker: "Thor", speech: "So I suppose I'd better find it..."}],
+    [{speaker: "NPC", speech: "Thank you so much, Thor, for finding me", speech1: "and bringing back my secret squirrel.", speech2: "As your reward, I will give you a", speech3: "lifetime's supply of free beer."},
+    {speaker: "Thor", speech: "Oh. Not wanting to sound ungrateful but,", speech1: "I'm kind of a god. I can get all that", speech2: "stuff anyway."},
+    {speaker: "NPC", speech: "I see. Well I can magic you up a very", speech1: "rare golden crown. Want it?"},
+    {speaker: "Thor", speech: "That'll do nicely, thank you :)"},
+    {speaker: "NPC", speech: "Just be sure to save some strength for", speech1: "a much more testing adventure to come"},
+    {speaker: "Thor", speech: "Sounds fun - when will that be?"},
+    {speaker: "NPC", speech: "Oh, as soon as those lazy developers", speech1: "have made it. I'm betting on 2018,", speech2: "and hopefully it won't be more than one", speech3: "decade late!"},
+]]);
+finishConfirm.wanted = secretSquirrel;
+var final = new MapTile("final", [finalDoor], [], [finishConfirm], [], [], "blue", "white");
