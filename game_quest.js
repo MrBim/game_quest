@@ -422,9 +422,9 @@ function thor_walkThroughDoor() {
                             enemy.yPos = enemy.startYPos;
                             // also make sure fixed-path enemies resume their path from the start:
                             enemy.targetIndex = undefined;
-                            // finally remove all lightning from new screen!
-                            lightning.positions = [];
                         }
+                        // finally remove all lightning from new screen!
+                        lightning.positions = [];
                         // find door where Thor will "arrive" at
                         for (var k=0; k<newTile.doors.length; k++) {
                             var door = newTile.doors[k];
