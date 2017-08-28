@@ -3,24 +3,35 @@
 @import url(http://fonts.googleapis.com/css?family=Cantarell);
 */
 body {
-    max-width: 1250px;
+    max-width: 1064px;
     margin: 0 auto !important;
     float: none !important;
     font-family: 'Cantarell', sans-serif;
     background: #1c4719;
+    background-image: url(assets/media/skyrim.jpg);
 }
-#canvas {
 
+.main-content{
+    width:1064px;
+}
+.col-md-12{
+margin-left: auto;
+    margin-right: auto; 
+ }
+#canvas {
+   background-color: black;
     margin: 30px;
     margin-top: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
     padding: 0px;
     border: 1px solid gray;
 
 }
+
 #lowerCanvas {
+    background-color: black;
     margin: 30px;
-    margin-top: 10px;
+    margin-top: 5px;
     margin-bottom: 10px;
     padding: 0px;
     border: 1px solid gray;
@@ -45,5 +56,5 @@ body {
 
 p{
     font-size: 20px;
-    color: #000;
+    color: #fff;
 }
