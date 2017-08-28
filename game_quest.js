@@ -29,7 +29,7 @@ var thor = {
     thorPicTwoW: new Image(),
 
     // need to know starting location
-    currentTile: NWTile,
+    currentTile: startTile,
 
     // set properties to force lightning to not be able to be fired continuously (the value below means approx.
     // 4 bolts per second can be fired) - and enable it to be fired right at the start if needed
@@ -210,21 +210,23 @@ function drawunderparts() {
 function itCantGoThere(mover) {
 
     if (thor.currentTile.hasOwnProperty("PuzzlePeices")) {
-        return (hitDetection(mover, thor.currentTile.obstacles) ||
+        // changed to check for thor first - which matters in cases where enemies are hitting each other as well as thor.
+        // This way ensures thor does lose health!
+        return (hitDetection(mover, [thor]) ||
+            hitDetection(mover, thor.currentTile.obstacles) ||
             hitDetection(mover, thor.currentTile.items) ||
             hitDetection(mover, thor.currentTile.npcs) ||
             hitDetection(mover, thor.currentTile.enemies.filter(enemy => enemy.alive)) ||
-            hitDetection(mover, [thor]) ||
             hitDetection(mover, thor.currentTile.PuzzlePeices));
 
     }
     else {
 
-        return (hitDetection(mover, thor.currentTile.obstacles) ||
+        return (hitDetection(mover, [thor]) ||
+            hitDetection(mover, thor.currentTile.obstacles) ||
             hitDetection(mover, thor.currentTile.items) ||
             hitDetection(mover, thor.currentTile.npcs) ||
-            hitDetection(mover, thor.currentTile.enemies.filter(enemy => enemy.alive)) ||
-            hitDetection(mover, [thor]));
+            hitDetection(mover, thor.currentTile.enemies.filter(enemy => enemy.alive)));
     }
 }
 
@@ -248,7 +250,7 @@ function stayOnScreen(mover) {
 // this is mostly still here because
 //i wanted to keep the example of how i was moving the main dude and regestering that keys had been pressed
 function thor_movement() {
-    // up (w)
+    // up arrow
     if (keys[38]) {
         thor.isPointing = 1;
         thor.yPos -= thor.moveSize;
@@ -281,7 +283,7 @@ function thor_movement() {
 
 
     }
-    // down (s)
+    // down arrow
     if (keys[40]) {
         thor.isPointing = 3;
         thor.yPos += thor.moveSize;
@@ -310,7 +312,7 @@ function thor_movement() {
         }
         thor.walkAnimFrame += 1;
     }
-    // left (a)
+    // left arrow
     if (keys[37]) {
         thor.isPointing = 2;
         thor.xPos -= thor.moveSize;
@@ -339,7 +341,7 @@ function thor_movement() {
         }
         thor.walkAnimFrame += 1;
     }
-    // right (d)
+    // right arrow
     if (keys[39]) {
         thor.isPointing = 4;
         thor.xPos += thor.moveSize;
@@ -420,9 +422,9 @@ function thor_walkThroughDoor() {
                             enemy.yPos = enemy.startYPos;
                             // also make sure fixed-path enemies resume their path from the start:
                             enemy.targetIndex = undefined;
-                            // finally remove all lightning from new screen!
-                            lightning.positions = [];
                         }
+                        // finally remove all lightning from new screen!
+                        lightning.positions = [];
                         // find door where Thor will "arrive" at
                         for (var k=0; k<newTile.doors.length; k++) {
                             var door = newTile.doors[k];
@@ -669,6 +671,7 @@ function gameLoop() {
     thor_healthCheck();
     // words();
     obtainItem();
+    obstacleInteract();
     //To enable diaglogue with NPC's on key press (C)
     npcButtonChat();
     thor.lightningFrameCount++;

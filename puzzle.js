@@ -25,7 +25,7 @@ function PuzzlePeice(id, xPos, yPos, width, height, colour, puzzleCompleteVal, p
     this.puzzleCompleteVal = puzzleCompleteVal;
     this.allPossibleVals = puzzleValRange;
     this.puzzleSuccess = false;
-    this.puzzlePointer = Math.floor((Math.random() * (this.allPossibleVals.length - 1)) + 0);
+    this.puzzlePointer = Math.floor(Math.random() * (this.allPossibleVals.length));
     this.draw = function() {
         ctx.beginPath();
         ctx.fillStyle = this.colour;
@@ -33,5 +33,3 @@ function PuzzlePeice(id, xPos, yPos, width, height, colour, puzzleCompleteVal, p
         ctx.fill();
     };
 }
-
-

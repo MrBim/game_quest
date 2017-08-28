@@ -181,15 +181,15 @@ function randomMovement(stability) {
     }
 }
 
-var itsFollowingMe = new Enemy("follower", wallThickness, height-wallThickness-50, 40, 40, "hotpink", 2, moveTowardsThor, 10);
+// var itsFollowingMe = new Enemy("follower", wallThickness, height-wallThickness-50, 40, 40, "hotpink", 2, moveTowardsThor, 10);
 
-var xOscillator = new picEnemy("x-oscillator", wallThickness, wallThickness, 40, 40, giantPic, 4, fixedPath([[wallThickness,
-    wallThickness], [width-50, wallThickness]]), 4);
+// var xOscillator = new picEnemy("x-oscillator", wallThickness, wallThickness, 40, 40, giantPic, 4, fixedPath([[wallThickness,
+//    wallThickness], [width-50, wallThickness]]), 4);
 
-var triangulator = new Enemy("triangulator", 50, 80, 40, 40, "lightsteelblue", 2, fixedPath([[50,80], [280,400], [650,220]]), 6);
+// var triangulator = new Enemy("triangulator", 50, 80, 40, 40, "lightsteelblue", 2, fixedPath([[50,80], [280,400], [650,220]]), 6);
 
-var funnyPath = new Enemy("funnyShape", wallThickness, wallThickness, 40, 40, "#21abd2", 5,
-                            fixedPath([[wallThickness,wallThickness], [width-wallThickness-80,wallThickness],
-                            [width-wallThickness-80,height*2/3], [width/2, wallThickness], [width/4, 400]]), 5);
+// var funnyPath = new Enemy("funnyShape", wallThickness, wallThickness, 40, 40, "#21abd2", 5,
+                           // fixedPath([[wallThickness,wallThickness], [width-wallThickness-80,wallThickness],
+                           // [width-wallThickness-80,height*2/3], [width/2, wallThickness], [width/4, 400]]), 5);
 
-var randomMover = new picEnemy("random", 800, 500, 40, 40, spiderPic, 3, randomMovement(10), 2);
+// var randomMover = new picEnemy("random", 800, 500, 40, 40, spiderPic, 3, randomMovement(10), 2);
