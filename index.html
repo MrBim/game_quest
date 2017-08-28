@@ -2,61 +2,18 @@
 <html>
 	<head>
 		<title>ODIN QUEST</title>
-		<!--
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.6/cerulean/bootstrap.min.css">
-		-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" href="style.css"/>
 	</head>
 
-	<body>
-			
-		<div class="container">
-
-
-			<div class="row">
-				<div class="col-md-12">
-					<canvas id="canvas" width="1000" height="700"></canvas>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-md-12">
-					<canvas id="lowerCanvas" width="1000" height="200"></canvas>
-				</div>
-			</div>
-
-			<div class="row">
-
-
-				<div class="col-md-4">
-					
-					<div id="controls">
-						<button id="play" onclick="gameLoop()">Play Game!</button>
-					</div>
-				</div>
-				
-				<div class="col-md-4" id="scores">
-					<p>Score</p>
-					<p id="score"></p>
-				</div>
-				<div class="col-md-4">
-					
-					<div id="controls">
-						<button id="stopmusic" onclick="stopMusic()">Stop Music!</button>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-			<div class="col-md-12">
-			<h2>controls and stuff</h2>
-			<p>directions:- up down left right..."D":- fires lightening</p>
-			<p>"S":- Speak to NPC...A:- pick up items....</p>
-			<p>"R":- Restarts the game... "Q":- Quits current game </p>
-				
-			</div>
-				
-			</div>
+	<body>	
+		<div class="main-content">
+			<canvas id="canvas" width="1000" height="700"></canvas>
+			<canvas id="lowerCanvas" width="1000" height="200"></canvas>
+			<button id="play" onclick="gameLoop()">Play Game!</button>
+			<p>Arrow keys:- Up Down Left Right,  A:- Action, S:- Speak,  "D":- Attack,  Q:- Quit</p>
 		</div>
+
 		<script type="text/javascript" src="globals.js"></script>
 		<script type="text/javascript" src="obstacle.js"></script>
 		<script type="text/javascript" src="puzzle.js"></script>		
