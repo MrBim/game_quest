@@ -640,6 +640,12 @@ function stopMusic() { // should really put the music back in shouldnt i (it is 
 //------------------ gameloop ---------------------------------------------------------
 function gameLoop() {
 
+   // 'q' for quit
+    if (keys[81]) {
+        quit();
+    }
+    else{
+
     if (hasRun === false) {
         // initalise all game variables here
         clearCanvas();
@@ -669,9 +675,5 @@ function gameLoop() {
     thor.swordFrameCount++;
  
     requestAnimationFrame(gameLoop);
-
-    // 'q' for quit
-    if (keys[81]) {
-        quit();
-    }
+	}
 }
