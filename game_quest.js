@@ -641,6 +641,16 @@ function stopMusic() { // should really put the music back in shouldnt i (it is 
 
 //------------------ gameloop ---------------------------------------------------------
 function gameLoop() {
+   // 'q' for quit
+    if (keys[81]) {
+    	//abort current game
+        quit();
+        //refresh game variables
+        hasRun = false;
+        //Put thor back at the beginning
+        thor.currentTile = startTile;
+    }
+    else{
 
     if (hasRun === false) {
         // initalise all game variables here
@@ -672,9 +682,5 @@ function gameLoop() {
     thor.swordFrameCount++;
  
     requestAnimationFrame(gameLoop);
-
-    // 'q' for quit
-    if (keys[81]) {
-        quit();
-    }
+	}
 }

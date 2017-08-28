@@ -19,6 +19,9 @@ Over to Bim our creative genius to explain ;-)
 - S (Speech): This enables the player to see the dialogue between Thor and NPC's.
 - D (Death!): This enables Thor to unleash his anger on those who displease him! Either through his lightening bolts or sword.
 
+- R (Restart): This restarts the game and takes Thor to the start of his quest.
+- Q (Quit): Exits the game.
+
 
 ## Beta Release
 The Beta release will be our proof of concept, where we will create a small version of the game which encompasses all the key functionality.
