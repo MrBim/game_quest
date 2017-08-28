@@ -26,10 +26,16 @@ var worldMap = [];
 document.body.addEventListener("keydown", function(e) {
     keys[e.keyCode] = true;
     //Prevents arrow keys moving the page in the browser window
-        if (e.keyCode == 38 || e.keyCode == 40 || e.keyCode == 37 || e.keyCode == 39){
+	if (e.keyCode == 38 || e.keyCode == 40 || e.keyCode == 37 || e.keyCode == 39){
     	event.preventDefault();
     }
-
+	//R button for restart    
+	else if (e.keyCode == 82){
+        //re-initialise game variables
+        hasRun = false;
+        //Put thor back at the beginning
+        thor.currentTile = startTile;
+	}
 
 
 });
