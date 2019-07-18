@@ -1,60 +1,57 @@
-
 /*
 @import url(http://fonts.googleapis.com/css?family=Cantarell);
 */
 body {
-    max-width: 1064px;
-    margin: 0 auto !important;
-    float: none !important;
-    font-family: 'Cantarell', sans-serif;
-    background: #1c4719;
-    background-image: url(assets/media/mountain3.jpg);
+  max-width: 1064px;
+  margin: 0 auto !important;
+  float: none !important;
+  font-family: 'Cantarell', sans-serif;
+  background: #1c4719;
+  background-image: url(assets/media/mountain3.jpg);
+  height: 100%;
 }
 
-.main-content{
-    width:1064px;
+.main-content {
+  width: 1064px;
 }
-.col-md-12{
-margin-left: auto;
-    margin-right: auto; 
- }
+.col-md-12 {
+  margin-left: auto;
+  margin-right: auto;
+}
 #canvas {
-   background-color: black;
-    margin: 30px;
-    margin-top: 10px;
-    margin-bottom: 0px;
-    padding: 0px;
-    border: 1px solid gray;
-
+  background-color: black;
+  margin: 30px;
+  margin-top: 10px;
+  margin-bottom: 0px;
+  padding: 0px;
+  border: 1px solid gray;
 }
 
 #lowerCanvas {
-    background-color: black;
-    margin: 30px;
-    margin-top: 5px;
-    margin-bottom: 10px;
-    padding: 0px;
-    border: 1px solid gray;
-
+  background-color: black;
+  margin: 30px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  padding: 0px;
+  border: 1px solid gray;
 }
 
 #controls {
-    width:141px;
-    height:60px;
-    background:#1c4719;
-    margin-right: auto;
-    margin-left: auto;
+  width: 141px;
+  height: 60px;
+  background: #1c4719;
+  margin-right: auto;
+  margin-left: auto;
 }
 
-.boxone{
-    height:720px; 
+.boxone {
+  height: 720px;
 }
-.boxtwo{
-    height:370px; 
+.boxtwo {
+  height: 370px;
 }
 
-
-p{
-    font-size: 20px;
-    color: #fff;
+p {
+  font-size: 20px;
+  color: #fff;
 }
