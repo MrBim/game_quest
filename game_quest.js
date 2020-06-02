@@ -657,7 +657,7 @@ function gameLoop() {
         clearCanvas();
         thor.xPos = ((width / 2) - (thor.dispSize / 2));
         thor.yPos = ((height / 2) - (thor.dispSize / 2));
-        // gameMusics.play();
+        gameMusics.play();
         drawBackground();
         drawPlayer();
         hasRun = true;
